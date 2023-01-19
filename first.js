@@ -12,7 +12,7 @@ const firstS = (p) => {
     let maxWidth = canvasWidth * 0.25;
     let maxHeight = canvasHeight * 0.5;
 
-    // Store circle radius, ensureing that it fits
+    // Store circle radius, ensuring that it fits
     circleRadius = Math.min(maxWidth,maxHeight) - padding;
   };
 
