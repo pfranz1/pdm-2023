@@ -1,9 +1,20 @@
 const secondS = (p) => {
     let x = 0;
-    let canvasWidth = 1000;
+    let canvasWidth, canvasHeight;
+    canvasWidth = canvasHeight = 100;
+
+    let overlap = 20;
   
     p.setup = function(){
-      p.createCanvas(canvasWidth,100);
+      p.createCanvas(canvasWidth,canvasHeight);
+
+      centerX = canvasHeight / 2;
+      centerY = canvasWidth / 2;
+
+      topCircleX = centerX;
+      topCircleY = centerY 
+
+
     };
   
     p.draw = function(){
