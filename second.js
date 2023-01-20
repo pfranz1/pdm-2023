@@ -1,6 +1,7 @@
 const secondS = (p) => {
-    let canvasWidth, canvasHeight;
-    canvasWidth = canvasHeight = 250;
+    // let canvasWidth, canvasHeight;
+    let canvasWidth = 500;
+    let canvasHeight = 250;
 
     let padding = 10;
 
@@ -12,10 +13,10 @@ const secondS = (p) => {
       p.createCanvas(canvasWidth,canvasHeight);
       p.colorMode("hsb")
 
-      centerX = canvasHeight / 2;
-      centerY = canvasWidth / 2;
+      centerX = canvasWidth / 2;
+      centerY = canvasHeight / 2;
 
-      radius = ((canvasHeight / 2 - padding) / 2);
+      radius = ((Math.min(canvasHeight,canvasWidth) / 2 - padding) / 2);
 
       topCircleX = centerX;
       topCircleY = centerY - (radius-overlap);
