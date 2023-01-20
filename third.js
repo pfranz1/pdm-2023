@@ -3,8 +3,10 @@ const thirdS = (p) => {
     let canvasWidth = 500;
     let canvasHeight = canvasWidth / 2;
     let padding = canvasWidth * 1 / 25;
-  
+
     let circleRadius;
+    
+    // Pacman 
     let mouthOpenDeg = 90;
     let mouthMidPointRad = Math.PI;
 
@@ -15,8 +17,12 @@ const thirdS = (p) => {
     let pacManX;
     let pacManY;
 
+
+    // Ghost
     let ghostX;
     let ghostY;
+
+    let ghostEyeRadius;
 
 
     function convertDegToRadians(deg){
@@ -47,6 +53,10 @@ const thirdS = (p) => {
 
       ghostX = canvasWidth * 0.75;
       ghostY = canvasHeight * 0.5;
+      
+      // I feel bad making it multiply a float by float later to decide the iris
+      // so here I do floor because I don't care about the precision loss
+      ghostEyeRadius = Math.floor(circleRadius * 0.60);
     };
   
     p.draw = function(){
@@ -82,6 +92,18 @@ const thirdS = (p) => {
 
       p.arc(ghostX,canvasHeight * 0.5,circleRadius*2,circleRadius*2,Math.PI, 0);
 
+      p.fill(0,0,100,1);
+
+
+      p.ellipse(ghostX - circleRadius / 2, ghostY,ghostEyeRadius,ghostEyeRadius);
+
+      p.ellipse(ghostX + circleRadius / 2, ghostY,ghostEyeRadius,ghostEyeRadius);
+
+      p.fill(240,100,100,1);
+
+      p.ellipse(ghostX - circleRadius / 2, ghostY,ghostEyeRadius*0.66,ghostEyeRadius*0.66);
+
+      p.ellipse(ghostX + circleRadius / 2, ghostY,ghostEyeRadius*0.66,ghostEyeRadius*0.66);
 
       p.pop();
   
