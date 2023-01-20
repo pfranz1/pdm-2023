@@ -12,6 +12,12 @@ const thirdS = (p) => {
     let maxOpen = 90;
     let minOpen = 5;
 
+    let pacManX;
+    let pacManY;
+
+    let ghostX;
+    let ghostY;
+
 
     function convertDegToRadians(deg){
       return deg * Math.PI / 180;
@@ -28,11 +34,19 @@ const thirdS = (p) => {
       p.createCanvas(canvasWidth,canvasHeight);
       p.colorMode('hsb')
       
+      // Max radius and still fit with the other character - each can have all the height, and half the width
       let maxWidth = canvasWidth * 0.25;
       let maxHeight = canvasHeight * 0.5;
   
       // Store circle radius, ensuring that it fits
       circleRadius = Math.min(maxWidth,maxHeight) - padding;
+
+      // Calculate and cache mid points of both characters
+      pacManX = canvasWidth * 0.25;
+      pacManY = canvasHeight * 0.5;
+
+      ghostX = canvasWidth * 0.75;
+      ghostY = canvasHeight * 0.5;
     };
   
     p.draw = function(){
@@ -44,7 +58,7 @@ const thirdS = (p) => {
       // Pac-man
       p.push();
       p.fill(60,70,100,100);
-      p.ellipse(canvasWidth * 0.25,canvasHeight * 0.5,circleRadius * 2,circleRadius * 2);
+      p.ellipse(pacManX,pacManY,circleRadius * 2,circleRadius * 2);
 
       // p.arc(canvasWidth * 0.25,canvasHeight * 0.5,circleRadius*2,0,PI,false)
       p.fill(0,0,0,100);
@@ -52,7 +66,7 @@ const thirdS = (p) => {
       // convert degrees to radians
       let openingRadians = convertDegToRadians(mouthOpenDeg);
 
-      p.arc(canvasWidth * 0.25, canvasHeight * 0.5, circleRadius*2, circleRadius*2, mouthMidPointRad - openingRadians / 2,mouthMidPointRad + openingRadians / 2)
+      p.arc(pacManX, pacManY, circleRadius*2, circleRadius*2, mouthMidPointRad - openingRadians / 2,mouthMidPointRad + openingRadians / 2)
 
       p.pop();
       
@@ -62,9 +76,12 @@ const thirdS = (p) => {
       p.noStroke()
 
 
-      p.rect(canvasWidth*0.75 - circleRadius,canvasHeight / 2,circleRadius* 2,circleRadius);
+      // Rects are described from their top left corner
+      // Hence subtracting circle radius to move to left corner
+      p.rect(ghostX- circleRadius,ghostY,circleRadius* 2,circleRadius);
 
-      p.arc(canvasWidth*0.75,canvasHeight * 0.5,circleRadius*2,circleRadius*2,Math.PI, 0);
+      p.arc(ghostX,canvasHeight * 0.5,circleRadius*2,circleRadius*2,Math.PI, 0);
+
 
       p.pop();
   
