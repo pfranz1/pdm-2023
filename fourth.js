@@ -31,19 +31,28 @@ const fourthS = (p) => {
     };
   
     p.draw = function(){
+    
+    // Animation :D
+    //   starArms = starArms + 0.005;
+    //   if (starArms > 16){
+    //     starArms = 5;
+    //   }
+
+    //   topPointAngle = topPointAngle + (Math.PI / 180)
+
       p.background(240,100,40,100);
       
       p.stroke(0,0,100,100);
       p.strokeWeight(strokeWeight)
 
-      p.fill(120,100,80,100)
+      p.fill(120,100,50,100)
 
       p.ellipse(canvasWidth * 0.5,canvasHeight * 0.5,circleDiameter,circleDiameter);
       
-      p.fill(0,100,80,100)
+      p.fill(0,90,100,100)
       
       // Draw star
-      var angle = (Math.PI + Math.PI) / (starArms * 2);
+      var angle = (Math.PI + Math.PI) / (Math.floor(starArms) * 2);
       let isMajor = false;
       p.beginShape();
       for (let a = topPointAngle; a < (Math.PI + Math.PI) + topPointAngle; a += angle) {
