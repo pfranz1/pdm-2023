@@ -1,5 +1,10 @@
+let canvasHeight = 200;
+let canvasWidth = 200;
+
+let colorBarWidth  = Math.min(canvasWidth * 0.20,100);
+
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(canvasHeight, canvasWidth);
   }
   
   function draw() {
