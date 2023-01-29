@@ -42,18 +42,21 @@ class ColorPicker{
     }
 }
 
-var mySquare;
+var myColorPickers;
+
+var availableColors = [new ColorDefinition(0,100,100),new ColorDefinition(30,100,100),new ColorDefinition(60,100,100),new ColorDefinition(90,100,100)]
 
 function setup() {
     createCanvas(canvasHeight, canvasWidth);
     colorMode('hsb');
 
-    mySquare = new ColorPicker(new ColorDefinition(23,123,231),50,50)
+    myColorPickers = availableColors.map((color,index,_)=>{return new ColorPicker(color,0,index*ColorPicker.size)});
+    print(myColorPickers);
      
   }
   
   function draw() {
     background(220,123,214);
     ellipse(50,50,80,80);
-    mySquare.doDraw();
+    myColorPickers.map((colorPicker,_,__)=>{ colorPicker.doDraw()});
   }
