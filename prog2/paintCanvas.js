@@ -66,7 +66,7 @@ var myColorPickers;
 
 var availableColors = [new ColorDefinition(0,100,100),new ColorDefinition(30,100,100),new ColorDefinition(60,100,100),new ColorDefinition(90,100,100)]
 
-var currentlySelected = new ColorDefinition(0,0,0);
+var currentlySelectedColor = new ColorDefinition(0,0,0);
 var selectedIndex = -1;
 
 var padding = 5;
@@ -76,9 +76,12 @@ function setup() {
     createCanvas(canvasHeight, canvasWidth);
     colorMode('hsb');
 
+    background(220,123,214);
+
+
 
     myColorPickers = availableColors.map((color,index,_)=>{
-            let onTap = () => {currentlySelected = color; selectedIndex=index;};
+            let onTap = () => {currentlySelectedColor = color; selectedIndex=index;};
             return new ColorPicker(color,padding,index*ColorPicker.size + padding*(index+1),onTap,index == selectedIndex);
         });
 
@@ -87,21 +90,54 @@ function setup() {
 }
 
 function mouseClicked(){
-    let cachedSelectedIndex = selectedIndex;
-    
-    myColorPickers.map((colorPicker,_,__)=>{ colorPicker.checkTap(mouseX,mouseY)});
-    
-    if (cachedSelectedIndex != selectedIndex){
-        myColorPickers = availableColors.map((color,index,_)=>{
-            let onTap = () => {currentlySelected = color; selectedIndex=index;};
-            return new ColorPicker(color,padding,index*ColorPicker.size + padding*(index+1),onTap,index == selectedIndex);
-        });
-        // print(myColorPickers);
+
+    // Check where the tap is on
+    if (isInsideColorBar(mouseX, mouseY)){
+        // If inside the color bar, 
+        // store the currently selected color
+        let cachedSelectedIndex = selectedIndex;
+
+        // itterate through all color pickers and update state with checkTap calling onTap if it was a tap
+        myColorPickers.map((colorPicker,_,__)=>{ colorPicker.checkTap(mouseX,mouseY)});
+        
+        // If state changed
+        if (cachedSelectedIndex != selectedIndex){
+            // Create new color pickers
+            myColorPickers = availableColors.map((color,index,_)=>{
+                let onTap = () => {currentlySelectedColor = color; selectedIndex=index;};
+                return new ColorPicker(color,padding,index*ColorPicker.size + padding*(index+1),onTap,index == selectedIndex);
+            });
+            // print(myColorPickers);
+        }
+    } else {
+        // Else, meaning it was on the canvas
+        // Pass here because painting is done in the draw loop
     }
+
     // print(selectedIndex);
+}
+
+function isInsideColorBar(xPos,yPos){
+    insideX = xPos >= 0 && xPos <= ColorPicker.size + padding * 2;
+    insideY = yPos >= 0 && yPos <= padding + myColorPickers.length * (padding + ColorPicker.size);
+
+    // print("inside X:", insideX);
+    // print( "inside Y:",insideY);
+    // print("----------")
+    return insideX && insideY;
 }
   
 function draw() {
-    background(220,123,214);
+    // Backplate for 
+    rect(0,0,ColorPicker.size + padding * 2,padding + myColorPickers.length * (padding + ColorPicker.size));
+
     myColorPickers.map((colorPicker,_,__)=>{ colorPicker.doDraw()});
+
+    if (mouseIsPressed && !isInsideColorBar(mouseX,mouseY)){
+        push();
+        currentlySelectedColor.doSetFill();
+        strokeWeight(0);
+        ellipse(mouseX,mouseY, 30);
+        pop();
+    }
 }
