@@ -1,5 +1,5 @@
-let canvasHeight = 200;
-let canvasWidth = 200;
+let canvasHeight = 500;
+let canvasWidth = 800;
 
 let colorBarWidth  = Math.min(canvasWidth * 0.20,100);
 
@@ -64,7 +64,9 @@ class ColorPicker{
 
 var myColorPickers;
 
-var availableColors = [new ColorDefinition(0,100,100),new ColorDefinition(30,100,100),new ColorDefinition(60,100,100),new ColorDefinition(90,100,100)]
+var backgroundColor = new ColorDefinition(220,123,214);
+
+var availableColors = [new ColorDefinition(0,100,100),new ColorDefinition(30,100,100),new ColorDefinition(60,100,100),new ColorDefinition(90,100,100),new ColorDefinition(120,100,100),new ColorDefinition(150,100,100),new ColorDefinition(180,100,100),new ColorDefinition(210,100,100),new ColorDefinition(240,100,100),new ColorDefinition(270,100,100),new ColorDefinition(300,100,100),new ColorDefinition(330,100,100), new ColorDefinition(0,0,0), new ColorDefinition(100,0,255), backgroundColor]
 
 var currentlySelectedColor = new ColorDefinition(0,0,0);
 var selectedIndex = -1;
@@ -73,7 +75,7 @@ var padding = 5;
 
 
 function setup() {
-    createCanvas(canvasHeight, canvasWidth);
+    createCanvas(canvasWidth, canvasHeight);
     colorMode('hsb');
 
     background(220,123,214);
