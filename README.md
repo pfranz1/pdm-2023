@@ -1,5 +1,7 @@
 # Programming Digital Media --- CSC 2463 --- Projects Repository
 
+Pages: https://pfranz1.github.io/pdm-2023/
+
 I took a class with Dr. Andrew Webb that teaches a number of different software frameworks. The goal is to create digital media.
 
 We have utilzied only P5 so far. It is a javascript library to make it easy to draw graphics.
