@@ -37,7 +37,7 @@ function draw(){
     scale(xDirection,1);
 
     image(spriteSheet,0,0,80,80,u*spriteWidth,v*spriteHeight,spriteWidth,spriteHeight);
-    if(frameCount % 6 == 0){
+    if(frameCount % 6 == 0 && isMoving != 0){
         currentFrame++;
     }
 
@@ -47,12 +47,14 @@ function draw(){
 
 function keyPressed(){
     if (keyCode === RIGHT_ARROW){
-        isMoving = 1;
+        isMoving = 2;
         xDirection = 1;
+        currentFrame = 1;
     } 
     else if (keyCode === LEFT_ARROW){
-        isMoving = -1;
+        isMoving = -2;
         xDirection = -1;
+        currentFrame = 1;
     } 
 }
 
@@ -60,6 +62,7 @@ function keyPressed(){
 function keyReleased(){
     if (keyCode === RIGHT_ARROW || keyCode === LEFT_ARROW){
         isMoving = 0;
+        currentFrame = 0;
     } 
 
 }
