@@ -1,27 +1,13 @@
 let spriteSheet;
-let walker;
+let walkers;
 
-// let spriteX =0;
-// let spriteY = 0;
-// let spriteWidth = 80;
-// let spriteHeight = 80;
-
-// let animationLenght = 9;
-// let currentFrame = 0;
-
-// let xLocation = 200;
-// let xDirection = 1;
-
-// let isMoving = 0;
-
-
-
-// // Index of sprite on sprite sheet
-// let u = 0; v = 0;
 
 function preload(){
     spriteSheet = loadImage("./assets/SpelunkyGuy.png");
-    walker = new WalkingSprite(spriteSheet,80,80,9,80,80,200,200);
+    
+    // WalkingSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
+    walkers = [ new WalkingSprite(spriteSheet,80,80,9,80,80,200,100),
+                new WalkingSprite(spriteSheet,80,80,9,80,80,200,300),]
 }
 
 
@@ -32,17 +18,23 @@ function setup(){
 
 function draw(){
     background(220);
-    walker.draw();
+    walkers.forEach( function (item,index){
+        item.draw();
+    });
 
 }
 
 function keyPressed(){
-    walker.keyPressed();
+    walkers.forEach( function (item,index){
+        item.keyPressed();
+    });
 }
 
 
 function keyReleased(){
-    walker.keyReleased();
+    walkers.forEach( function (item,index){
+        item.keyReleased();
+    });
 }
 
 class WalkingSprite{
