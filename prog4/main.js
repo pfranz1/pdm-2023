@@ -17,7 +17,7 @@ function preload(){
 
     
     // WalkingSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
-    walkers = [ new WalkingSprite(bugwalk,32,32,4,80,80,canvasWidth/2,canvasHeight / 2), ]
+    walkers = [ new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)), ]
 }
 
 
@@ -156,13 +156,30 @@ class WalkingSprite{
     }
 
     tapOccurred(xPos, yPos){
-        print(xPos,yPos);
+        // print(xPos,yPos);
         var distToBug = dist(xPos,yPos, this.xPos, this.yPos);
+        
         if (distToBug < this.radius){
-            print("Squish!");
-            this.moveSpeed = 0;
-        } else if (distToBug < this.radius * 2){
-            this.moveSpeed += 1;
+            if (this.moveSpeed == 0){
+                this.moveSpeed = 1;
+            } else {
+                print("Squish!");
+                this.moveSpeed = 0;
+            }
+
+        } else if (distToBug < this.radius * 5 && this.moveSpeed != 0){
+            this.moveSpeed = min(5, this.moveSpeed + 1);
+
+            // Recalculate values
+            let xChange = this.moveSpeed * Math.cos(degrees_to_radians( this.facingDeg));
+            let yChange = this.moveSpeed * Math.sin(degrees_to_radians( this.facingDeg));
+
+            let nextDist = dist(xPos, yPos, this.xPos + xChange, this.yPos - yChange);
+
+            // If continuing to move the current direction would put you closer to the tap, turn around
+            if(nextDist < distToBug){
+                this.facingDeg = (180 + this.facingDeg ) % 360;
+            }
         }
     }
 
