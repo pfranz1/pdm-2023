@@ -25,7 +25,6 @@ function setup(){
     createCanvas(canvasWidth,canvasHeight);
     imageMode(CENTER);
     colorMode('hsb');
-    angleMode('DEGREES');
 }
 
 function draw(){
@@ -74,9 +73,9 @@ class WalkingSprite{
         this.tileRowIterator = 0;
         this.tileColumnIterator = 0;
 
-        this.moveSpeed = 0;
+        this.moveSpeed = 1;
 
-        this.facingDeg = 0;
+        this.facingDeg = 220;
     }
 
     
@@ -90,10 +89,12 @@ class WalkingSprite{
         // Translating so that (0,0) corresponds to the sprites top left
         translate(this.xPos,this.yPos);
         
-        // rotate to be facing correct direction
-        rotate(this.facingDeg);
+        // rotate to be facing correct direction 
+        // (p5 rotates clock wise - thus mult -1 for counter clock wise)
+        // (p5 starts at 12o clock - I want to start at three bc thats how I know the math)
+        rotate(degrees_to_radians(-1 * (this.facingDeg - 90)));
 
-        // Scaling to flip sprite if xDirection == -1
+        // // Scaling to flip sprite if xDirection == -1
         scale(this.xDirection,1);
         
         // Start at location 0 0 because of the translate  
@@ -106,8 +107,8 @@ class WalkingSprite{
         }
         
         // Change xPos by the move speed of the walker
-        this.xPos += this.moveSpeed *  Math.cos(90 - -1 * this.facingDeg);
-        this.yPos += this.moveSpeed * Math.sin(90 - -1 * this.facingDeg);
+        this.xPos += this.moveSpeed *  Math.cos(degrees_to_radians( this.facingDeg));
+        this.yPos -= this.moveSpeed * Math.sin(degrees_to_radians( this.facingDeg));
 
         print(this.facingDeg);
         print("xChange", Math.cos( degrees_to_radians(90 + -1 * this.facingDeg)));
