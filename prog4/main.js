@@ -36,6 +36,12 @@ function draw(){
 
 }
 
+function mouseReleased(){
+    walkers.forEach( function (item,index){
+        item.tapOccurred(mouseX,mouseY);
+    });
+}
+
 function keyPressed(){
     // walkers.forEach( function (item,index){
     //     item.keyPressed();
@@ -73,7 +79,7 @@ class WalkingSprite{
         this.tileRowIterator = 0;
         this.tileColumnIterator = 0;
 
-        this.moveSpeed = 5;
+        this.moveSpeed = 3;
         this.randomTurn = 5;
 
         this.facingDeg = 150;
@@ -147,6 +153,17 @@ class WalkingSprite{
             this.xDirection = -1;
             this.currentFrame = 1;
         } 
+    }
+
+    tapOccurred(xPos, yPos){
+        print(xPos,yPos);
+        var distToBug = dist(xPos,yPos, this.xPos, this.yPos);
+        if (distToBug < this.radius){
+            print("Squish!");
+            this.moveSpeed = 0;
+        } else if (distToBug < this.radius * 2){
+            this.moveSpeed += 1;
+        }
     }
 
     
