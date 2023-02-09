@@ -17,7 +17,7 @@ function preload(){
 
     
     // WalkingSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
-    walkers = [ new WalkingSprite(bugwalk,32,32,4,80,80,canvasWidth/2,padding),]
+    walkers = [ new WalkingSprite(bugwalk,32,32,4,80,80,canvasWidth/2,canvasHeight / 2), ]
 }
 
 
@@ -73,12 +73,22 @@ class WalkingSprite{
         this.tileRowIterator = 0;
         this.tileColumnIterator = 0;
 
-        this.moveSpeed = 1;
+        this.moveSpeed = 5;
+        this.randomTurn = 5;
 
-        this.facingDeg = 220;
+        this.facingDeg = 150;
+
+        this.radius = 50;
     }
 
-    
+
+    willHitWall(xPosChange){
+        return (this.xPos + xPosChange + this.radius > width) || (this.xPos + xPosChange - this.radius < 0);
+    }
+
+    willHitCeli(yPosChange){
+        return (this.yPos - yPosChange + this.radius > height) || (this.yPos - yPosChange - this.radius < 0);
+    }
 
     draw(){
 
@@ -105,14 +115,24 @@ class WalkingSprite{
         if(frameCount % 6 == 0 && this.moveSpeed != 0){
             this.currentFrame++;
         }
-        
-        // Change xPos by the move speed of the walker
-        this.xPos += this.moveSpeed *  Math.cos(degrees_to_radians( this.facingDeg));
-        this.yPos -= this.moveSpeed * Math.sin(degrees_to_radians( this.facingDeg));
 
-        print(this.facingDeg);
-        print("xChange", Math.cos( degrees_to_radians(90 + -1 * this.facingDeg)));
-        print("yChange", Math.sin( degrees_to_radians(90 + -1 * this.facingDeg)));
+        // Calculate changes to make to location (cartesian units)
+        var xChange = this.moveSpeed *  Math.cos(degrees_to_radians( this.facingDeg));
+        var yChange = this.moveSpeed * Math.sin(degrees_to_radians( this.facingDeg));
+
+        if(this.willHitWall(xChange) || this.willHitCeli(yChange)){
+            // print("Going to hit the wall!");
+            // print(this.facingDeg)
+
+            this.facingDeg = (270 + this.facingDeg  + random(-1 * this.randomTurn, this.randomTurn)) % 360;
+            
+            // Recalculate values
+            xChange = this.moveSpeed * Math.cos(degrees_to_radians( this.facingDeg));
+            yChange = this.moveSpeed * Math.sin(degrees_to_radians( this.facingDeg));
+        }
+
+        this.xPos +=  xChange;
+        this.yPos -= yChange;
     } 
 
 
