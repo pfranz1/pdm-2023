@@ -17,7 +17,7 @@ function preload(){
 
     
     // BugSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
-    let numBugs = 5;
+    let numBugs = 50;
     walkers = [];
     for (let i = 0; i < numBugs; i++) {
         walkers.push(new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)));
@@ -122,7 +122,7 @@ class BugSprite{
             if(this.moveSpeed > BugSprite.baseSpeed){
                 this.moveSpeed = max(BugSprite.baseSpeed , this.moveSpeed * 0.75);
                 this.fleeCounter += BugSprite.fleeLength;
-                print("MS",this.moveSpeed);
+                // print("MS",this.moveSpeed);
             }
         }
     }
@@ -250,7 +250,7 @@ class BugSprite{
         // IF withing bug radius
         if (distToBug < this.radius){
             if (this.moveSpeed == 0){
-                this.revive();
+                // this.revive();
             } else {
                 print("Squish!");
                 this.kill()
@@ -258,7 +258,7 @@ class BugSprite{
 
         } else 
         // IF within flee range
-        if (distToBug < this.radius * 5 && this.moveSpeed != 0){
+        if (distToBug < this.radius * 8 && this.moveSpeed != 0){
             this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed + ((this.radius * 5 / distToBug) - 0.5));
 
             this.fleeCounter += BugSprite.fleeLength;
