@@ -2,8 +2,8 @@ let mainGuySpriteSheet;
 let walkers;
 let bg;
 
-let canvasWidth = 500;
-let canvasHeight = 500;
+let canvasWidth = 1000;
+let canvasHeight = 1000;
 
 let padding = 50;
 
@@ -17,7 +17,11 @@ function preload(){
 
     
     // BugSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
-    walkers = [ new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)), ]
+    let numBugs = 5;
+    walkers = [];
+    for (let i = 0; i < numBugs; i++) {
+        walkers.push(new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)));
+    }
 }
 
 
@@ -67,6 +71,9 @@ class BugSprite{
     static maxFleeSpeed = 6;
     static fleeUpdateTick = 25;
     static fleeLength = 5;
+
+    static squishTimeout = 50;
+
     
     
     constructor(spriteSheet, tileWidth, tileHeight, numAnimationFrames, height, width,  xPos,yPos,  ){
@@ -94,6 +101,9 @@ class BugSprite{
         this.facingDeg = random(0,360);
 
         this.radius = max(height,width) / 2;
+
+        this.isSquished = false;
+        this.squishTimer = BugSprite.squishTimeout;
     }
 
 
@@ -117,11 +127,35 @@ class BugSprite{
         }
     }
 
-    draw(){
+    drawSquished(){
+        if (this.squishTimer > 0){
+            this.squishTimer -= 1;
 
+            this.tileColumnIterator = this.currentFrame % this.numAnimationFrames;
+            push();
+            // Translating so that (0,0) corresponds to the sprites top left
+            translate(this.xPos,this.yPos);
+            
+            // rotate to be facing correct direction 
+            // (p5 rotates clock wise - thus mult -1 for counter clock wise)
+            // (p5 starts at 12o clock - I want to start at three bc thats how I know the math)
+            rotate(degrees_to_radians(-1 * (this.facingDeg - 90)));
+    
+            // Scaling to flip sprite if xDirection == -1
+            scale(this.xDirection,1);
+            
+
+            // Make the sprite fade away
+            tint(225,255,255,(this.squishTimer / BugSprite.squishTimeout));
+            
+            // Start at location 0 0 because of the translate  
+            image(this.spriteSheet,0,0,this.height,this.width,this.tileColumnIterator*this.tileWidth,this.tileRowIterator*this.tileHeight,this.tileWidth, this.tileHeight);
+            pop();
+        }
+    }
+
+    drawWalking(){
         this.tileColumnIterator = this.currentFrame % this.numAnimationFrames;
-
-        
         push();
         // Translating so that (0,0) corresponds to the sprites top left
         translate(this.xPos,this.yPos);
@@ -142,12 +176,10 @@ class BugSprite{
         if(frameCount % 6 == 0 && this.moveSpeed != 0){
             this.currentFrame++;
         }
+    }
 
-        if(frameCount % BugSprite.fleeUpdateTick == 0){
-            this.updateFleeState();
-            print("flee ticks left:", this.fleeCounter)
-        }
 
+    updatePos(){
         // Calculate changes to make to location (cartesian units)
         var xChange = this.moveSpeed *  Math.cos(degrees_to_radians( this.facingDeg));
         var yChange = this.moveSpeed * Math.sin(degrees_to_radians( this.facingDeg));
@@ -165,6 +197,25 @@ class BugSprite{
 
         this.xPos +=  xChange;
         this.yPos -= yChange;
+    }
+
+
+    draw(){
+        if (this.isSquished){
+            this.drawSquished();
+        } else {
+            this.drawWalking();
+        }
+
+        // If moving
+        if(this.moveSpeed > 0){
+            // Update flee logic
+            if(frameCount % BugSprite.fleeUpdateTick == 0){
+                this.updateFleeState();
+            }
+            // Update position
+            this.updatePos();
+        }
     } 
 
 
@@ -181,15 +232,28 @@ class BugSprite{
         } 
     }
 
+    kill(){
+        print("kill");
+        this.isSquished = true;
+        this.moveSpeed = 0;
+        this.squishTimer = BugSprite.squishTimeout;
+    }
+
+    revive(){
+        print("res");
+        this.isSquished = false;
+        this.moveSpeed = BugSprite.baseSpeed;
+    }
+
     tapOccurred(tapX, tapY){
         var distToBug = dist(tapX,tapY, this.xPos, this.yPos);
         // IF withing bug radius
         if (distToBug < this.radius){
             if (this.moveSpeed == 0){
-                this.moveSpeed = 1;
+                this.revive();
             } else {
                 print("Squish!");
-                this.moveSpeed = 0;
+                this.kill()
             }
 
         } else 
