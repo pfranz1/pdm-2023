@@ -79,7 +79,7 @@ class WalkingSprite{
         this.tileRowIterator = 0;
         this.tileColumnIterator = 0;
 
-        this.moveSpeed = 3;
+        this.moveSpeed = 1;
         this.randomTurn = 5;
 
         this.facingDeg = 150;
@@ -155,10 +155,9 @@ class WalkingSprite{
         } 
     }
 
-    tapOccurred(xPos, yPos){
-        // print(xPos,yPos);
-        var distToBug = dist(xPos,yPos, this.xPos, this.yPos);
-        
+    tapOccurred(tapX, tapY){
+        var distToBug = dist(tapX,tapY, this.xPos, this.yPos);
+        // IF withing bug radius
         if (distToBug < this.radius){
             if (this.moveSpeed == 0){
                 this.moveSpeed = 1;
@@ -167,19 +166,21 @@ class WalkingSprite{
                 this.moveSpeed = 0;
             }
 
-        } else if (distToBug < this.radius * 5 && this.moveSpeed != 0){
+        } else 
+        // IF within flee range
+        if (distToBug < this.radius * 5 && this.moveSpeed != 0){
             this.moveSpeed = min(5, this.moveSpeed + 1);
 
-            // Recalculate values
-            let xChange = this.moveSpeed * Math.cos(degrees_to_radians( this.facingDeg));
-            let yChange = this.moveSpeed * Math.sin(degrees_to_radians( this.facingDeg));
+            // print("x",this.xPos);
+            // print("y",this.yPos);
 
-            let nextDist = dist(xPos, yPos, this.xPos + xChange, this.yPos - yChange);
+            // print("xDist",tapX - this.xPos);
+            // print("yDist", tapY - this.yPos);
+            let angleBetween = Math.atan2(tapX - this.xPos, tapY - this.yPos) * 57.2958;
+            // print("Angle Between",angleBetween);
 
-            // If continuing to move the current direction would put you closer to the tap, turn around
-            if(nextDist < distToBug){
-                this.facingDeg = (180 + this.facingDeg ) % 360;
-            }
+            // Turn opposite direction of tap
+            this.facingDeg = 180 + (angleBetween - 90);
         }
     }
 
