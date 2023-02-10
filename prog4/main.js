@@ -63,7 +63,10 @@ class BugSprite{
 
     static randomTurn = 5;
     static baseSpeed = 1;
-    static maxFleeSpeed = 5;
+
+    static maxFleeSpeed = 6;
+    static fleeUpdateTick = 25;
+    static fleeLength = 5;
     
     
     constructor(spriteSheet, tileWidth, tileHeight, numAnimationFrames, height, width,  xPos,yPos,  ){
@@ -77,6 +80,9 @@ class BugSprite{
         this.yPos = yPos;
 
         this.currentFrame = 0;
+
+        this.fleeCounter = -1;
+        
 
         // xDirection 1 means that the sprite is facing the right, -1 = left
         this.xDirection = 1;
@@ -97,6 +103,18 @@ class BugSprite{
 
     willHitCeli(yPosChange){
         return (this.yPos - yPosChange + this.radius > height) || (this.yPos - yPosChange - this.radius < 0);
+    }
+
+    updateFleeState(){
+        if  (this.fleeCounter >= 0){
+            this.fleeCounter -= 1;
+        } else{
+            if(this.moveSpeed > BugSprite.baseSpeed){
+                this.moveSpeed = max(BugSprite.baseSpeed , this.moveSpeed * 0.75);
+                this.fleeCounter += BugSprite.fleeLength;
+                print("MS",this.moveSpeed);
+            }
+        }
     }
 
     draw(){
@@ -123,6 +141,11 @@ class BugSprite{
         // Only update frame every 6 p5 draw ticks and only if character moving
         if(frameCount % 6 == 0 && this.moveSpeed != 0){
             this.currentFrame++;
+        }
+
+        if(frameCount % BugSprite.fleeUpdateTick == 0){
+            this.updateFleeState();
+            print("flee ticks left:", this.fleeCounter)
         }
 
         // Calculate changes to make to location (cartesian units)
@@ -173,6 +196,8 @@ class BugSprite{
         // IF within flee range
         if (distToBug < this.radius * 5 && this.moveSpeed != 0){
             this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed + ((this.radius * 5 / distToBug) - 0.5));
+
+            this.fleeCounter += BugSprite.fleeLength;
             // print("MS", this.moveSpeed);
 
             // print("x",this.xPos);
