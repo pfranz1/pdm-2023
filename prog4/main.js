@@ -172,7 +172,8 @@ class BugSprite{
         } else 
         // IF within flee range
         if (distToBug < this.radius * 5 && this.moveSpeed != 0){
-            this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed + 0.5);
+            this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed + ((this.radius * 5 / distToBug) - 0.5));
+            // print("MS", this.moveSpeed);
 
             // print("x",this.xPos);
             // print("y",this.yPos);
