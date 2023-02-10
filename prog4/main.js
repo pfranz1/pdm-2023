@@ -16,8 +16,8 @@ function preload(){
     bugwalk = loadImage("./assets/bug-walk.png");
 
     
-    // WalkingSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
-    walkers = [ new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new WalkingSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)), ]
+    // BugSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
+    walkers = [ new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)),new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)), ]
 }
 
 
@@ -59,7 +59,12 @@ function degrees_to_radians(degrees) {
     return degrees * (Math.PI / 180);
   }
 
-class WalkingSprite{
+class BugSprite{
+
+    static randomTurn = 5;
+    static baseSpeed = 1;
+    static maxFleeSpeed = 5;
+    
     
     constructor(spriteSheet, tileWidth, tileHeight, numAnimationFrames, height, width,  xPos,yPos,  ){
         this.spriteSheet = spriteSheet;
@@ -79,12 +84,10 @@ class WalkingSprite{
         this.tileRowIterator = 0;
         this.tileColumnIterator = 0;
 
-        this.moveSpeed = 1;
-        this.randomTurn = 5;
+        this.moveSpeed = BugSprite.baseSpeed;
+        this.facingDeg = random(0,360);
 
-        this.facingDeg = 150;
-
-        this.radius = 50;
+        this.radius = max(height,width) / 2;
     }
 
 
@@ -130,7 +133,7 @@ class WalkingSprite{
             // print("Going to hit the wall!");
             // print(this.facingDeg)
 
-            this.facingDeg = (270 + this.facingDeg  + random(-1 * this.randomTurn, this.randomTurn)) % 360;
+            this.facingDeg = (270 + this.facingDeg  + random(-1 * BugSprite.randomTurn, BugSprite.randomTurn)) % 360;
             
             // Recalculate values
             xChange = this.moveSpeed * Math.cos(degrees_to_radians( this.facingDeg));
@@ -169,7 +172,7 @@ class WalkingSprite{
         } else 
         // IF within flee range
         if (distToBug < this.radius * 5 && this.moveSpeed != 0){
-            this.moveSpeed = min(5, this.moveSpeed + 1);
+            this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed + 0.5);
 
             // print("x",this.xPos);
             // print("y",this.yPos);
