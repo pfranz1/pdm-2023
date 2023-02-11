@@ -7,6 +7,8 @@ let canvasHeight = 1000;
 
 let padding = 50;
 
+let ripple;
+
 
 function preload(){
     mainGuySpriteSheet = loadImage("./assets/SpelunkyGuy.png");
@@ -22,6 +24,8 @@ function preload(){
     for (let i = 0; i < numBugs; i++) {
         walkers.push(new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)));
     }
+
+    ripple = new Ripple(-100,-100,0,10,0);
 }
 
 
@@ -34,16 +38,26 @@ function setup(){
 function draw(){
     background(200,100,100);
 
+    // print('draw ripple');
+    ripple.draw();
+
     walkers.forEach( function (item,index){
         item.draw();
     });
 
+
+
 }
 
 function mouseReleased(){
+    //TODO: read from bugs if a tap occurred and dont do ripple if so
     walkers.forEach( function (item,index){
         item.tapOccurred(mouseX,mouseY);
     });
+
+    // print("new ripple created at ", mouseX,mouseY);
+    ripple = new Ripple(mouseX,mouseY,50,150,50);
+
 }
 
 function keyPressed(){
@@ -165,7 +179,7 @@ class BugSprite{
         // (p5 starts at 12o clock - I want to start at three bc thats how I know the math)
         rotate(degrees_to_radians(-1 * (this.facingDeg - 90)));
 
-        // // Scaling to flip sprite if xDirection == -1
+        // Scaling to flip sprite if xDirection == -1
         scale(this.xDirection,1);
         
         // Start at location 0 0 because of the translate  
@@ -252,7 +266,6 @@ class BugSprite{
             if (this.moveSpeed == 0){
                 // this.revive();
             } else {
-                print("Squish!");
                 this.kill()
             }
 
