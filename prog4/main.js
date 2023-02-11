@@ -44,9 +44,6 @@ function draw(){
     walkers.forEach( function (item,index){
         item.draw();
     });
-
-
-
 }
 
 function mouseReleased(){
@@ -115,6 +112,7 @@ class BugSprite{
         this.facingDeg = random(0,360);
 
         this.radius = max(height,width) / 2;
+        this.detectionRadius = this.radius * 8;
 
         this.isSquished = false;
         this.squishTimer = BugSprite.squishTimeout;
@@ -271,8 +269,9 @@ class BugSprite{
 
         } else 
         // IF within flee range
-        if (distToBug < this.radius * 8 && this.moveSpeed != 0){
-            this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed + ((this.radius * 5 / distToBug) - 0.5));
+        
+        if (distToBug < this.detectionRadius && this.moveSpeed != 0){
+            this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed +  BugSprite.maxFleeSpeed* max(0.25,1 - distToBug / this.detectionRadius));
 
             this.fleeCounter += BugSprite.fleeLength;
             // print("MS", this.moveSpeed);
