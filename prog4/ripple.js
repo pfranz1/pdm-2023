@@ -17,13 +17,13 @@ class Ripple{
         if(this.life < 0) return;
 
         this.life -= 1;
-        print(this.life);
-        print(this.timeToLive);
+        // print(this.life);
+        // print(this.timeToLive);
 
         push();
         //TODO: Put into some function to turn into non-linear curve
         let driverValue = (this.life / this.timeToLive)**4;
-        print("driverVal",driverValue);
+        // print("driverVal",driverValue);
 
 
 
