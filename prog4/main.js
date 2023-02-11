@@ -41,9 +41,18 @@ function draw(){
     // print('draw ripple');
     ripple.draw();
 
+    // Want the ripple not to cover text, but want bugs to crawl on text
+    textSize(50)
+    text("Score: 5", 10,padding);
+
+    text("Time: 30",width-200,padding);
+    
+
     walkers.forEach( function (item,index){
         item.draw();
     });
+
+
 }
 
 function mouseReleased(){
