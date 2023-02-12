@@ -2,7 +2,7 @@ let mainGuySpriteSheet;
 let walkers;
 let bg;
 
-let canvasWidth = 1000;
+let canvasWidth = 500;
 let canvasHeight = 1000;
 
 let padding = 50;
@@ -34,7 +34,7 @@ function preload(){
 
 function spawnBugs(){
     // BugSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
-    let numBugs = 15;
+    let numBugs = 30;
     walkers = [];
 
     
@@ -74,6 +74,7 @@ function draw(){
 
     // Want the ripple not to cover text, but want bugs to crawl on text
     textSize(50)
+    fill(200,0,100);
     text("Score: " + gameScore, 10,padding);
 
     text("Time: " + ceil(timeRemaining),width-200,padding);
