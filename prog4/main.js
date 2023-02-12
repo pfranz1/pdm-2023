@@ -15,14 +15,14 @@ function preload(){
     blueGuySpriteSheet = loadImage("./assets/BlueGuy.png");
     robotSpriteSheet = loadImage("./assets/robot.png");
 
-    bugwalk = loadImage("./assets/bug-walk.png");
+    bugwalk = loadImage("./assets/Water-Skipper.png");
 
     
     // BugSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
     let numBugs = 50;
     walkers = [];
     for (let i = 0; i < numBugs; i++) {
-        walkers.push(new BugSprite(bugwalk,32,32,4,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)));
+        walkers.push(new BugSprite(bugwalk,32,32,9,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)));
     }
 
     ripple = new Ripple(-100,-100,0,10,0);
@@ -106,7 +106,7 @@ class BugSprite{
         this.xPos = xPos;
         this.yPos = yPos;
 
-        this.currentFrame = 0;
+        this.currentFrame = Math.floor(random(0,numAnimationFrames)) ;
 
         this.fleeCounter = -1;
         
@@ -152,7 +152,7 @@ class BugSprite{
         if (this.squishTimer > 0){
             this.squishTimer -= 1;
 
-            this.tileColumnIterator = this.currentFrame % this.numAnimationFrames;
+            this.tileColumnIterator = 1 + this.currentFrame % this.numAnimationFrames;
             push();
             // Translating so that (0,0) corresponds to the sprites top left
             translate(this.xPos,this.yPos);
