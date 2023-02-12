@@ -18,7 +18,7 @@ class BugSprite{
 
     
     
-    constructor(spriteSheet, tileWidth, tileHeight, numAnimationFrames, height, width,  xPos,yPos,  ){
+    constructor(spriteSheet, tileWidth, tileHeight, numAnimationFrames, height, width,  xPos,yPos, onSquish ){
         this.spriteSheet = spriteSheet;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
@@ -28,6 +28,8 @@ class BugSprite{
         this.xPos = xPos;
         this.yPos = yPos;
 
+        this.onSquish = onSquish;
+        
         this.currentFrame = Math.floor(random(0,numAnimationFrames)) ;
 
         this.fleeCounter = -1;
@@ -176,6 +178,8 @@ class BugSprite{
         this.isSquished = true;
         this.moveSpeed = 0;
         this.squishTimer = BugSprite.squishTimeout;
+        
+        this.onSquish();
     }
 
     revive(){
