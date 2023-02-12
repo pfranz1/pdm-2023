@@ -32,29 +32,33 @@ class Ripple{
         stroke(0,0,0,0);
 
         // Outer Rings
-        fill(color(200,60,100));
+        // fill(color(200,60,100));
+        fill(color(236,60,100));
 
         // print("radius",radius);
         ellipse(this.xPos,this.yPos, radius, radius);
 
-        fill(color(200,80,100));
+        // fill(color(200,80,100));
+        fill(color(236,70,100));
 
         ellipse(this.xPos,this.yPos, radius - 10, radius- 10);
 
         // Trailing rings
 
-        fill(color(200,60,100));
+        // fill(color(200,60,100));
+        fill(color(236,60,100));
 ;
         ellipse(this.xPos,this.yPos, max(20,radius - 25 - (radius * driverValue)));
 
-        fill(color(200,80,100));
+        // fill(color(200,80,100));
+        fill(color(236,70,100));
 
         ellipse(this.xPos,this.yPos, max(radius - 35 -  (radius * driverValue), 20));
 
 
         // // Central dot
 
-        let rippleColor = color(200,50,50);
+        let rippleColor = color(236,60,60);
         rippleColor.setAlpha(driverValue -0.2)
         
         fill(rippleColor);

@@ -19,7 +19,7 @@ function preload(){
 
     
     // BugSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
-    let numBugs = 50;
+    let numBugs = 15;
     walkers = [];
     for (let i = 0; i < numBugs; i++) {
         walkers.push(new BugSprite(bugwalk,32,32,9,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding)));
@@ -36,7 +36,7 @@ function setup(){
 }
 
 function draw(){
-    background(200,100,100);
+    background(236,70,100);
 
     // print('draw ripple');
     ripple.draw();
@@ -94,6 +94,8 @@ class BugSprite{
 
     static squishTimeout = 50;
 
+    static glideTimeout = 5;
+
     
     
     constructor(spriteSheet, tileWidth, tileHeight, numAnimationFrames, height, width,  xPos,yPos,  ){
@@ -125,6 +127,8 @@ class BugSprite{
 
         this.isSquished = false;
         this.squishTimer = BugSprite.squishTimeout;
+
+        this.glideTimer = 0;
     }
 
 
@@ -152,7 +156,7 @@ class BugSprite{
         if (this.squishTimer > 0){
             this.squishTimer -= 1;
 
-            this.tileColumnIterator = 1 + this.currentFrame % this.numAnimationFrames;
+            this.tileColumnIterator = this.currentFrame % this.numAnimationFrames;
             push();
             // Translating so that (0,0) corresponds to the sprites top left
             translate(this.xPos,this.yPos);
@@ -194,8 +198,17 @@ class BugSprite{
         pop();
         
         // Only update frame every 6 p5 draw ticks and only if character moving
-        if(frameCount % 6 == 0 && this.moveSpeed != 0){
-            this.currentFrame++;
+        if(frameCount % 5 == 0 && this.isSquished != true){
+            // If the timeout for gliding hasn't finished
+            if(this.glideTimer > 0){
+                this.glideTimer -= 1;
+                print('dec glide counter');
+            } else {
+                this.currentFrame++;
+                if(this.currentFrame % this.numAnimationFrames == 0){
+                    this.glideTimer = BugSprite.glideTimeout;
+                }
+            }
         }
     }
 
