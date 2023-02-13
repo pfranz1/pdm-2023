@@ -3,7 +3,7 @@ let walkers;
 let bg;
 
 let canvasWidth = 500;
-let canvasHeight = 1000;
+let canvasHeight = 900;
 
 let padding = 50;
 
@@ -37,7 +37,7 @@ function spawnBugs(){
 
     
     for (let i = 0; i < numBugs; i++) {
-        walkers.push(new BugSprite(bugWalking,bugTwitch,32,32,9,3,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding), incScore ));
+        walkers.push(new BugSprite(bugWalking,bugTwitch,32,32,9,3,75,75,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding), incScore ));
     }
 }
 
