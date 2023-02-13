@@ -22,11 +22,8 @@ function incScore(){
 }
 
 function preload(){
-    mainGuySpriteSheet = loadImage("./assets/SpelunkyGuy.png");
-    blueGuySpriteSheet = loadImage("./assets/BlueGuy.png");
-    robotSpriteSheet = loadImage("./assets/robot.png");
-
-    bugwalk = loadImage("./assets/Water-Skipper.png");
+    bugWalking = loadImage("./assets/Water-Skipper.png");
+    bugTwitch = loadImage("./assets/dead-skipper.png");
 
     spawnBugs();
     ripple = new Ripple(-100,-100,0,10,0);
@@ -40,7 +37,7 @@ function spawnBugs(){
 
     
     for (let i = 0; i < numBugs; i++) {
-        walkers.push(new BugSprite(bugwalk,32,32,9,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding), incScore ));
+        walkers.push(new BugSprite(bugWalking,bugTwitch,32,32,9,3,80,80,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding), incScore ));
     }
 }
 

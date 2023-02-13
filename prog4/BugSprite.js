@@ -18,11 +18,13 @@ class BugSprite{
 
     
     
-    constructor(spriteSheet, tileWidth, tileHeight, numAnimationFrames, height, width,  xPos,yPos, onSquish ){
-        this.spriteSheet = spriteSheet;
+    constructor(livingAnimation, squishedAnimation, tileWidth, tileHeight, numAnimationFramesLiving, numAnimationFramesSquished, height, width,  xPos,yPos, onSquish ){
+        this.livingAnimation = livingAnimation;
+        this.squishedAnimation = squishedAnimation;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        this.numAnimationFrames = numAnimationFrames;
+        this.numAnimationFramesLiving = numAnimationFramesLiving;
+        this.numAnimationFramesSquished= numAnimationFramesSquished;
         this.height = height;
         this.width = width;
         this.xPos = xPos;
@@ -30,7 +32,7 @@ class BugSprite{
 
         this.onSquish = onSquish;
         
-        this.currentFrame = Math.floor(random(0,numAnimationFrames)) ;
+        this.currentFrame = Math.floor(random(0,numAnimationFramesLiving)) ;
 
         this.fleeCounter = -1;
         
@@ -78,7 +80,11 @@ class BugSprite{
         if (this.squishTimer > 0){
             this.squishTimer -= 1;
 
-            this.tileColumnIterator = this.currentFrame % this.numAnimationFrames;
+            this.tileColumnIterator = this.currentFrame % this.numAnimationFramesSquished;
+            if(frameCount % 10 == 0){
+                this.currentFrame++;
+            }
+
             push();
             // Translating so that (0,0) corresponds to the sprites top left
             translate(this.xPos,this.yPos);
@@ -96,13 +102,13 @@ class BugSprite{
             tint(225,255,255,(this.squishTimer / BugSprite.squishTimeout));
             
             // Start at location 0 0 because of the translate  
-            image(this.spriteSheet,0,0,this.height,this.width,this.tileColumnIterator*this.tileWidth,this.tileRowIterator*this.tileHeight,this.tileWidth, this.tileHeight);
+            image(this.squishedAnimation,0,0,this.height,this.width,this.tileColumnIterator*this.tileWidth,this.tileRowIterator*this.tileHeight,this.tileWidth, this.tileHeight);
             pop();
         }
     }
 
     drawWalking(){
-        this.tileColumnIterator = this.currentFrame % this.numAnimationFrames;
+        this.tileColumnIterator = this.currentFrame % this.numAnimationFramesLiving;
         push();
         // Translating so that (0,0) corresponds to the sprites top left
         translate(this.xPos,this.yPos);
@@ -116,7 +122,7 @@ class BugSprite{
         scale(this.xDirection,1);
         
         // Start at location 0 0 because of the translate  
-        image(this.spriteSheet,0,0,this.height,this.width,this.tileColumnIterator*this.tileWidth,this.tileRowIterator*this.tileHeight,this.tileWidth, this.tileHeight);
+        image(this.livingAnimation,0,0,this.height,this.width,this.tileColumnIterator*this.tileWidth,this.tileRowIterator*this.tileHeight,this.tileWidth, this.tileHeight);
         pop();
         
         // Only update frame every 6 p5 draw ticks and only if character moving
@@ -126,7 +132,7 @@ class BugSprite{
                 this.glideTimer -= 1;
             } else {
                 this.currentFrame++;
-                if(this.currentFrame % this.numAnimationFrames == 0){
+                if(this.currentFrame % this.numAnimationFramesLiving == 0){
                     this.glideTimer = BugSprite.glideTimeout;
                 }
             }
