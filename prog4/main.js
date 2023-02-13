@@ -10,6 +10,7 @@ let padding = 50;
 let ripple;
 
 let gameScore = 0;
+let topScore = gameScore;
 
 let startTime = 30;
 let timeRemaining = startTime;
@@ -54,21 +55,38 @@ function setup(){
 
 
 function endGame(){
-    timeRemaining = startTime;
+    timeRemaining = -1;
+    print("end game");
+    topScore = max(gameScore, topScore);
+    drawScoreScreen();
+    // spawnBugs();
+}
+
+function startGame(){
     gameScore = 0;
+    timeRemaining = startTime;
     spawnBugs();
 }
 
 function draw(){
-    background(236,70,100);
 
-    // text("Time: " + ceil(timeRemaining),width-120,50);
-    timeRemaining -= deltaTime / 1000;
+    if(timeRemaining == -1){
+        // drawScoreScreen();
+    } else {
+        background(236,70,100);
 
-    if (timeRemaining < 0) {
-        endGame();
+
+        timeRemaining -= deltaTime / 1000;
+        if (timeRemaining < 0) {
+            endGame();
+        } else {
+            drawGame();
+        }
     }
+}
 
+
+function drawGame(){
     // print('draw ripple');
     ripple.draw();
 
@@ -83,8 +101,30 @@ function draw(){
     walkers.forEach( function (item,index){
         item.draw();
     });
+}
+
+function drawScoreScreen(){
+    background(236,70,100);
+
+    let textStartY = canvasHeight * 0.30; 
+
+    textAlign('center');
+
+    textSize(48);
+    text("Game Over!", canvasWidth / 2, textStartY);
+
+    textSize(32);
+    text("Score: " + gameScore, (canvasWidth / 2), (textStartY)+40)
 
 
+    textSize(32);
+    text("Top: " + topScore, (canvasWidth / 2), (textStartY)+80)
+
+
+    button = createButton('Again!');
+    button.position((canvasWidth / 2) - 75, (textStartY) + 240 );
+    button.size(150);
+    button.mousePressed( ()=>  {button.remove(); startGame();});
 }
 
 function mouseReleased(){
