@@ -106,6 +106,8 @@ function drawGame(){
 function drawScoreScreen(){
     background(236,70,100);
 
+    push();
+
     let textStartY = canvasHeight * 0.30; 
 
     textAlign('center');
@@ -125,6 +127,9 @@ function drawScoreScreen(){
     button.position((canvasWidth / 2) - 75, (textStartY) + 240 );
     button.size(150);
     button.mousePressed( ()=>  {button.remove(); startGame();});
+
+
+    pop();
 }
 
 function mouseReleased(){
