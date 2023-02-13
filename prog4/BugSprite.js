@@ -5,10 +5,10 @@ function degrees_to_radians(degrees) {
 
 class BugSprite{
 
-    static randomTurn = 5;
+    static randomTurn = 10;
     static baseSpeed = 1;
 
-    static maxFleeSpeed = 6;
+    static maxFleeSpeed = 8;
     static fleeUpdateTick = 25;
     static fleeLength = 5;
 
