@@ -16,6 +16,8 @@ class BugSprite{
 
     static glideTimeout = 5;
 
+    static minScale = 0.8;
+
     
     
     constructor(livingAnimation, squishedAnimation, tileWidth, tileHeight, numAnimationFramesLiving, numAnimationFramesSquished, height, width,  xPos,yPos, onSquish ){
@@ -81,6 +83,8 @@ class BugSprite{
             this.squishTimer -= 1;
 
             this.tileColumnIterator = this.currentFrame % this.numAnimationFramesSquished;
+
+            // Have a slower frame rate for the squish twitching animation
             if(frameCount % 10 == 0){
                 this.currentFrame++;
             }
@@ -94,8 +98,9 @@ class BugSprite{
             // (p5 starts at 12o clock - I want to start at three bc thats how I know the math)
             rotate(degrees_to_radians(-1 * (this.facingDeg - 90)));
     
-            // Scaling to flip sprite if xDirection == -1
-            scale(this.xDirection,1);
+            // TBH I dont like it fading under the water - but im leaving the code incase i like it later
+            // let scaling = Math.min(1, Math.max(BugSprite.minScale, this.squishTimer / BugSprite.squishTimeout + 0.25));
+            // // scale(scaling,scaling);
             
 
             // Make the sprite fade away
