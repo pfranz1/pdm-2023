@@ -5,3 +5,16 @@ html, body {
 canvas {
   display: block;
 }
+
+button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  box-sizing: content-box;
+  width: 25%;
+}

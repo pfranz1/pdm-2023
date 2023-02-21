@@ -1,50 +1,52 @@
-let sound1 = new Tone.Player("sounds/110011__tuberatanka__cat-meow.wav");
-
 
 let sounds = new Tone.Players({
-  "meow":"sounds/110011__tuberatanka__cat-meow.wav",
-  "bark" : "163459__littlebigsounds__lbs_fx-dog-small-alert-bark001.wav",
-  "quack":"242664__reitanna__quack.wav"
-});
 
+  "nuggets": "sounds/bark.wav",
+  "drop": "sounds/meow.wav",
+  "duct": "sounds/quack.wav"
 
-let button1,button2,button3;
+})
 
+const delay = new Tone.FeedbackDelay("8n", 0.5);
+
+let soundNames = ["nuggets", "drop", "duct"];
+let buttons = [];
+
+let dSlider;
+let fSlider;
+
+// let button1, button2, button3;
 
 function setup() {
   createCanvas(400, 400);
+  sounds.connect(delay);
+  delay.toDestination();
 
-  sound1.toDestination();
+  soundNames.forEach((word, index) => {
+    buttons[index] = createButton(word);
+    buttons[index].position(0, index*75);
+    buttons[index].mousePressed( () => buttonSound(word))
+  })
 
-  button1 = createButton("Meow");
-  button1.position(50,50);
-  button1.mousePressed(()=>playSound("meow"));
+  dSlider = createSlider(0., 1., 0.5, 0.05);
+  dSlider.mouseReleased( () => {
+    delay.delayTime.value = dSlider.value();
+  })
 
-  button2 = createButton("Bark");
-  button2.position(150,50);
-  button2.mousePressed(()=>playSound("bark"));
+  fSlider = createSlider(0., 1., 0.5, 0.05);
+  fSlider.mouseReleased( () => {
+    delay.feedback.value = fSlider.value();
+  })
 
-  button3 = createButton("Quack");
-  button3.position(250,50);
-  button3.mousePressed(()=>playSound("quack"));
-  
 
 }
 
 function draw() {
-  background(220);
-}
-
-
-function keyPressed(){
-  if(key === "1"){
-    sound1.playbackRate = 2 * (mouseY / width) + 0.5;
-    sound1.start();
-  } else{}
+  background(220, 120, 180);
+  text('press the buttons for sound', 0, 150)
 
 }
 
-
-function playSound(soundName){
-  sounds.player(soundName).start();
+function buttonSound(whichSound) {
+    sounds.player(whichSound).start();
 }
