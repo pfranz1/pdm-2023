@@ -16,5 +16,5 @@ button {
   display: inline-block;
   font-size: 20px;
   box-sizing: content-box;
-  width: 25%;
+  width: 100px;
 }

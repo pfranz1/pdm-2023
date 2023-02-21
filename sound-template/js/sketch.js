@@ -25,7 +25,7 @@ function setup() {
 
   soundNames.forEach((word, index) => {
     buttons[index] = createButton(word);
-    buttons[index].position(0, index*75);
+    buttons[index].position(((width / 2) - 166) ,25 +  index*75);
     buttons[index].mousePressed( () => buttonSound(word))
   })
 
@@ -43,9 +43,12 @@ function setup() {
 }
 
 function draw() {
-  background(100, 100, 180);
+  background(100, 100, 100);
+
+  rect(0,0,width/2,height)
+
   textSize(25);
-  text('press the buttons for sound', 0, height-25)
+  text('Tap To Play', (width / 2) - 166, height-25)
 
 }
 
