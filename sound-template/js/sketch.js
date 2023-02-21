@@ -30,11 +30,14 @@ function setup() {
   })
 
   dSlider = createSlider(0., 1., 0.5, 0.05);
+  dSlider.position((width / 2) + 35, 125);
   dSlider.mouseReleased( () => {
     delay.delayTime.value = dSlider.value();
   })
 
   fSlider = createSlider(0., 1., 0.5, 0.05);
+  fSlider.position((width / 2) + 35, 200);
+
   fSlider.mouseReleased( () => {
     delay.feedback.value = fSlider.value();
   })
@@ -47,8 +50,16 @@ function draw() {
 
   rect(0,0,width/2,height)
 
+  textAlign(CENTER);
+
   textSize(25);
-  text('Tap To Play', (width / 2) - 166, height-25)
+  text('Tap To Play', (width / 4) * 1, height-25)
+
+
+  text('Delay', (width / 4) * 3 , 105)
+
+
+  text('Feedback', (width / 4) * 3 , 255)
 
 }
 
