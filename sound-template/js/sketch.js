@@ -1,15 +1,16 @@
 
 let sounds = new Tone.Players({
 
-  "nuggets": "sounds/bark.wav",
-  "drop": "sounds/meow.wav",
-  "duct": "sounds/quack.wav"
+  "low": "sounds/low.wav",
+  "mid": "sounds/mid.wav",
+  "high": "sounds/high.wav",
+  "applause":"sounds/applause.wav",
 
 })
 
 const delay = new Tone.FeedbackDelay("8n", 0.5);
 
-let soundNames = ["nuggets", "drop", "duct"];
+let soundNames = ["low", "mid", "high", "applause"];
 let buttons = [];
 
 let dSlider;
@@ -42,8 +43,9 @@ function setup() {
 }
 
 function draw() {
-  background(220, 120, 180);
-  text('press the buttons for sound', 0, 150)
+  background(100, 100, 180);
+  textSize(25);
+  text('press the buttons for sound', 0, height-25)
 
 }
 
