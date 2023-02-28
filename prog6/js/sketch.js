@@ -13,8 +13,12 @@ let notes = {
 
 }
 
+var midX = 100;
+var midY = 100;
+
 
 function setup() {
+
   // create synth
   var synthJSON = {
       "oscillator": {
@@ -71,14 +75,15 @@ function setup() {
   effect1.set(effect1JSON);
 
 
+
   dSlider = createSlider(0., 100., 1, 0.05);
-  dSlider.position((width / 2) + 35, 125);
+  dSlider.position(midX + 120, midY);
   dSlider.mouseReleased( () => {
     effect1.depth = dSlider.value();
   })
 
-  fSlider = createSlider(0., 1., 0.5, 0.05);
-  fSlider.position((width / 2) + 35, 200);
+  fSlider = createSlider(0., 0.5, 0.5, 0.05);
+  fSlider.position(midX+ 120, midY+150);
 
   fSlider.mouseReleased( () => {
     effect1.feedback.value = fSlider.value();
@@ -95,7 +100,18 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(120,129,129);
+
+  textSize(20);
+
+  text("Mono Synth with Chorus",midX,midY-60);
+
+ text("  Depth  \n(0 - 100)",midX-30,midY+13);
+
+ text("Feedback \n (0 - 0.5)",midX-30,midY+160);
+
+ text("Play with keys A,S,D,F,G,H,J,K",midX-40,midY+275);
+
 }
 
 function keyPressed(){
