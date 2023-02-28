@@ -1,5 +1,18 @@
 var instrument = new Tone.MonoSynth();
 
+let notes = {
+
+  'a': 'C4',
+  's': 'D4',
+  'd': 'E4',
+  'f': 'F4',
+  'g': 'G4',
+  'h': 'A4',
+  'j': 'B4',
+  'k': 'C5'
+
+}
+
 
 function setup() {
   // create synth
@@ -38,12 +51,12 @@ function setup() {
   // create effects
   var effect1 = new Tone.Chorus();
   effect1JSON = {
-    "frequency": 16,
-    "delayTime": 16,
+    "frequency": 250,
+    "delayTime": 24,
     "type": "triangle",
-    "depth": 1,
-    "feedback": 0.1,
-    "spread": 120,
+    "depth": 20,
+    "feedback": 0.3,
+    "spread": 10,
       "wet": 0.5
   };
   effect1.set(effect1JSON);
@@ -63,5 +76,6 @@ function draw() {
 }
 
 function keyPressed(){
-  instrument.triggerAttackRelease("C4", "8n");
+  let whatNote = notes[key]
+  instrument.triggerAttackRelease(whatNote, "8n");
 }
