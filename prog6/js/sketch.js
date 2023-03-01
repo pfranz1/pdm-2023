@@ -9,7 +9,8 @@ let notes = {
   'g': 'G4',
   'h': 'A4',
   'j': 'B4',
-  'k': 'C5'
+  'k': 'C5',
+  'l': 'D5'
 
 }
 
@@ -25,7 +26,7 @@ function setup() {
           "type": "fmsquare5",
       "modulationType" : "triangle",
           "modulationIndex" : 2,
-          "harmonicity" : 0.501
+          "harmonicity" : 0.25,
       },
       "filter": {
           "Q": 1,
@@ -34,21 +35,22 @@ function setup() {
       },
       "envelope": {
           "attack": 0.01,
-          "decay": 0.1,
+          "decay": 0.2,
           "sustain": 0.4,
           "release": 2
       },
       "filterEnvelope": {
           "attack": 0.01,
-          "decay": 0.1,
+          "decay": 0.5,
           "sustain": 0.8,
           "release": 1.5,
-          "baseFrequency": 50,
+          "baseFrequency": 69,
           "octaves": 4.4
       }
   };
   
   instrument.set(synthJSON);
+  
 
 
 
@@ -64,7 +66,7 @@ function setup() {
   // create effects
   var effect1 = new Tone.Chorus();
   effect1JSON = {
-    "frequency": 1000000,
+    "frequency": 120,
     "delayTime": 24,
     "type": "triangle",
     "depth": 20,
@@ -110,7 +112,7 @@ function draw() {
 
  text("Feedback \n (0 - 0.5)",midX-30,midY+160);
 
- text("Play with keys A,S,D,F,G,H,J,K",midX-40,midY+275);
+ text("Play with middle keys (A-L)",midX-40,midY+275);
 
 }
 
