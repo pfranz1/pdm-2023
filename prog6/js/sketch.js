@@ -1,3 +1,7 @@
+// Link to presentation 
+
+// https://www.youtube.com/watch?v=Qc3bssAa-24&ab_channel=PeterFranz
+
 var instrument = new Tone.MonoSynth();
 
 let notes = {
@@ -18,6 +22,10 @@ var midX = 100;
 var midY = 100;
 
 
+
+// Link to presentation 
+
+// https://www.youtube.com/watch?v=Qc3bssAa-24&ab_channel=PeterFranz
 function setup() {
 
   // create synth
