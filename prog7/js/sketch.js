@@ -78,7 +78,7 @@ function mousePressed() {
 
     playChime(true);
 
-    setTimeout(()=>{showElevator = false},5 * 1000);
+    setTimeout(()=>{showElevator = false},4500);
 
   }
 
