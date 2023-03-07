@@ -1,7 +1,9 @@
 let hasToneInit = false;
 
+let pitch = 500;
+
 // Set up Tone
-let osc = new Tone.AMOscillator(600, 'sine', 'sine').start()
+let osc = new Tone.AMOscillator(pitch, 'sine', 'sine').start()
 let gain = new Tone.Gain().toDestination();
 let pan = new Tone.Panner().connect(gain);
 let ampEnv = new Tone.AmplitudeEnvelope({
@@ -28,11 +30,13 @@ function keyPressed(){
   }
 }
 
+
+
 function mousePressed() {
   console.log('pressed');
 
-  osc.frequency.value = 600;
-  ampEnv.triggerAttackRelease('4n');
-  osc.frequency.setValueAtTime(800, '+1');
-  ampEnv.triggerAttackRelease('4n', '+1');
+  osc.frequency.value = pitch;
+  ampEnv.triggerAttackRelease('4t');
+  osc.frequency.setValueAtTime(pitch - 60, '+0.25');
+  ampEnv.triggerAttackRelease('4t', '+0.25');
 }
