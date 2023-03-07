@@ -41,7 +41,11 @@ function draw() {
 
   textAlign('center');
 
-  text("Click for surprise!",width /2 ,height- 20);
+  if(hasToneInit === false){
+    text("Press space to activate tone js!",width /2 ,height- 20);
+  } else {
+    text("Click for surprise!",width /2 ,height- 20);
+  }
 }
 
 function keyPressed(){
@@ -49,6 +53,8 @@ function keyPressed(){
     console.log('Starting tone...');
     Tone.start();
     hasToneInit = true;
+
+    background(100,100,100)
   }
 }
 
