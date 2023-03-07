@@ -14,12 +14,30 @@ let ampEnv = new Tone.AmplitudeEnvelope({
 }).connect(pan);
 osc.connect(ampEnv);
 
+var elevatorGif;
+
 function setup() {
   createCanvas(400, 400);
+  background(100,100,100);
+
+  imageMode("center");
+
+
+  elevatorGif = createImg("assets/elevator.gif");
+
 }
 
+let showElevator = false;
+
+
 function draw() {
-  background(220);
+  // rect(0,100,50,50);
+  if (showElevator){
+    elevatorGif.position(100,50 );
+
+  } else {
+    elevatorGif.position(-1000,-100 );
+  }
 }
 
 function keyPressed(){
@@ -49,6 +67,8 @@ function playChime(playOnce){
 
 function mousePressed() {
   console.log('pressed');
+
+  showElevator = !showElevator;
 
   playChime(true);
   // playChime();
