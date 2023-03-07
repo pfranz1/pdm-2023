@@ -1,3 +1,5 @@
+let hasToneInit = false;
+
 // Set up Tone
 let osc = new Tone.AMOscillator(600, 'sine', 'sine').start()
 let gain = new Tone.Gain().toDestination();
@@ -18,6 +20,19 @@ function draw() {
   background(220);
 }
 
+function keyPressed(){
+  if (keyCode === 32 && hasToneInit === false){
+    console.log('Starting tone...');
+    Tone.start();
+    hasToneInit = true;
+  }
+}
+
 function mousePressed() {
   console.log('pressed');
+
+  osc.frequency.value = 600;
+  ampEnv.triggerAttackRelease('4n');
+  osc.frequency.setValueAtTime(800, '+1');
+  ampEnv.triggerAttackRelease('4n', '+1');
 }
