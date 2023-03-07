@@ -38,6 +38,10 @@ function draw() {
   } else {
     elevatorGif.position(-1000,-100 );
   }
+
+  textAlign('center');
+
+  text("Click for surprise!",width /2 ,height- 20);
 }
 
 function keyPressed(){
