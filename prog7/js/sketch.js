@@ -8,7 +8,7 @@ let gain = new Tone.Gain().toDestination();
 let pan = new Tone.Panner().connect(gain);
 let ampEnv = new Tone.AmplitudeEnvelope({
   attack: 0.1,
-  decay: 0.2,
+  decay: 0.3,
   sustain: 1.0,
   release: 0.8
 }).connect(pan);
