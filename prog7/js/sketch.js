@@ -31,12 +31,25 @@ function keyPressed(){
 }
 
 
-
-function mousePressed() {
-  console.log('pressed');
-
+function playChime(playOnce){
   osc.frequency.value = pitch;
   ampEnv.triggerAttackRelease('4t');
   osc.frequency.setValueAtTime(pitch - 60, '+0.25');
   ampEnv.triggerAttackRelease('4t', '+0.25');
+
+  if (playOnce === false){
+    osc.frequency.setValueAtTime(pitch, "+0.75");
+    ampEnv.triggerAttackRelease('4t', "+0.75");
+    osc.frequency.setValueAtTime(pitch - 60, '+1');
+    ampEnv.triggerAttackRelease('4t', '+1');
+  }
+}
+
+
+
+function mousePressed() {
+  console.log('pressed');
+
+  playChime(true);
+  // playChime();
 }
