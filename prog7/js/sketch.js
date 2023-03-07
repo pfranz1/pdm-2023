@@ -14,6 +14,49 @@ let ampEnv = new Tone.AmplitudeEnvelope({
 }).connect(pan);
 osc.connect(ampEnv);
 
+var elevatorRumble = new Tone.NoiseSynth();
+var rumbleJson = {
+    "noise": {
+        "type": "pink",
+        "playbackRate" : 0.2
+    },
+    "envelope": {
+      	"attackCurve" : "ripple",
+      	"releaseCurve" : "ripple",
+        "attack": 1,
+        "decay": 0.3,
+        "sustain": 1,
+        "release": 1
+    }
+};
+
+elevatorRumble.set(rumbleJson);
+
+var lowpassFilter, effect2, effect3;
+
+// create effects
+var lowpassFilter = new Tone.AutoFilter();
+lowpassJSON = {
+	"frequency" : 1,
+	"type" : "sine",
+	"depth" : 1,
+	"baseFrequency" : 200,
+	"octaves" : 2.6,
+	"filter" : {
+		"type" : "lowpass",
+		"rolloff" : -12,
+		"Q" : 1
+	},
+    "wet": 0.5
+};
+lowpassFilter.set(lowpassJSON);
+
+
+// make connections
+elevatorRumble.connect(lowpassFilter);
+lowpassFilter.toDestination();
+
+
 var elevatorGif;
 
 function setup() {
@@ -79,12 +122,15 @@ function mousePressed() {
   console.log('pressed');
 
 
-  if (showElevator === false){
-    showElevator = !showElevator;
+  if (showElevator === false && hasToneInit){
 
-    playChime(true);
+    elevatorRumble.triggerAttackRelease('8n');
 
-    setTimeout(()=>{showElevator = false},5000);
+    setTimeout(()=>{showElevator = true; playChime(true);},1000);
+
+    // playChime(true);
+
+    setTimeout(()=>{showElevator = false},5001);
 
   }
 
