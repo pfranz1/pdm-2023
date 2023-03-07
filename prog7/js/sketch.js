@@ -68,8 +68,16 @@ function playChime(playOnce){
 function mousePressed() {
   console.log('pressed');
 
-  showElevator = !showElevator;
 
-  playChime(true);
+  if (showElevator === false){
+    showElevator = !showElevator;
+
+    playChime(true);
+
+    setTimeout(()=>{showElevator = false},5 * 1000);
+
+  }
+
+
   // playChime();
 }
