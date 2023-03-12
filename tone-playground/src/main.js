@@ -51,27 +51,6 @@ function addOctaveNumbers (scale, octaveNumber){
 }
 
 
-function playScale(scale){
-    scale.forEach((note, index) => {
-        synth.triggerAttackRelease(note, "4n", `+${index}`);
-      });
-}
-
-
-function partFromScale(){
-  const part = new Tone.Part(((time, note) => {
-    synth.triggerAttackRelease(note, "8n", time);
-  }), [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]);
-
-  part.loopStart = "0";
-
-  part.loopEnd =  "1m";
-
-  part.loop = true;
-
-  return part;
-}
-
 function draw(){}
 
 
