@@ -1,25 +1,41 @@
 var synth = new Tone.PolySynth();
 var hasToneInit = false;
 
-let sequence1;
+let sequence1, sequence2;
 
 const AMinorScale = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+const Cmajor = ['C','D','E','F','G','A','B'];
+
+const Ebmajor = ['Eb4','F4','G4','Ab4','Bb4','C5','D5','Eb5'];
 
 let melody = addOctaveNumbers(AMinorScale,4);
 
 const IChord = constructMajorChord(AMinorScale, 4, 'A3');
 // Output: ['A3', 'C4', 'E4']
-const VChord = constructMajorChord(AMinorScale, 4, 'E4');
+// const VChord = constructMajorChord(AMinorScale, 4, 'E4');
+const VChord = ["C3", "E3", "G3"];
 // Output: ['E4', 'G4', 'B4']
 const VIChord = constructMajorChord(AMinorScale, 3, 'F3');
 // Output: ['F3', 'A3', 'C3']
 const IVChord = constructMajorChord(AMinorScale, 3, 'D3');
 
+
+const CChord = ["C3", "E3", "G3"];
+const FChord = ["F2", "C3", "A3"];
+const GChord = ["G2", "D3", "B3"];
+
+const chordMap = {"IChord":IChord, "VChord":VChord,"VIChord":VIChord, "IVChord":IVChord};
+
+var chain;
+
 melody = IVChord;
+
+
 
 function setup() {
 
-  synth.toDestination();
+  synth.toMaster();
 
   var playButton = new Nexus.RadioButton('#playButton',{
     'size': [120,25],
@@ -29,9 +45,80 @@ function setup() {
 
   var partFromFunction = null;
 
+  chain = new Tone.CtrlMarkov({
+  "IChord": [{
+    value: "IChord",
+    probability: 0.1
+  }, {
+    value: "IVChord",
+    probability: 0.3
+  },
+  {
+    value: "VChord",
+    probability: 0.3
+  },
+  {
+    value: "VIChord",
+    probability: 0.3
+  }],
+  "IVChord": [{
+    value: "IChord",
+    probability: 0.3
+  }, {
+    value: "IVChord",
+    probability: 0.1
+  },
+  {
+    value: "VChord",
+    probability: 0.3
+  },
+  {
+    value: "VIChord",
+    probability: 0.3
+  }],
+  "VChord": [{
+    value: "IChord",
+    probability: 0.3
+  }, {
+    value: "IVChord",
+    probability: 0.3
+  },
+  {
+    value: "VChord",
+    probability: 0.1
+  },
+  {
+    value: "VIChord",
+    probability: 0.3
+  }],
+  "VIChord": [{
+    value: "IChord",
+    probability: 0.3
+  }, {
+    value: "IVChord",
+    probability: 0.3
+  },
+  {
+    value: "VChord",
+    probability: 0.3
+  },
+  {
+    value: "VIChord",
+    probability: 0.1
+  }],
+  });
+
+  chain.value = "IVChord"
+
+
   sequence1 = new Tone.Sequence(function(time,note){
     synth.triggerAttackRelease(note,0.5);
   },melody,'4n');
+
+  sequence2 = new Tone.Loop((time)=>{
+    synth.triggerAttackRelease(chordMap[chain.next()],"2n",time)
+    console.log(chain.value);
+  },"1m");
 
   Tone.Transport.bpm.value = 150;
 
@@ -39,10 +126,10 @@ function setup() {
 
   playButton.on('change',(v) => {
       if(v != -1){
-          if(hasToneInit == false) {Tone.start(); hasToneInit = true};
-          sequence1.start();
+          // if(hasToneInit == false) {Tone.start(); hasToneInit = true};
+          sequence2.start();
       } else {
-        sequence1.stop();
+        sequence2.stop();
       }    
   });
 }
