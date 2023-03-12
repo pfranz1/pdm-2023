@@ -11,15 +11,16 @@ function setup() {
     'active': -1
   });
 
+var partFromFunction = null;
+
 playButton.on('change',(v) => {
     if(v != -1){
         if(hasToneInit == false) {Tone.start(); hasToneInit = true};
         Tone.Transport.start();
-        console.log('Playing scale');
-        playScale(addOctaveNumbers(AMinorScale,4));
+        partFromFunction = partFromScale();
+        partFromFunction.start();
     } else {
-        // TODO: Figure out how to pause music generation - this is not working????
-        Tone.Transport.stop();
+        partFromFunction.stop();
     }    
 });
 }
@@ -41,6 +42,21 @@ function playScale(scale){
     scale.forEach((note, index) => {
         synth.triggerAttackRelease(note, "4n", `+${index}`);
       });
+}
+
+
+function partFromScale(){
+  const part = new Tone.Part(((time, note) => {
+    synth.triggerAttackRelease(note, "8n", time);
+  }), [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]);
+
+  part.loopStart = "0";
+
+  part.loopEnd =  "1m";
+
+  part.loop = true;
+
+  return part;
 }
 
 function draw(){}
