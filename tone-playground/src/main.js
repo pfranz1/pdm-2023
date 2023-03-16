@@ -25,7 +25,6 @@ const CChord = ["C3", "E3", "G3"];
 const FChord = ["F2", "C3", "A3"];
 const GChord = ["G2", "D3", "B3"];
 
-const chordMap = {"IChord":IChord, "VChord":VChord,"VIChord":VIChord, "IVChord":IVChord};
 
 var chain;
 
@@ -72,77 +71,6 @@ function setup() {
     'numberOfButtons': 1,
     'active': -1
   });
-
-  var partFromFunction = null;
-
-  let defaultToNeighbor = 0.3;
-  let defaultToSelf = 0.1;
-
-  var chain = new Tone.CtrlMarkov({
-  "IChord": [{
-    value: "IChord",
-    probability: defaultToSelf
-  }, {
-    value: "IVChord",
-    probability: defaultToNeighbor
-  },
-  {
-    value: "VChord",
-    probability: defaultToNeighbor
-  },
-  {
-    value: "VIChord",
-    probability: defaultToNeighbor
-  }],
-  "IVChord": [{
-    value: "IChord",
-    probability: defaultToNeighbor
-  }, {
-    value: "IVChord",
-    probability: defaultToSelf
-  },
-  {
-    value: "VChord",
-    probability: defaultToNeighbor
-  },
-  {
-    value: "VIChord",
-    probability: defaultToNeighbor
-  }],
-  "VChord": [{
-    value: "IChord",
-    probability: defaultToNeighbor
-  }, {
-    value: "IVChord",
-    probability: defaultToNeighbor
-  },
-  {
-    value: "VChord",
-    probability: defaultToSelf
-  },
-  {
-    value: "VIChord",
-    probability: defaultToNeighbor
-  }],
-  "VIChord": [{
-    value: "IChord",
-    probability: defaultToNeighbor
-  }, {
-    value: "IVChord",
-    probability: defaultToNeighbor
-  },
-  {
-    value: "VChord",
-    probability: defaultToNeighbor
-  },
-  {
-    value: "VIChord",
-    probability: defaultToSelf
-  }],
-  });
-
-  chain.value = "IVChord"
-
 
   sequence1 = new Tone.Sequence(function(time,note){
     synth.triggerAttackRelease(note,0.5);
