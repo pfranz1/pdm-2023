@@ -1,4 +1,9 @@
-var synth = new Tone.PolySynth();
+var synth = new Tone.PolySynth(3, Tone.Synth, {
+  oscillator : {
+    type : "sawtooth"
+  }
+});
+
 var hasToneInit = false;
 
 let sequence1, sequence2;
@@ -69,7 +74,7 @@ const GChordE = {nextChord: makeWeightedRandom([['CChordE',1],
                                               ['AmChordE',2],
                                               ['FChordE',2],
                                               ['EmChordE',3],
-                                              ['restE',2],
+                                              ['restE',1],
                                               ]), id:"GChordE",value:['G3','B4','D4']};
 const AmChordE = {nextChord: makeWeightedRandom([['CChordE',1],
                                               ['GChordE',2],
@@ -81,7 +86,7 @@ const FChordE = {nextChord: makeWeightedRandom([['CChordE',2],
                                               ['GChordE',1],
                                               ['AmChordE',1],
                                               ['FChordE',0],
-                                              ['restE',2],
+                                              ['restE',1],
                                               ]), id:"FChordE",value:['F3','A4','C4']};
                                               
 const EmChordE = {nextChord: makeWeightedRandom([['CChordE',0],
@@ -117,14 +122,13 @@ function callNext(){
 }
 
 
+
 function setup() {
 
   // nextFun = makeWeightedRandom(fruits);
   currentChord = chordsMap["CChordE"];
   console.log(callNext());
 
-
-  
 
   synth.toMaster();
 
