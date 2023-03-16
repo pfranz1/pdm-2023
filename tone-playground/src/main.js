@@ -45,66 +45,69 @@ function setup() {
 
   var partFromFunction = null;
 
-  chain = new Tone.CtrlMarkov({
+  let defaultToNeighbor = 0.3;
+  let defaultToSelf = 0.1;
+
+  var chain = new Tone.CtrlMarkov({
   "IChord": [{
     value: "IChord",
-    probability: 0.1
+    probability: defaultToSelf
   }, {
     value: "IVChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   },
   {
     value: "VChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   },
   {
     value: "VIChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   }],
   "IVChord": [{
     value: "IChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   }, {
     value: "IVChord",
-    probability: 0.1
+    probability: defaultToSelf
   },
   {
     value: "VChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   },
   {
     value: "VIChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   }],
   "VChord": [{
     value: "IChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   }, {
     value: "IVChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   },
   {
     value: "VChord",
-    probability: 0.1
+    probability: defaultToSelf
   },
   {
     value: "VIChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   }],
   "VIChord": [{
     value: "IChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   }, {
     value: "IVChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   },
   {
     value: "VChord",
-    probability: 0.3
+    probability: defaultToNeighbor
   },
   {
     value: "VIChord",
-    probability: 0.1
+    probability: defaultToSelf
   }],
   });
 
