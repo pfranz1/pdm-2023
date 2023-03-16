@@ -30,27 +30,81 @@ var chain;
 
 melody = IVChord;
 
-const defaultChordProgression = [
-  ['IChordE', 10],
-  ['VChordE', 2],
-  ['IVChordE', 3],
-  ['VIChordE', 1],
-  ['FChord',1],
-  ['GChord',3],
-  ['AmChord',2],
-];
+// const defaultChordProgression = [
+//   ['IChordE', 10],
+//   ['VChordE', 2],
+//   ['IVChordE', 3],
+//   ['VIChordE', 1],
+//   ['FChord',1],
+//   ['GChord',3],
+//   ['AmChord',2],
+// ];
 
 
 
-const IChordE = { nextChord: makeChooser(defaultChordProgression,"IChordE", 1), id:"IChordE",value:['A3', 'C4', 'E4']};
-const IVChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"IVChordE",value:["G2", "D3", "B3"]};
-const VChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"VChordE",value:["C3", "E3", "G3"]};
-const VIChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"VIChordE",value:['F3', 'A3', 'C3']};
-const FChord = { nextChord: makeWeightedRandom(defaultChordProgression), id:"FChord",value:["F2", "C3", "A3"]};
-const GChord = { nextChord: makeWeightedRandom(defaultChordProgression), id:"GChord",value:["G2", "D3", "B3"]};
-const AmChord = { nextChord: makeWeightedRandom(defaultChordProgression), id:"AmChord",value:["A2", "C3", "E3"]};
+// const IChordE = { nextChord: makeChooser(defaultChordProgression,"IChordE", 1), id:"IChordE",value:['A3', 'C4', 'E4']};
+// const IVChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"IVChordE",value:["G2", "D3", "B3"]};
+// const VChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"VChordE",value:["C3", "E3", "G3"]};
+// const VIChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"VIChordE",value:['F3', 'A3', 'C3']};
+// const FChord = { nextChord: makeWeightedRandom(defaultChordProgression), id:"FChord",value:["F2", "C3", "A3"]};
+// const GChord = { nextChord: makeWeightedRandom(defaultChordProgression), id:"GChord",value:["G2", "D3", "B3"]};
+// const AmChord = { nextChord: makeWeightedRandom(defaultChordProgression), id:"AmChord",value:["A2", "C3", "E3"]};
 
-const chordsMap = {"IChordE":IChordE,"IVChordE":IVChordE,"VChordE":VChordE,"VIChordE":VIChordE,"FChord":FChord,"GChord":GChord,"AmChord":AmChord};
+// const chordsMap = {"IChordE":IChordE,"IVChordE":IVChordE,"VChordE":VChordE,"VIChordE":VIChordE,"FChord":FChord,"GChord":GChord,"AmChord":AmChord};
+
+
+const balancedProgression = [['CChordE',1],
+                             ['GChordE',1],
+                             ['AmChordE',1],
+                             ['FChordE',1],
+                            ];
+
+const CChordE = {nextChord:makeWeightedRandom([['CChordE',0],
+                                              ['GChordE',2],
+                                              ['AmChordE',1],
+                                              ['FChordE',2],
+                                              ]), id:"CChordE",value:['C4','E4','G4']};
+const GChordE = {nextChord: makeWeightedRandom([['CChordE',1],
+                                              ['GChordE',0],
+                                              ['AmChordE',2],
+                                              ['FChordE',2],
+                                              ['EmChordE',3],
+                                              ['restE',2],
+                                              ]), id:"GChordE",value:['G3','B4','D4']};
+const AmChordE = {nextChord: makeWeightedRandom([['CChordE',1],
+                                              ['GChordE',2],
+                                              ['AmChordE',0],
+                                              ['FChordE',3],
+                                              ['DChordE',1],
+                                              ]), id:"AmChordE",value:['A4','C4','E4']};
+const FChordE = {nextChord: makeWeightedRandom([['CChordE',2],
+                                              ['GChordE',1],
+                                              ['AmChordE',1],
+                                              ['FChordE',0],
+                                              ['restE',2],
+                                              ]), id:"FChordE",value:['F3','A4','C4']};
+                                              
+const EmChordE = {nextChord: makeWeightedRandom([['CChordE',0],
+                                                ['GChordE',0],
+                                                ['AmChordE',1],
+                                                ['FChordE',0],
+                                                ['DChordE',1]
+                                                ]), id:"EmChordE",value:['E3','G3','B4']};
+
+const DChordE = {nextChord: makeWeightedRandom([['DChordE',0],
+                                                ['GChordE',1],
+                                                ['AmChordE',0],
+                                                ['FChordE',0],
+                                                ]), id:"DChordE",value:['D3','F#3','A4']};
+
+const restE = {nextChord: makeWeightedRandom([['CChordE',1],
+                                              ['GChordE',0],
+                                              ['AmChordE',1],
+                                              ['FChordE',0],
+                                              ['DChordE',1],
+                                              ]), id:"restE",value:[]};
+
+const chordsMap = {'CChordE':CChordE,"GChordE":GChordE,"AmChordE":AmChordE,"FChordE":FChordE, "EmChordE":EmChordE,"DChordE":DChordE, "restE":restE};
 
 function draw(){}
 
@@ -66,10 +120,9 @@ function callNext(){
 function setup() {
 
   // nextFun = makeWeightedRandom(fruits);
-  currentChord = chordsMap["IChordE"];
+  currentChord = chordsMap["CChordE"];
   console.log(callNext());
 
-  console.log(setValue(defaultChordProgression,'IChordE',1));
 
   
 
