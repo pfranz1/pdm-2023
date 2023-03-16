@@ -38,7 +38,8 @@ const defaultChordProgression = [
 ];
 
 
-const IChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"IChordE",value:['A3', 'C4', 'E4']};
+
+const IChordE = { nextChord: makeChooser(defaultChordProgression,"IChordE", 1), id:"IChordE",value:['A3', 'C4', 'E4']};
 const IVChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"IVChordE",value:["G2", "D3", "B3"]};
 const VChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"VChordE",value:["C3", "E3", "G3"]};
 const VIChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"VIChordE",value:['F3', 'A3', 'C3']};
@@ -61,6 +62,8 @@ function setup() {
   // nextFun = makeWeightedRandom(fruits);
   currentChord = chordsMap["IChordE"];
   console.log(callNext());
+
+  console.log(setValue(defaultChordProgression,'IChordE',1));
 
   
 
@@ -134,6 +137,25 @@ function constructMajorChord (scale, octave, rootNote) {
 }
 
 
+function setValue(data, id, newVal,){
+    dataCopy = [...data];
+    
+    let i = 0;
+    // Linear search :D
+    while (i < dataCopy.length){
+      if(dataCopy[i][0] == id){
+        dataCopy[i][1] = newVal;
+        break;
+      }
+      i++;
+    }
+    
+    return dataCopy;
+}
+
+function makeChooser(data, selfId, selfValue){
+  return makeWeightedRandom(setValue(data,selfId,selfValue));
+}
 
 
 function makeWeightedRandom(data){
