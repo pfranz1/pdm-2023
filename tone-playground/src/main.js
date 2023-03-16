@@ -31,9 +31,39 @@ var chain;
 
 melody = IVChord;
 
+const defaultChordProgression = [
+  ['IChordE', 10],
+  ['VChordE', 2],
+  ['IVChordE', 5],
+  ['VIChordE', 1],
+];
+
+
+const IChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"IChordE",value:['A3', 'C4', 'E4']};
+const IVChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"IVChordE",value:["G2", "D3", "B3"]};
+const VChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"VChordE",value:["C3", "E3", "G3"]};
+const VIChordE = { nextChord: makeWeightedRandom(defaultChordProgression), id:"VIChordE",value:['F3', 'A3', 'C3']};
+
+const chordsMap = {"IChordE":IChordE,"IVChordE":IVChordE,"VChordE":VChordE,"VIChordE":VIChordE};
+
+function draw(){}
+
+var currentChord;
+
+function callNext(){
+  currentChord = chordsMap[currentChord.nextChord()];
+
+  return currentChord;
+}
 
 
 function setup() {
+
+  // nextFun = makeWeightedRandom(fruits);
+  currentChord = chordsMap["IChordE"];
+  console.log(callNext());
+
+  
 
   synth.toMaster();
 
@@ -119,8 +149,9 @@ function setup() {
   },melody,'4n');
 
   sequence2 = new Tone.Loop((time)=>{
-    synth.triggerAttackRelease(chordMap[chain.next()],"2n",time)
-    console.log(chain.value);
+    let next = callNext();
+    synth.triggerAttackRelease(next.value,"2n",time)
+    console.log(next.id);
   },"1m");
 
   Tone.Transport.bpm.value = 150;
@@ -175,6 +206,33 @@ function constructMajorChord (scale, octave, rootNote) {
 }
 
 
-function draw(){}
 
 
+function makeWeightedRandom(data){
+  function next(){
+      //https://blobfolio.com/2019/randomizing-weighted-choices-in-javascript/
+      const threshold = Math.random() * total;
+  
+     let runningTotal = 0;
+      for (let i = 0; i < data.length - 1; ++i) {
+      // Add the weight to our running total.
+      runningTotal += data[i][1];
+  
+      // If this value falls within the threshold, we're done!
+          if (runningTotal >= threshold) {
+              return data[i][0];
+          }
+      }
+  
+      // Wouldn't you know it, we needed the very last entry!
+      return data[data.length - 1][0];
+  }
+
+  var total = 0;
+  for (let i = 0; i < data.length; ++i) {
+      total += data[i][1];
+  }
+
+  return () => next();
+
+}
