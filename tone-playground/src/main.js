@@ -4,6 +4,25 @@ var synth = new Tone.PolySynth(3, Tone.Synth, {
   }
 });
 
+// create effects
+var lowpassFilter = new Tone.AutoFilter();
+
+const lowpassJSON = {
+	"frequency" : 1,
+	"type" : "sine",
+	"depth" : 1,
+	"baseFrequency" : 200,
+	"octaves" : 2.6,
+	"filter" : {
+		"type" : "lowpass",
+		"rolloff" : -12,
+		"Q" : 1
+	},
+    "wet": 0.5
+};
+
+lowpassFilter.set(lowpassJSON);
+
 var hasToneInit = false;
 
 let sequence1, sequence2;
@@ -111,6 +130,7 @@ const restE = {nextChord: makeWeightedRandom([['CChordE',1],
 
 const chordsMap = {'CChordE':CChordE,"GChordE":GChordE,"AmChordE":AmChordE,"FChordE":FChordE, "EmChordE":EmChordE,"DChordE":DChordE, "restE":restE};
 
+
 function draw(){}
 
 var currentChord;
@@ -130,7 +150,8 @@ function setup() {
   console.log(callNext());
 
 
-  synth.toMaster();
+  synth.connect(lowpassFilter);
+  lowpassFilter.toMaster();
 
   var playButton = new Nexus.RadioButton('#playButton',{
     'size': [120,25],
