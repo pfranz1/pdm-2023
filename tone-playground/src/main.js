@@ -93,7 +93,7 @@ const GChordE = {nextChord: makeWeightedRandom([['CChordE',1],
                                               ['AmChordE',2],
                                               ['FChordE',2],
                                               ['EmChordE',3],
-                                              ['restE',1],
+                                              ['restE',0],
                                               ]), id:"GChordE",value:['G3','B4','D4']};
 const AmChordE = {nextChord: makeWeightedRandom([['CChordE',1],
                                               ['GChordE',2],
@@ -105,7 +105,7 @@ const FChordE = {nextChord: makeWeightedRandom([['CChordE',2],
                                               ['GChordE',1],
                                               ['AmChordE',1],
                                               ['FChordE',0],
-                                              ['restE',1],
+                                              ['restE',0],
                                               ]), id:"FChordE",value:['F3','A4','C4']};
                                               
 const EmChordE = {nextChord: makeWeightedRandom([['CChordE',0],
@@ -135,7 +135,7 @@ function draw(){}
 
 var currentChord;
 
-function callNext(){
+function getNextChord(){
   currentChord = chordsMap[currentChord.nextChord()];
 
   return currentChord;
@@ -147,7 +147,7 @@ function setup() {
 
   // nextFun = makeWeightedRandom(fruits);
   currentChord = chordsMap["CChordE"];
-  console.log(callNext());
+  console.log(getNextChord());
 
 
   synth.connect(lowpassFilter);
@@ -164,7 +164,7 @@ function setup() {
   },melody,'4n');
 
   sequence2 = new Tone.Loop((time)=>{
-    let next = callNext();
+    let next = getNextChord();
 
     let swapAtOne = random([true,false]);
     let swapAtTwo = random([true,false]);
@@ -176,17 +176,17 @@ function setup() {
     if(swapAtOne){
       synth.triggerAttackRelease(next.value,"4n","+0"); 
       console.log("Chord",next.value,"D:4n" );
-      next = callNext();
+      next = getNextChord();
       if(swapAtTwo){
         synth.triggerAttackRelease(next.value,"4n","+4n");
         console.log("Chord",next.value, "D:4n" );
 
-        next = callNext();
+        next = getNextChord();
         if(swapAtThree){
           synth.triggerAttackRelease(next.value,"4n","+2n");
           console.log("Chord",next.value,"D:4n" );
 
-          next = callNext();
+          next = getNextChord();
           synth.triggerAttackRelease(next.value,"4n","+2n.");
           console.log("Chord",next.value, "D:4n" );
 
@@ -200,7 +200,7 @@ function setup() {
           if(swapAtThree){
             console.log("Chord",next.value, "D:2n" );
             synth.triggerAttackRelease(next.value,"2n","+4n");
-            next = callNext();
+            next = getNextChord();
             console.log("Chord",next.value, "D:4n" );
             synth.triggerAttackRelease(next.value,"4n","+2n.");
           } else {
@@ -212,11 +212,11 @@ function setup() {
       if(swapAtTwo){
         console.log("Chord",next.value, "D:2n" );
         synth.triggerAttackRelease(next.value,"2n","+0");
-        next = callNext();
+        next = getNextChord();
         if(swapAtThree){
           console.log("Chord",next.value, "D:4n" );
           synth.triggerAttackRelease(next.value,"4n","+2n");
-          next = callNext();
+          next = getNextChord();
           console.log("Chord",next.value, "D:4n" );
           synth.triggerAttackRelease(next.value,"4n","+2n.");
         } else {
