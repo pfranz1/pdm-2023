@@ -165,8 +165,78 @@ function setup() {
 
   sequence2 = new Tone.Loop((time)=>{
     let next = callNext();
-    synth.triggerAttackRelease(next.value,"2n",time)
-    console.log(next.id);
+
+    let swapAtOne = random([true,false]);
+    let swapAtTwo = random([true,false]);
+    let swapAtThree = random([true,false]);
+
+    // Subdivide measure into four choices
+    // Hard coded with love - if it was eight notes I would have figured out a better way
+    console.log(`=======Chord at ${time}=======`)
+    if(swapAtOne){
+      synth.triggerAttackRelease(next.value,"4n","+0"); 
+      console.log("Chord",next.value,"D:4n" );
+      next = callNext();
+      if(swapAtTwo){
+        synth.triggerAttackRelease(next.value,"4n","+4n");
+        console.log("Chord",next.value, "D:4n" );
+
+        next = callNext();
+        if(swapAtThree){
+          synth.triggerAttackRelease(next.value,"4n","+2n");
+          console.log("Chord",next.value,"D:4n" );
+
+          next = callNext();
+          synth.triggerAttackRelease(next.value,"4n","+2n.");
+          console.log("Chord",next.value, "D:4n" );
+
+        } else {
+
+          synth.triggerAttackRelease(next.value,"2n","+2n");
+          console.log("Chord",next.value,"D:2n" );
+
+        }
+      } else {
+          if(swapAtThree){
+            console.log("Chord",next.value, "D:2n" );
+            synth.triggerAttackRelease(next.value,"2n","+4n");
+            next = callNext();
+            console.log("Chord",next.value, "D:4n" );
+            synth.triggerAttackRelease(next.value,"4n","+2n.");
+          } else {
+            console.log("Chord",next.value, "D:2n." );
+            synth.triggerAttackRelease(next.value,"2n.","+4n");
+          }
+      }
+    } else {
+      if(swapAtTwo){
+        console.log("Chord",next.value, "D:2n" );
+        synth.triggerAttackRelease(next.value,"2n","+0");
+        next = callNext();
+        if(swapAtThree){
+          console.log("Chord",next.value, "D:4n" );
+          synth.triggerAttackRelease(next.value,"4n","+2n");
+          next = callNext();
+          console.log("Chord",next.value, "D:4n" );
+          synth.triggerAttackRelease(next.value,"4n","+2n.");
+        } else {
+          console.log("Chord", next.value, "D:2n");
+          synth.triggerAttackRelease(next.value,"2n","+2n");
+        }
+      } else {
+        if(swapAtThree){
+          console.log("Chord",next.value, "D:2n.");
+          synth.triggerAttackRelease(next.value,"2n.","+0");
+          console.log("Chord", next.value,"D:4n");
+          synth.triggerAttackRelease(next.value,"4n","+2n.");
+        } else{
+          console.log("Chord" ,next.value,"D:1m");
+          synth.triggerAttackRelease(next.value,"1m","+0");
+        }
+      }
+    }
+    // synth.triggerAttackRelease(next.value,"4n","+2n.")
+    // console.log(next.id);
   },"1m");
 
   Tone.Transport.bpm.value = 150;
