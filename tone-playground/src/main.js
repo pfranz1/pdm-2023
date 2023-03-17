@@ -150,7 +150,7 @@ const TTT = {next: makeWeightedRandom([
 ['TFF',0],
 ['FTT',0],
 ['FTF',0],
-['FFT',0],
+['FFT',1],
 ['FFF',0],
 ]), id:"TTT",value:[true,true,true]};
 const TTF = {next: makeWeightedRandom([
@@ -158,10 +158,10 @@ const TTF = {next: makeWeightedRandom([
 ['TTF',0],
 ['TFT',0],
 ['TFF',0],
-['FTT',0],
+['FTT',2],
 ['FTF',0],
-['FFT',0],
-['FFF',0],
+['FFT',2],
+['FFF',1],
 ]), id:"TTF",value:[true,true,false]};
 const TFT = {next: makeWeightedRandom([
 ['TTT',0],
@@ -174,7 +174,7 @@ const TFT = {next: makeWeightedRandom([
 ['FFF',0],
 ]), id:"TFT",value:[true,false,true]};
 const TFF = {next: makeWeightedRandom([
-['TTT',0],
+['TTT',1],
 ['TTF',0],
 ['TFT',0],
 ['TFF',0],
@@ -184,14 +184,14 @@ const TFF = {next: makeWeightedRandom([
 ['FFF',0],
 ]), id:"TFF",value:[true,false,false]};
 const FTT = {next: makeWeightedRandom([
-['TTT',0],
+['TTT',1],
 ['TTF',0],
 ['TFT',0],
 ['TFF',0],
 ['FTT',0],
 ['FTF',0],
 ['FFT',0],
-['FFF',0],
+['FFF',1],
 ]), id:"FTT",value:[false,true,true]};
 const FTF = {next: makeWeightedRandom([
 ['TTT',0],
@@ -206,15 +206,15 @@ const FTF = {next: makeWeightedRandom([
 const FFT = {next: makeWeightedRandom([
 ['TTT',0],
 ['TTF',0],
-['TFT',0],
+['TFT',1],
 ['TFF',0],
-['FTT',0],
+['FTT',1],
 ['FTF',0],
 ['FFT',0],
 ['FFF',0],
 ]), id:"FFT",value:[false,false,true]};
 const FFF = {next: makeWeightedRandom([
-['TTT',0],
+['TTT',1],
 ['TTF',0],
 ['TFT',0],
 ['TFF',0],
@@ -227,7 +227,13 @@ const FFF = {next: makeWeightedRandom([
 const patternMap = {"TTT":TTT,"TTF":TTF,"TFT":TFT,"TFF":TFF,"FTT":FTT,"FTF":FTF,"FFT":FFT,"FFF":FFF};
 
 function getNextPattern(){
-  currentPattern = patternMap[currentPattern.next()];
+
+  if(currentPatternRepeat > 0){
+    currentPatternRepeat = currentPatternRepeat - 1;
+  } else {
+    currentPattern = patternMap[currentPattern.next()];
+    currentPatternRepeat = random([1,1,1,1,2,2,3]);
+  }
 
   return currentPattern;
 };
