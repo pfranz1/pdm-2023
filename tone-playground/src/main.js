@@ -130,7 +130,6 @@ const restE = {nextChord: makeWeightedRandom([['CChordE',1],
 
 const chordsMap = {'CChordE':CChordE,"GChordE":GChordE,"AmChordE":AmChordE,"FChordE":FChordE, "EmChordE":EmChordE,"DChordE":DChordE, "restE":restE};
 
-
 function draw(){}
 
 var currentChord;
@@ -141,13 +140,102 @@ function getNextChord(){
   return currentChord;
 }
 
+var currentPattern;
+var currentPatternRepeat;
+
+const TTT = {next: makeWeightedRandom([
+['TTT',0],
+['TTF',1],
+['TFT',0],
+['TFF',0],
+['FTT',0],
+['FTF',0],
+['FFT',0],
+['FFF',0],
+]), id:"TTT",value:[true,true,true]};
+const TTF = {next: makeWeightedRandom([
+['TTT',1],
+['TTF',0],
+['TFT',0],
+['TFF',0],
+['FTT',0],
+['FTF',0],
+['FFT',0],
+['FFF',0],
+]), id:"TTF",value:[true,true,false]};
+const TFT = {next: makeWeightedRandom([
+['TTT',0],
+['TTF',0],
+['TFT',0],
+['TFF',0],
+['FTT',0],
+['FTF',0],
+['FFT',0],
+['FFF',0],
+]), id:"TFT",value:[true,false,true]};
+const TFF = {next: makeWeightedRandom([
+['TTT',0],
+['TTF',0],
+['TFT',0],
+['TFF',0],
+['FTT',0],
+['FTF',0],
+['FFT',0],
+['FFF',0],
+]), id:"TFF",value:[true,false,false]};
+const FTT = {next: makeWeightedRandom([
+['TTT',0],
+['TTF',0],
+['TFT',0],
+['TFF',0],
+['FTT',0],
+['FTF',0],
+['FFT',0],
+['FFF',0],
+]), id:"FTT",value:[false,true,true]};
+const FTF = {next: makeWeightedRandom([
+['TTT',0],
+['TTF',0],
+['TFT',0],
+['TFF',0],
+['FTT',0],
+['FTF',0],
+['FFT',0],
+['FFF',0],
+]), id:"FTF",value:[false,true,false]};
+const FFT = {next: makeWeightedRandom([
+['TTT',0],
+['TTF',0],
+['TFT',0],
+['TFF',0],
+['FTT',0],
+['FTF',0],
+['FFT',0],
+['FFF',0],
+]), id:"FFT",value:[false,false,true]};
+const FFF = {next: makeWeightedRandom([
+['TTT',0],
+['TTF',0],
+['TFT',0],
+['TFF',0],
+['FTT',0],
+['FTF',0],
+['FFT',0],
+['FFF',0],
+]), id:"FFF",value:[false,false,false]};
+
+const patternMap = {"TTT":TTT,"TTF":TTF,"TFT":TFT,"TFF":TFF,"FTT":FTT,"FTF":FTF,"FFT":FFT,"FFF":FFF};
+
+function getNextPattern(){
+  currentPattern = patternMap[currentPattern.next()];
+
+  return currentPattern;
+};
 
 
 function setup() {
 
   // nextFun = makeWeightedRandom(fruits);
-  currentChord = chordsMap["CChordE"];
-  console.log(getNextChord());
 
 
   synth.connect(lowpassFilter);
@@ -163,16 +251,23 @@ function setup() {
     synth.triggerAttackRelease(note,0.5);
   },melody,'4n');
 
+  currentChord = chordsMap["CChordE"];
+  currentPattern = patternMap["TTT"]
+
   sequence2 = new Tone.Loop((time)=>{
+    console.log(`=======Chord at ${time}=======`)
+
     let next = getNextChord();
 
-    let swapAtOne = random([true,false]);
-    let swapAtTwo = random([true,false]);
-    let swapAtThree = random([true,false]);
+    let nextPattern = getNextPattern().value;
+    console.log(nextPattern);
+
+    let swapAtOne = nextPattern[0];
+    let swapAtTwo = nextPattern[1];
+    let swapAtThree = nextPattern[2];
 
     // Subdivide measure into four choices
     // Hard coded with love - if it was eight notes I would have figured out a better way
-    console.log(`=======Chord at ${time}=======`)
     if(swapAtOne){
       synth.triggerAttackRelease(next.value,"4n","+0"); 
       console.log("Chord",next.value,"D:4n" );
