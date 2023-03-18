@@ -1,4 +1,4 @@
-var synth = new Tone.PolySynth(3, Tone.Synth, {
+var synth = new Tone.PolySynth(Tone.Synth, {
   oscillator : {
     type : "sawtooth"
   }
@@ -238,6 +238,48 @@ function getNextPattern(){
   return currentPattern;
 };
 
+const mainMelody = [
+  {'time': 0, 'note': 'G4', 'duration': '8n'},
+  {'time': '0:0:2', 'note': 'F4', 'duration': '8n'},
+  {'time': '0:1', 'note': 'D4', 'duration': '8n.'},
+  {'time': '0:2', 'note': 'D4', 'duration': '8n'},
+  {'time': '0:2:2', 'note': 'F4', 'duration': '8n.'},
+  {'time': '0:3', 'note': 'G4', 'duration': '8n'},
+  {'time': '0:3:2', 'note': 'A4', 'duration': '2n'},
+  {'time': '2:0', 'note': 'A4', 'duration': '8n'},
+  {'time': '2:0:2', 'note': 'G4', 'duration': '8n'},
+  {'time': '2:1', 'note': 'F4', 'duration': '8n'},
+  {'time': '2:2', 'note': 'A4', 'duration': '8n'},
+  {'time': '2:2:2', 'note': 'G4', 'duration': '8n'},
+  {'time': '2:3', 'note': 'E4', 'duration': '8n'},
+  {'time': '2:3:2', 'note': 'F4', 'duration': '2n'},
+  {'time': '4:0', 'note': 'G4', 'duration': '8n'},
+  {'time': '4:0:2', 'note': 'F4', 'duration': '8n'},
+  {'time': '4:1', 'note': 'D4', 'duration': '8n'},
+  {'time': '4:2', 'note': 'F4', 'duration': '8n'},
+  {'time': '4:2:2', 'note': 'A4', 'duration': '8n'},
+  {'time': '4:3', 'note': 'G4', 'duration': '8n'},
+  {'time': '4:3:2', 'note': 'A4', 'duration': '2n'},
+  {'time': '5:2:2', 'note': 'G4', 'duration': '8n'},
+  {'time': '5:3', 'note': 'A4', 'duration': '8n'},
+  {'time': '5:3:2', 'note': 'B4', 'duration': '8n'},
+  {'time': '6:0', 'note': 'C5', 'duration': '8n'},
+  {'time': '6:1', 'note': 'B4', 'duration': '8n'},
+  {'time': '6:1:2', 'note': 'A4', 'duration': '8n'},
+  {'time': '6:2', 'note': 'B4', 'duration': '8n'},
+  {'time': '6:2:2', 'note': 'A4', 'duration': '8n'},
+  {'time': '6:3', 'note': 'G4', 'duration': '8n'},
+  {'time': '6:3:2', 'note': 'A4', 'duration': '1n'},
+];
+
+const melodySynth = new Tone.Synth({
+  oscillator : {
+    volume: 5,
+    count: 3,
+    spread: 40,
+    type : "fatsawtooth"
+  }
+}).toMaster();
 
 function setup() {
 
@@ -340,6 +382,14 @@ function setup() {
     // console.log(next.id);
   },"1m");
 
+
+  var mainMelodyPart = new Tone.Part(function(time, note) {
+    melodySynth.triggerAttackRelease(note.note, note.duration, time);
+  }, mainMelody);
+
+  mainMelodyPart.loop = true;
+  mainMelodyPart.loopEnd = "7m";
+
   Tone.Transport.bpm.value = 150;
 
   Tone.Transport.start();
@@ -348,8 +398,11 @@ function setup() {
       if(v != -1){
           // if(hasToneInit == false) {Tone.start(); hasToneInit = true};
           sequence2.start();
+          mainMelodyPart.start();
       } else {
         sequence2.stop();
+        mainMelodyPart.stop();
+
       }    
   });
 }
