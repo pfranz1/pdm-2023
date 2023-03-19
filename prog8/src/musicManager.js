@@ -245,9 +245,11 @@ const lowpassJSON = {
     "wet": 0.75
 };
 
+let gain = new Tone.Gain(0.65).toDestination();
+
 lowpassFilter.set(lowpassJSON);
 
-lowpassFilter.toDestination();
+lowpassFilter.connect(gain);
 synth.connect(lowpassFilter);
 
 var hasToneInit = false;
