@@ -301,7 +301,7 @@ function setup() {
   },melody,'4n');
 
   currentChord = chordsMap["CChordE"];
-  currentPattern = patternMap["TTT"]
+  currentPattern = patternMap["TTT"];
 
   sequence2 = new Tone.Loop((time)=>{
     console.log(`=======Chord at ${time}=======`)
