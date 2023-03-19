@@ -20,7 +20,7 @@ class BugSprite{
 
     
     
-    constructor(livingAnimation, squishedAnimation, tileWidth, tileHeight, numAnimationFramesLiving, numAnimationFramesSquished, height, width,  xPos,yPos, onSquish ){
+    constructor(livingAnimation, squishedAnimation, tileWidth, tileHeight, numAnimationFramesLiving, numAnimationFramesSquished, height, width,  xPos,yPos, onSquish, soundEffectManager ){
         this.livingAnimation = livingAnimation;
         this.squishedAnimation = squishedAnimation;
         this.tileWidth = tileWidth;
@@ -33,6 +33,7 @@ class BugSprite{
         this.yPos = yPos;
 
         this.onSquish = onSquish;
+        this.soundEffectManager = soundEffectManager;
         
         this.currentFrame = Math.floor(random(0,numAnimationFramesLiving)) ;
 
@@ -153,6 +154,8 @@ class BugSprite{
         if(this.willHitWall(xChange) || this.willHitCeli(yChange)){
             // print("Going to hit the wall!");
             // print(this.facingDeg)
+
+            this.soundEffectManager.doSideTap();
 
             this.facingDeg = (270 + this.facingDeg  + random(-1 * BugSprite.randomTurn, BugSprite.randomTurn)) % 360;
             

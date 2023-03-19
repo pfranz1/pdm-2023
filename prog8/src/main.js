@@ -21,12 +21,16 @@ function incScore(){
     gameScore++;
     print("Game score:", gameScore);
 }
+var soundEffectManager;
 
 function preload(){
     bugWalking = loadImage("./assets/Water-Skipper.png");
     bugTwitch = loadImage("./assets/dead-skipper.png");
     musicOn = loadImage("./assets/music-on.png");
     musicOff = loadImage("./assets/music-off.png");
+
+    soundEffectManager = new SoundEffectManager();
+
 
     spawnBugs();
     ripple = new Ripple(-100,-100,0,10,0);
@@ -40,7 +44,7 @@ function spawnBugs(){
 
     
     for (let i = 0; i < numBugs; i++) {
-        walkers.push(new BugSprite(bugWalking,bugTwitch,32,32,9,3,75,75,random(padding,windowWidth - padding),random(padding,windowHeight - padding), incScore ));
+        walkers.push(new BugSprite(bugWalking,bugTwitch,32,32,9,3,75,75,random(padding,windowWidth - padding),random(padding,windowHeight - padding), incScore, soundEffectManager ));
     }
 }
 
@@ -48,11 +52,9 @@ function spawnBugs(){
 var musicManager;
 var isMusicPlaying = false;
 
-var soundEffectManager;
 
 function setup(){
     musicManager = new MusicManager(isMusicPlaying);
-    soundEffectManager = new SoundEffectManager();
 
     musicManager.setup();
 

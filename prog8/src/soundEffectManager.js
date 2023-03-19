@@ -12,9 +12,24 @@ sounds.toDestination();
 class SoundEffectManager{
     sounds;
 
+    tapLock = false;
+    spacing = 0.1;
+
     setup(){}
 
+    aquireTap(){
+        if(this.tapLock){
+
+        }
+    }
+
     doSideTap(){
-        sounds.player("tap").start();
+        try{
+            sounds.player("tap").start("+0");
+        } catch(error){
+            // Expected output
+            // "Start time must be strictly greater than previous start time"
+            // console.log(error);
+        }
     }
 }
