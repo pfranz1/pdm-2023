@@ -249,7 +249,7 @@ const lowpassJSON = {
     "wet": 0.75
 };
 
-let gainMax = 0.65;
+let gainMax = 0.55;
 let gainMin = 0.35;
 
 let gainNode = new Tone.Gain(gainMax).toDestination();
