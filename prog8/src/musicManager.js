@@ -227,14 +227,18 @@ var synth = new Tone.PolySynth(Tone.Synth, {
         type : "sawtooth"
     }
     });
+  
+
+let lowpassMaxBaseFrequency = 200;
+let lowpassMinBaseFrequency = 120;
 
 // create effects
 var lowpassFilter = new Tone.AutoFilter();
 
 const lowpassJSON = {
-    "frequency" : 1,
+    "frequency" : 100,
     "type" : "sine",
-    "depth" : 0.5,
+    "depth" : 1,
     "baseFrequency" : 200,
     "octaves" : 2.6,
     "filter" : {
@@ -246,7 +250,7 @@ const lowpassJSON = {
 };
 
 let gainMax = 0.65;
-let gainMin = 0.25;
+let gainMin = 0.35;
 
 let gainNode = new Tone.Gain(gainMax).toDestination();
 
@@ -299,10 +303,12 @@ class MusicManager{
 
     onGameEnd(){
       gainNode.gain.rampTo(gainMin,0.1);
+      lowpassFilter.baseFrequency = lowpassMinBaseFrequency;
     }
 
     onGameStart(){
       gainNode.gain.rampTo(gainMax,0.1);
+      lowpassFilter.baseFrequency =lowpassMaxBaseFrequency;
     }
 
 

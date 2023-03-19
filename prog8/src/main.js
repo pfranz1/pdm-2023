@@ -12,7 +12,7 @@ let ripple;
 let gameScore = 0;
 let topScore = gameScore;
 
-let startTime = 30;
+let startTime = 5;
 let timeRemaining = startTime;
 
 
