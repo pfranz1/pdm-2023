@@ -9,10 +9,10 @@ let padding = 50;
 
 let ripple;
 
-let gameScore = 0;
+let gameScore = 2;
 let topScore = gameScore;
 
-let startTime = 5;
+let startTime = 30;
 let timeRemaining = startTime;
 
 
@@ -27,6 +27,7 @@ function preload(){
     bugWalking = loadImage("./assets/Water-Skipper.png");
     bugTwitch = loadImage("./assets/dead-skipper.png");
     scoreIcon = loadImage("./assets/crossed-skipper.png");
+    timeIcon = loadImage("./assets/time-icon.png");
     musicOn = loadImage("./assets/music-on.png");
     musicOff = loadImage("./assets/music-off.png");
 
@@ -142,11 +143,12 @@ function drawGame(){
 
     // Want the ripple not to cover text, but want bugs to crawl on text
     textSize(50);
-    textAlign(LEFT);
     fill(200,0,100);
-    text(gameScore, width-80,padding);
+    textAlign("RIGHT");
+    text(gameScore, width-110,padding);
 
     push();
+
     imageMode('corner');
     let iconPadding = 50;
     // Magic numbers <3
@@ -155,7 +157,16 @@ function drawGame(){
     image(scoreIcon,48,48);
     pop();
 
-    text(ceil(timeRemaining) + "T",width-100,padding+50);
+    push();
+    textAlign(RIGHT);
+    imageMode('corner');
+
+    translate(width-iconPadding - 20, 40);
+    scale(0.4);
+    image(timeIcon,48,48);
+    pop();
+
+    text(ceil(timeRemaining),width-110,padding+50);
     
 
     walkers.forEach( function (item,index){
