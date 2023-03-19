@@ -26,6 +26,7 @@ var soundEffectManager;
 function preload(){
     bugWalking = loadImage("./assets/Water-Skipper.png");
     bugTwitch = loadImage("./assets/dead-skipper.png");
+    scoreIcon = loadImage("./assets/crossed-skipper.png");
     musicOn = loadImage("./assets/music-on.png");
     musicOff = loadImage("./assets/music-off.png");
 
@@ -140,9 +141,19 @@ function drawGame(){
     ripple.draw();
 
     // Want the ripple not to cover text, but want bugs to crawl on text
-    textSize(50)
+    textSize(50);
+    textAlign(LEFT);
     fill(200,0,100);
-    text(gameScore + "S", width-100,padding);
+    text(gameScore, width-80,padding);
+
+    push();
+    imageMode('corner');
+    let iconPadding = 50;
+    // Magic numbers <3
+    translate(width-iconPadding - 32, -20);
+    scale(0.5);
+    image(scoreIcon,48,48);
+    pop();
 
     text(ceil(timeRemaining) + "T",width-100,padding+50);
     
