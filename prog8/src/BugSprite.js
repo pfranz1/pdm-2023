@@ -211,7 +211,8 @@ class BugSprite{
             if (this.moveSpeed == 0){
                 // this.revive();
             } else {
-                this.kill()
+                this.kill();
+                return true;
             }
 
         } else 
@@ -241,5 +242,6 @@ class BugSprite{
             // Turn opposite direction of tap
             this.facingDeg = 180 + (angleBetween - 90);
         }
+        return false;
     }
 }

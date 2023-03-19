@@ -12,7 +12,7 @@ let ripple;
 let gameScore = 0;
 let topScore = gameScore;
 
-let startTime = 5;
+let startTime = 30;
 let timeRemaining = startTime;
 
 
@@ -192,9 +192,15 @@ function drawScoreScreen(){
 function mouseReleased(){
     if(timeRemaining > 0){
         //TODO: read from bugs if a tap occurred and dont do ripple if so
+        
+        let squishedCounter = 0; 
         walkers.forEach( function (item,index){
-            item.tapOccurred(mouseX,mouseY);
+            squishedCounter += item.tapOccurred(mouseX,mouseY) ? 1 : 0;
         });
+
+        // console.log(" Squished " + squishedCounter);
+        
+        // console.log("did tap occur", didTapOccur);
 
         if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
             toggleMusic();
