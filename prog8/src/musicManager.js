@@ -245,11 +245,14 @@ const lowpassJSON = {
     "wet": 0.75
 };
 
-let gain = new Tone.Gain(0.65).toDestination();
+let gainMax = 0.65;
+let gainMin = 0.25;
+
+let gainNode = new Tone.Gain(gainMax).toDestination();
 
 lowpassFilter.set(lowpassJSON);
 
-lowpassFilter.connect(gain);
+lowpassFilter.connect(gainNode);
 synth.connect(lowpassFilter);
 
 var hasToneInit = false;
@@ -292,6 +295,14 @@ class MusicManager{
             Tone.Transport.start();
             hasToneInit = true;
         }
+    }
+
+    onGameEnd(){
+      gainNode.gain.rampTo(gainMin,0.1);
+    }
+
+    onGameStart(){
+      gainNode.gain.rampTo(gainMax,0.1);
     }
 
 

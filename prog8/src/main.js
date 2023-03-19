@@ -12,7 +12,7 @@ let ripple;
 let gameScore = 0;
 let topScore = gameScore;
 
-let startTime = 30;
+let startTime = 5;
 let timeRemaining = startTime;
 
 
@@ -89,6 +89,7 @@ function endGame(){
     timeRemaining = -1;
     print("end game");
     topScore = max(gameScore, topScore);
+    musicManager.onGameEnd();
     drawScoreScreen();
     // spawnBugs();
 }
@@ -96,6 +97,7 @@ function endGame(){
 function startGame(){
     gameScore = 0;
     timeRemaining = startTime;
+    musicManager.onGameStart();
     spawnBugs();
 }
 
