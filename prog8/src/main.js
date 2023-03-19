@@ -12,7 +12,7 @@ let ripple;
 let gameScore = 0;
 let topScore = gameScore;
 
-let startTime = 30;
+let startTime = 5;
 let timeRemaining = startTime;
 
 
@@ -37,7 +37,7 @@ function spawnBugs(){
 
     
     for (let i = 0; i < numBugs; i++) {
-        walkers.push(new BugSprite(bugWalking,bugTwitch,32,32,9,3,75,75,random(padding,canvasWidth - padding),random(padding,canvasHeight - padding), incScore ));
+        walkers.push(new BugSprite(bugWalking,bugTwitch,32,32,9,3,75,75,random(padding,windowWidth - padding),random(padding,windowHeight - padding), incScore ));
     }
 }
 
@@ -49,11 +49,32 @@ function setup(){
     musicManager = new MusicManager(true);
 
     musicManager.setup();
-    createCanvas(canvasWidth,canvasHeight);
+    cnv = createCanvas(windowWidth,windowHeight);
+    cnv.style('display', 'block');
+
+    centerCanvas();
     imageMode(CENTER);
     colorMode('hsb');
 }
 
+function centerCanvas() {
+    var x = (windowWidth - width) / 2;
+    var y = (windowHeight - height) / 2;
+    cnv.position(x, y);
+    cnv.style('display', 'block');
+
+  }
+
+
+function windowResized() {
+    if(hasButtonInit){
+        button.remove();
+        hasButtonInit = false;
+    }
+
+    resizeCanvas(windowWidth, windowHeight);
+    centerCanvas();
+  }
 
 function endGame(){
     timeRemaining = -1;
@@ -72,7 +93,7 @@ function startGame(){
 function draw(){
 
     if(timeRemaining == -1){
-        // drawScoreScreen();
+        drawScoreScreen();
     } else {
         background(236,70,100);
 
@@ -104,6 +125,10 @@ function drawGame(){
     });
 }
 
+var button;
+
+var hasButtonInit = false;
+
 function drawScoreScreen(){
     background(236,70,100);
 
@@ -114,20 +139,24 @@ function drawScoreScreen(){
     textAlign('center');
 
     textSize(48);
-    text("Game Over!", canvasWidth / 2, textStartY);
+    text("Game Over!", windowWidth / 2, textStartY);
 
     textSize(32);
-    text("Score: " + gameScore, (canvasWidth / 2), (textStartY)+40)
+    text("Score: " + gameScore, (windowWidth / 2), (textStartY)+40)
 
 
     textSize(32);
-    text("Top: " + topScore, (canvasWidth / 2), (textStartY)+80)
+    text("Top: " + topScore, (windowWidth / 2), (textStartY)+80)
 
 
-    button = createButton('Again!');
-    button.position((canvasWidth / 2) - 75, (textStartY) + 240 );
-    button.size(150);
-    button.mousePressed( ()=>  {button.remove(); startGame();});
+    if(hasButtonInit == false){
+        hasButtonInit = true;
+        button = createButton('Again!');
+        button.position((windowWidth / 2) - 75, (textStartY) + 240 );
+        button.size(150);
+        button.mousePressed( ()=>  { hasButtonInit = false; button.remove(); startGame();});
+    }
+
 
 
     pop();
