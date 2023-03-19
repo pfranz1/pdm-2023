@@ -10,7 +10,7 @@ var lowpassFilter = new Tone.AutoFilter();
 const lowpassJSON = {
 	"frequency" : 1,
 	"type" : "sine",
-	"depth" : 1,
+	"depth" : 0.5,
 	"baseFrequency" : 200,
 	"octaves" : 2.6,
 	"filter" : {
@@ -18,7 +18,7 @@ const lowpassJSON = {
 		"rolloff" : -12,
 		"Q" : 1
 	},
-    "wet": 0.5
+    "wet": 0.75
 };
 
 lowpassFilter.set(lowpassJSON);
@@ -87,39 +87,40 @@ const CChordE = {nextChord:makeWeightedRandom([['CChordE',0],
                                               ['GChordE',2],
                                               ['AmChordE',1],
                                               ['FChordE',2],
-                                              ]), id:"CChordE",value:['C4','E4','G4']};
+                                              ]), id:"CChordE",value:['C3','C4','E4','G4','B5']};
 const GChordE = {nextChord: makeWeightedRandom([['CChordE',1],
                                               ['GChordE',0],
                                               ['AmChordE',2],
                                               ['FChordE',2],
                                               ['EmChordE',3],
                                               ['restE',0],
-                                              ]), id:"GChordE",value:['G3','B4','D4']};
+                                              ]), id:"GChordE",value:['G2','G3','B4','D4','F4']};
 const AmChordE = {nextChord: makeWeightedRandom([['CChordE',1],
                                               ['GChordE',2],
                                               ['AmChordE',0],
                                               ['FChordE',3],
                                               ['DChordE',1],
-                                              ]), id:"AmChordE",value:['A4','C4','E4']};
+                                              ]), id:"AmChordE",value:['A3','A4','C4','E4','G4']};
 const FChordE = {nextChord: makeWeightedRandom([['CChordE',2],
                                               ['GChordE',1],
                                               ['AmChordE',1],
                                               ['FChordE',0],
                                               ['restE',0],
-                                              ]), id:"FChordE",value:['F3','A4','C4']};
+                                              ]), id:"FChordE",value:['F2','F3','A4','C4','E4']};
                                               
 const EmChordE = {nextChord: makeWeightedRandom([['CChordE',0],
                                                 ['GChordE',0],
                                                 ['AmChordE',1],
                                                 ['FChordE',0],
                                                 ['DChordE',1]
-                                                ]), id:"EmChordE",value:['E3','G3','B4']};
+                                                ]), id:"EmChordE",value:['E2','E3','G3','B4','D4']};
 
 const DChordE = {nextChord: makeWeightedRandom([['DChordE',0],
                                                 ['GChordE',1],
                                                 ['AmChordE',0],
                                                 ['FChordE',0],
-                                                ]), id:"DChordE",value:['D3','F#3','A4']};
+                                                ['CChordE',1],
+                                                ]), id:"DChordE",value:['D2','D3','F#3','A4','C4']};
 
 const restE = {nextChord: makeWeightedRandom([['CChordE',1],
                                               ['GChordE',0],
@@ -232,7 +233,7 @@ function getNextPattern(){
     currentPatternRepeat = currentPatternRepeat - 2;
   } else {
     currentPattern = patternMap[currentPattern.next()];
-    currentPatternRepeat = random([1,1,1,1,2,2,3]);
+    currentPatternRepeat = random([1,1,1,1,1,2,2,2,2]);
   }
 
   return currentPattern;
@@ -398,10 +399,10 @@ function setup() {
       if(v != -1){
           // if(hasToneInit == false) {Tone.start(); hasToneInit = true};
           sequence2.start();
-          mainMelodyPart.start();
+          // mainMelodyPart.start();
       } else {
         sequence2.stop();
-        mainMelodyPart.stop();
+        // mainMelodyPart.stop();
 
       }    
   });
