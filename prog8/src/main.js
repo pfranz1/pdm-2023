@@ -189,6 +189,15 @@ function drawScoreScreen(){
     pop();
 }
 
+function checkMusicToggle(){
+    if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
+        toggleMusic();
+        return true;
+    } 
+
+    return false;
+}
+
 function mouseReleased(){
     if(timeRemaining > 0){
         //TODO: read from bugs if a tap occurred and dont do ripple if so
@@ -198,21 +207,15 @@ function mouseReleased(){
             squishedCounter += item.tapOccurred(mouseX,mouseY) ? 1 : 0;
         });
 
-        // console.log(" Squished " + squishedCounter);
-        
-        // console.log("did tap occur", didTapOccur);
-
-        if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
-            toggleMusic();
-        } else {
+        // If it wasn't the music being toggled
+        if(checkMusicToggle() == false) {
+            // Create new ripple
             // print("new ripple created at ", mouseX,mouseY);
             ripple = new Ripple(mouseX,mouseY,50,150,50);
             soundEffectManager.doSplash();
         }
     } else {
-        if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
-            toggleMusic();
-        }
+        checkMusicToggle();
     }
 
 }
