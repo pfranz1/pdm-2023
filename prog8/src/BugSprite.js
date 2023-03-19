@@ -14,7 +14,8 @@ class BugSprite{
 
     static squishTimeout = 50;
 
-    static glideTimeout = 5;
+    static minGlideTimeout = 5;
+    static maxGlideTimeout = 15;
 
     static minScale = 0.8;
 
@@ -139,7 +140,10 @@ class BugSprite{
             } else {
                 this.currentFrame++;
                 if(this.currentFrame % this.numAnimationFramesLiving == 0){
-                    this.glideTimer = BugSprite.glideTimeout;
+                    
+
+                    
+                    this.glideTimer = Math.min(BugSprite.maxGlideTimeout, Math.max( BugSprite.minGlideTimeout / (this.moveSpeed / (BugSprite.maxFleeSpeed)), BugSprite.minGlideTimeout));
                 }
             }
         }
