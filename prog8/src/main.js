@@ -167,11 +167,11 @@ function drawScoreScreen(){
     text("Game Over!", windowWidth / 2, textStartY);
 
     textSize(32);
-    text("Score: " + gameScore, (windowWidth / 2), (textStartY)+40)
+    text("Score: " + gameScore, (windowWidth / 2), (textStartY)+60)
 
 
     textSize(32);
-    text("Top: " + topScore, (windowWidth / 2), (textStartY)+80)
+    text("Top: " + topScore, (windowWidth / 2), (textStartY)+100)
 
 
     if(hasButtonInit == false){
@@ -188,20 +188,24 @@ function drawScoreScreen(){
 }
 
 function mouseReleased(){
-    //TODO: read from bugs if a tap occurred and dont do ripple if so
-    walkers.forEach( function (item,index){
-        item.tapOccurred(mouseX,mouseY);
-    });
+    if(timeRemaining > 0){
+        //TODO: read from bugs if a tap occurred and dont do ripple if so
+        walkers.forEach( function (item,index){
+            item.tapOccurred(mouseX,mouseY);
+        });
 
-    if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
-        toggleMusic();
+        if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
+            toggleMusic();
+        } else {
+            // print("new ripple created at ", mouseX,mouseY);
+            ripple = new Ripple(mouseX,mouseY,50,150,50);
+            soundEffectManager.doSplash();
+        }
     } else {
-        // print("new ripple created at ", mouseX,mouseY);
-        ripple = new Ripple(mouseX,mouseY,50,150,50);
+        if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
+            toggleMusic();
+        }
     }
-
-
-
 
 }
 

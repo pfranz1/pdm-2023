@@ -4,7 +4,8 @@ let sounds = new Tone.Players({
     "mid": "sounds/mid.wav",
     "high": "sounds/high.wav",
     "applause":"sounds/applause.wav",
-    "tap":"sounds/lightTap.wav"
+    "tap":"sounds/lightTap.wav",
+    "splash":"sounds/splash.wav"
   });
 
 sounds.toDestination();
@@ -31,5 +32,9 @@ class SoundEffectManager{
             // "Start time must be strictly greater than previous start time"
             // console.log(error);
         }
+    }
+
+    doSplash(){
+        sounds.player("splash").start("+0");
     }
 }
