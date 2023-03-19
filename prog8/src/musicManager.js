@@ -294,13 +294,11 @@ class MusicManager{
 
 
     setup(){
-
-        
-        var playButton = new Nexus.RadioButton('#playButton',{
-            'size': [120,25],
-            'numberOfButtons': 1,
-            'active': this.isMusicOn ? 0 : -1,
-          });
+        // var playButton = new Nexus.RadioButton('#playButton',{
+        //     'size': [120,25],
+        //     'numberOfButtons': 1,
+        //     'active': this.isMusicOn ? 0 : -1,
+        //   });
 
         this.mainLoop = new Tone.Loop((time)=>{
             console.log(`=======Chord at ${time}=======`)
@@ -385,16 +383,29 @@ class MusicManager{
           Tone.Transport.bpm.value = 150;
 
 
-          playButton.on('change',(v) => {
-            if(v != -1){
-                this.onUserTouch();
-                this.mainLoop.start();
-                // mainMelodyPart.start();
-            } else {
-                this.mainLoop.stop();
-              // mainMelodyPart.stop();
+        //   playButton.on('change',(v) => {
+        //     if(v != -1){
+        //         this.onUserTouch();
+        //         this.mainLoop.start();
+        //         // mainMelodyPart.start();
+        //     } else {
+        //         this.mainLoop.stop();
+        //       // mainMelodyPart.stop();
       
-            }    
-        });
+        //     }    
+        // });
+    }
+
+    onPlayMusicToggle(){
+        if(this.isMusicOn){
+            // stop playing music
+            this.mainLoop.stop();
+        } else {
+            //start playing music
+            this.onUserTouch();
+            this.mainLoop.start();
+        }
+
+        this.isMusicOn = !this.isMusicOn;
     }
 }

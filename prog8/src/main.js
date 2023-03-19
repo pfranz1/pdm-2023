@@ -12,7 +12,7 @@ let ripple;
 let gameScore = 0;
 let topScore = gameScore;
 
-let startTime = 5;
+let startTime = 30;
 let timeRemaining = startTime;
 
 
@@ -24,6 +24,8 @@ function incScore(){
 function preload(){
     bugWalking = loadImage("./assets/Water-Skipper.png");
     bugTwitch = loadImage("./assets/dead-skipper.png");
+    musicOn = loadImage("./assets/music-on.png");
+    musicOff = loadImage("./assets/music-off.png");
 
     spawnBugs();
     ripple = new Ripple(-100,-100,0,10,0);
@@ -43,10 +45,11 @@ function spawnBugs(){
 
 
 var musicManager;
+var isMusicPlaying = false;
 
 function setup(){
 
-    musicManager = new MusicManager(true);
+    musicManager = new MusicManager(isMusicPlaying);
 
     musicManager.setup();
     cnv = createCanvas(windowWidth,windowHeight);
@@ -91,11 +94,13 @@ function startGame(){
 }
 
 function draw(){
-
     if(timeRemaining == -1){
         drawScoreScreen();
+        drawMusicIcon();
+
     } else {
         background(236,70,100);
+        drawMusicIcon();
 
 
         timeRemaining -= deltaTime / 1000;
@@ -105,8 +110,22 @@ function draw(){
             drawGame();
         }
     }
+
 }
 
+var soundToggleSize = 50;
+
+function drawMusicIcon(){
+    push();
+    imageMode("corner");
+    image(isMusicPlaying ? musicOn : musicOff,0,0,soundToggleSize,soundToggleSize);
+    pop();
+}
+
+function toggleMusic(){
+    isMusicPlaying = !isMusicPlaying;
+    musicManager.onPlayMusicToggle();
+}
 
 function drawGame(){
     // print('draw ripple');
@@ -168,8 +187,15 @@ function mouseReleased(){
         item.tapOccurred(mouseX,mouseY);
     });
 
-    // print("new ripple created at ", mouseX,mouseY);
-    ripple = new Ripple(mouseX,mouseY,50,150,50);
+    if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
+        toggleMusic();
+    } else {
+        // print("new ripple created at ", mouseX,mouseY);
+        ripple = new Ripple(mouseX,mouseY,50,150,50);
+    }
+
+
+
 
 }
 
