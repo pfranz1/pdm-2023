@@ -42,9 +42,13 @@ function spawnBugs(){
 }
 
 
-
+var musicManager;
 
 function setup(){
+
+    musicManager = new MusicManager(true);
+
+    musicManager.setup();
     createCanvas(canvasWidth,canvasHeight);
     imageMode(CENTER);
     colorMode('hsb');
