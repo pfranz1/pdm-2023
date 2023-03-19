@@ -115,9 +115,9 @@ function drawGame(){
     // Want the ripple not to cover text, but want bugs to crawl on text
     textSize(50)
     fill(200,0,100);
-    text("Score: " + gameScore, 10,padding);
+    text(gameScore + "S", width-100,padding);
 
-    text("Time: " + ceil(timeRemaining),width-200,padding);
+    text(ceil(timeRemaining) + "T",width-100,padding+50);
     
 
     walkers.forEach( function (item,index){
