@@ -5,7 +5,9 @@ let sounds = new Tone.Players({
     "high": "sounds/high.wav",
     "applause":"sounds/applause.wav",
     "tap":"sounds/lightTap.wav",
-    "splash":"sounds/splash.wav"
+    "splash":"sounds/splash.wav",
+    "death":"sounds/final-squeak.wav",
+    "escape":"sounds/escape-squeak.wav"
   });
 
 sounds.toDestination();
@@ -36,5 +38,26 @@ class SoundEffectManager{
 
     doSplash(){
         sounds.player("splash").start("+0");
+    }
+
+
+    doDeathSound(){
+        try{
+            sounds.player("death").start("+0");
+        } catch(error){
+            // Expected output
+            // "Start time must be strictly greater than previous start time"
+            // console.log(error);
+        }
+    }
+
+    doEscapeSound(){
+        try{
+            sounds.player("escape").start("+0");
+        } catch(error){
+            // Expected output
+            // "Start time must be strictly greater than previous start time"
+            // console.log(error);
+        }
     }
 }

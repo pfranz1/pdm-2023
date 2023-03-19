@@ -192,6 +192,8 @@ class BugSprite{
         this.isSquished = true;
         this.moveSpeed = 0;
         this.squishTimer = BugSprite.squishTimeout;
+
+        this.soundEffectManager.doDeathSound();
         
         this.onSquish();
     }
@@ -217,6 +219,13 @@ class BugSprite{
         
         if (distToBug < this.detectionRadius && this.moveSpeed != 0){
             this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed +  BugSprite.maxFleeSpeed* max(0.25,1 - distToBug / this.detectionRadius));
+
+            if(distToBug / this.detectionRadius < 0.25){
+                this.soundEffectManager.doEscapeSound();
+            }
+
+            // if (Math.random() > distToBug / this.detectionRadius){
+            // };
 
             this.fleeCounter += BugSprite.fleeLength;
             // print("MS", this.moveSpeed);
