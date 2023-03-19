@@ -188,7 +188,7 @@ function drawScoreScreen(){
 
     pop();
 }
-
+// This function has the side effect of toggling the music on or off
 function checkMusicToggle(){
     if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
         toggleMusic();
@@ -207,8 +207,8 @@ function mouseReleased(){
             squishedCounter += item.tapOccurred(mouseX,mouseY) ? 1 : 0;
         });
 
-        // If it wasn't the music being toggled
-        if(checkMusicToggle() == false) {
+        // If it wasn't the music being toggled and no bugs were squished
+        if(checkMusicToggle() == false && squishedCounter <=  0) {
             // Create new ripple
             // print("new ripple created at ", mouseX,mouseY);
             ripple = new Ripple(mouseX,mouseY,50,150,50);
