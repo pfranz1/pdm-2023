@@ -5,7 +5,7 @@ let sounds = new Tone.Players({
     "high": "sounds/high.wav",
     "applause":"sounds/applause.wav",
     "tap":"sounds/lightTap.wav",
-    "splash":"sounds/splash.wav",
+    "splash":"sounds/big-splash.wav",
     "death":"sounds/final-squeak.wav",
     "escape":"sounds/escape-squeak.wav"
   });
