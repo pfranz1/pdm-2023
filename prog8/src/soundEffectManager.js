@@ -1,19 +1,20 @@
 
+let sounds = new Tone.Players({
+    "low": "sounds/low.wav",
+    "mid": "sounds/mid.wav",
+    "high": "sounds/high.wav",
+    "applause":"sounds/applause.wav",
+    "tap":"sounds/lightTap.wav"
+  });
 
+sounds.toDestination();
 
 class SoundEffectManager{
     sounds;
 
-    setup(){
-        this.sounds = new Tone.Players({
-            "tap": "sounds/dull-tap.wav",  
-          });
-        
-          this.sounds.toDestination();
-    }
+    setup(){}
 
     doSideTap(){
-
-        this.sounds.player("tap").start();
+        sounds.player("tap").start();
     }
 }

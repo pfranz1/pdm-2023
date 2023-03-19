@@ -16,13 +16,6 @@ let startTime = 5;
 let timeRemaining = startTime;
 
 
-let sounds = new Tone.Players({
-    "low": "sounds/low.wav",
-    "mid": "sounds/mid.wav",
-    "high": "sounds/high.wav",
-    "applause":"sounds/applause.wav",
-    "tap":"sounds/lightTap.wav"
-  });
 
 function incScore(){
     gameScore++;
@@ -62,7 +55,6 @@ function setup(){
     soundEffectManager = new SoundEffectManager();
 
     musicManager.setup();
-    sounds.toDestination();
 
     cnv = createCanvas(windowWidth,windowHeight);
     cnv.style('display', 'block');
