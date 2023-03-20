@@ -54,6 +54,7 @@ function spawnBugs(){
 var musicManager;
 var isMusicPlaying = false;
 
+var showStartScreen = true;
 
 function setup(){
     musicManager = new MusicManager(isMusicPlaying);
@@ -104,7 +105,11 @@ function startGame(){
 }
 
 function draw(){
-    if(timeRemaining == -1){
+    if(showStartScreen){
+        drawStartScreen();
+        drawMusicIcon();
+    } 
+    else if(timeRemaining == -1){
         drawScoreScreen();
         drawMusicIcon();
 
@@ -210,6 +215,37 @@ function drawScoreScreen(){
 
     pop();
 }
+
+function drawStartScreen(){
+    background(236,70,100);
+
+    push();
+    fill(200,0,100);
+
+    let textStartY = canvasHeight * 0.30; 
+
+    textAlign('center');
+
+    textSize(48);
+    text("Bug Squish", windowWidth / 2, textStartY);
+
+    textSize(32);
+    text("By: Peter Franz ", (windowWidth / 2), (textStartY)+60)
+
+    if(hasButtonInit == false){
+        hasButtonInit = true;
+        button = createButton('Start');
+        button.position((windowWidth / 2) - 75, (textStartY) + 240 );
+        button.size(150);
+        button.mousePressed( ()=>  { hasButtonInit = false; button.remove(); showStartScreen = false; startGame();});
+    }
+
+    walkers.forEach( function (item,index){
+        item.draw();
+    });
+
+    pop();
+}
 // This function has the side effect of toggling the music on or off
 function checkMusicToggle(){
     if(mouseX < soundToggleSize && mouseY  < soundToggleSize){
@@ -221,7 +257,7 @@ function checkMusicToggle(){
 }
 
 function mouseReleased(){
-    if(timeRemaining > 0){
+    if(timeRemaining > 0 && showStartScreen == false){
         //TODO: read from bugs if a tap occurred and dont do ripple if so
         
         let squishedCounter = 0; 
