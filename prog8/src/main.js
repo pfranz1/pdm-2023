@@ -259,10 +259,14 @@ function checkMusicToggle(){
 function mouseReleased(){
     if(timeRemaining > 0 && showStartScreen == false){
         //TODO: read from bugs if a tap occurred and dont do ripple if so
+
+        var didEscape = false;
         
         let squishedCounter = 0; 
         walkers.forEach( function (item,index){
-            squishedCounter += item.tapOccurred(mouseX,mouseY) ? 1 : 0;
+            tapResult = item.tapOccurred(mouseX,mouseY);
+            squishedCounter += tapResult == "squish" ? 1 : 0;
+            didEscape = didEscape || tapResult == "escape"
         });
 
         // If it wasn't the music being toggled and no bugs were squished
@@ -271,6 +275,10 @@ function mouseReleased(){
             // print("new ripple created at ", mouseX,mouseY);
             ripple = new Ripple(mouseX,mouseY,50,150,50);
             soundEffectManager.doSplash();
+
+            if(didEscape){
+                soundEffectManager.doEscapeSound();
+            }
         }
     } else {
         checkMusicToggle();

@@ -16,15 +16,9 @@ class SoundEffectManager{
     sounds;
 
     tapLock = false;
-    spacing = 0.1;
 
     setup(){}
 
-    aquireTap(){
-        if(this.tapLock){
-
-        }
-    }
 
     doSideTap(){
         try{

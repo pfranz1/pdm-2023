@@ -216,7 +216,7 @@ class BugSprite{
                 // this.revive();
             } else {
                 this.kill();
-                return true;
+                return "squish";
             }
 
         } else 
@@ -225,9 +225,7 @@ class BugSprite{
         if (distToBug < this.detectionRadius && this.moveSpeed != 0){
             this.moveSpeed = min(BugSprite.maxFleeSpeed, this.moveSpeed +  BugSprite.maxFleeSpeed* max(0.25,1 - distToBug / this.detectionRadius));
 
-            if(distToBug / this.detectionRadius < 0.25){
-                this.soundEffectManager.doEscapeSound();
-            }
+
 
             // if (Math.random() > distToBug / this.detectionRadius){
             // };
@@ -245,7 +243,11 @@ class BugSprite{
 
             // Turn opposite direction of tap
             this.facingDeg = 180 + (angleBetween - 90);
+
+            if(distToBug / this.detectionRadius < 0.25){
+                return "escape"
+            }
         }
-        return false;
+        return "miss";
     }
 }
