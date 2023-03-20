@@ -259,6 +259,9 @@ lowpassFilter.set(lowpassJSON);
 lowpassFilter.connect(gainNode);
 synth.connect(lowpassFilter);
 
+let bpmMax = 250;
+let bpmMin = 130;
+
 var hasToneInit = false;
 
 class MusicManager{
@@ -304,11 +307,14 @@ class MusicManager{
     onGameEnd(){
       gainNode.gain.rampTo(gainMin,0.1);
       lowpassFilter.baseFrequency = lowpassMinBaseFrequency;
+      Tone.Transport.bpm.value= bpmMin;
     }
 
     onGameStart(){
       gainNode.gain.rampTo(gainMax,0.1);
       lowpassFilter.baseFrequency =lowpassMaxBaseFrequency;
+      Tone.Transport.bpm.value= bpmMin;
+      Tone.Transport.bpm.rampTo(bpmMax,30);
     }
 
 
@@ -399,7 +405,7 @@ class MusicManager{
             // console.log(next.id);
           },"1m");
 
-          Tone.Transport.bpm.value = 150;
+          Tone.Transport.bpm.value = bpmMin;
 
 
         //   playButton.on('change',(v) => {
