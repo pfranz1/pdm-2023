@@ -6,7 +6,7 @@ let sensorData = {};
 const encoder = new TextEncoder();
 const decorder = new TextDecoder();
 
-let activationState = { active: false };
+let activationState = { led1: true, led2:true,led3:true };
 
 function setup() {
   createCanvas(400, 400);
@@ -27,7 +27,7 @@ function setup() {
 
 function keyTyped() {
   if (key === 'a') {
-    activationState.active = !activationState.active;
+    activationState.led1 = !activationState.led1;
     serialWrite(activationState);
   }
 }
@@ -45,10 +45,10 @@ function draw() {
     serialRead();
   }
 
-  if (activationState.active) {
-    text("cm: " + sensorData.cm, 10, 100);
-    text("inches: " + sensorData.inches, 10, 150);
-  }
+  // if (activationState.active) {
+  //   text("cm: " + sensorData.cm, 10, 100);
+  //   text("inches: " + sensorData.inches, 10, 150);
+  // }
 
 }
 
@@ -75,12 +75,12 @@ async function connect() {
 
   await port.open({ baudRate: 9600 });
 
-  writer = port.writable.getWriter();
+  // writer = port.writable.getWriter();
 
-  reader = port.readable
-    .pipeThrough(new TextDecoderStream())
-    .pipeThrough(new TransformStream(new LineBreakTransformer()))
-    .getReader();
+  // reader = port.readable
+  //   .pipeThrough(new TextDecoderStream())
+  //   .pipeThrough(new TransformStream(new LineBreakTransformer()))
+  //   .getReader();
 }
 
 class LineBreakTransformer {
