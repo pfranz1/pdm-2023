@@ -19,10 +19,6 @@ function setup() {
     button.position(0,0);
     button.mousePressed(connect);
 
-    slider = createSlider(0, 255, 127);
-    slider.position(10,50);
-    slider.style('width', '100px');
-    
 
     let startY = 75;
     let startX = 75;
