@@ -16,26 +16,8 @@ function setup() {
   if ("serial" in navigator) {
     // The Web Serial API is supported.
     let button = createButton("connect");
-    button.position(0,0);
+    button.position(175,75);
     button.mousePressed(connect);
-
-
-    let startY = 75;
-    let startX = 75;
-    let xSpacing = 100;
-    
-    button = createButton('toggle 1');
-    button.position(startX , startY);
-    button.mousePressed(()=>toggleLedStatus(1));
-
-
-    button = createButton('toggle 2');
-    button.position(startX + xSpacing, startY);
-    button.mousePressed(()=>toggleLedStatus(2));
-
-    button = createButton('toggle 3');
-    button.position(startX + xSpacing * 2, startY);
-    button.mousePressed(()=>toggleLedStatus(3));
   }
 }
 
@@ -62,12 +44,6 @@ function keyTyped() {
     console.log("Writing json to serial", JSON.stringify(activationState));
     serialWrite(activationState);
   }
-}
-
-function mouseMoved() {
-  red = round(map(mouseX,0,width,0,255));
-  green = round(map(mouseY,0,height,0,255));
-  blue = slider.value();
 }
 
 function draw() {
@@ -113,6 +89,23 @@ async function connect() {
     .pipeThrough(new TextDecoderStream())
     .pipeThrough(new TransformStream(new LineBreakTransformer()))
     .getReader();
+
+    let startY = 75;
+    let startX = 75;
+    let xSpacing = 100;
+    
+    button = createButton('toggle 1');
+    button.position(startX , startY);
+    button.mousePressed(()=>toggleLedStatus(1));
+
+
+    button = createButton('toggle 2');
+    button.position(startX + xSpacing, startY);
+    button.mousePressed(()=>toggleLedStatus(2));
+
+    button = createButton('toggle 3');
+    button.position(startX + xSpacing * 2, startY);
+    button.mousePressed(()=>toggleLedStatus(3));
 }
 
 class LineBreakTransformer {
