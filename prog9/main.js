@@ -21,8 +21,39 @@ function setup() {
 
     slider = createSlider(0, 255, 127);
     slider.position(10,50);
-    slider.style('width', '100px'); 
+    slider.style('width', '100px');
+    
+
+    let startY = 75;
+    let startX = 75;
+    let xSpacing = 100;
+    
+    button = createButton('toggle 1');
+    button.position(startX , startY);
+    button.mousePressed(()=>toggleLedStatus(1));
+
+
+    button = createButton('toggle 2');
+    button.position(startX + xSpacing, startY);
+    button.mousePressed(()=>toggleLedStatus(2));
+
+    button = createButton('toggle 3');
+    button.position(startX + xSpacing * 2, startY);
+    button.mousePressed(()=>toggleLedStatus(3));
   }
+}
+
+function toggleLedStatus(ledIndex){
+  if(ledIndex == 1){
+    activationState.led1 = !activationState.led1;
+  } else if(ledIndex == 2){
+    activationState.led2 = !activationState.led2;
+  } else if(ledIndex == 3){
+    activationState.led3 = !activationState.led3;
+  }
+
+  serialWrite(activationState);
+
 }
 
 function keyTyped() {
