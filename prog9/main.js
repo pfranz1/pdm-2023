@@ -28,6 +28,11 @@ function setup() {
 function keyTyped() {
   if (key === 'a') {
     activationState.led1 = !activationState.led1;
+    activationState.led2 = !activationState.led2;
+    activationState.led3 = !activationState.led3;
+
+
+    console.log("Writing json to serial", JSON.stringify(activationState));
     serialWrite(activationState);
   }
 }
@@ -75,12 +80,12 @@ async function connect() {
 
   await port.open({ baudRate: 9600 });
 
-  // writer = port.writable.getWriter();
+  writer = port.writable.getWriter();
 
-  // reader = port.readable
-  //   .pipeThrough(new TextDecoderStream())
-  //   .pipeThrough(new TransformStream(new LineBreakTransformer()))
-  //   .getReader();
+  reader = port.readable
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new TransformStream(new LineBreakTransformer()))
+    .getReader();
 }
 
 class LineBreakTransformer {
