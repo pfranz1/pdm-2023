@@ -53,6 +53,14 @@ function draw() {
     serialRead();
   }
 
+  if(sensorData.potPercent != null){
+
+    let circleRadius = (sensorData.potPercent / 100) * 250;
+
+    circle(200,250,circleRadius);
+  }
+
+
   // if (activationState.active) {
   //   text("cm: " + sensorData.cm, 10, 100);
   //   text("inches: " + sensorData.inches, 10, 150);
@@ -106,6 +114,8 @@ async function connect() {
     button = createButton('toggle 3');
     button.position(startX + xSpacing * 2, startY);
     button.mousePressed(()=>toggleLedStatus(3));
+
+    sensorData.potPercent = 50;
 }
 
 class LineBreakTransformer {
