@@ -16,6 +16,10 @@ let startTime = 30;
 let timeRemaining = startTime;
 
 
+let hoverXPos = 300;
+let hoverYPos = 1000;
+let hoverDiameter = 100;
+
 
 function incScore(){
     gameScore++;
@@ -177,6 +181,11 @@ function drawGame(){
     walkers.forEach( function (item,index){
         item.draw();
     });
+
+    push();
+    fill(50,25,0,0.5);
+    circle(hoverXPos,hoverYPos,hoverDiameter);
+    pop();
 }
 
 var button;
