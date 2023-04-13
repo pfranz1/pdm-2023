@@ -20,6 +20,12 @@ let hoverXPos = 300;
 let hoverYPos = 1000;
 let hoverDiameter = 100;
 
+let connected = false;
+const encoder = new TextEncoder();
+const decorder = new TextDecoder();
+let writer, reader;
+let sensorData = {};
+
 
 function incScore(){
     gameScore++;
@@ -147,6 +153,18 @@ function toggleMusic(){
 }
 
 function drawGame(){
+    if (reader) {
+        serialRead();
+    }
+    // {"xChange":0,"yChange":0,"didTap":false}
+
+    
+    if(sensorData.didTap != null && sensorData.didTap){
+        console.log("TAP");
+        sensorData.didTap = false;
+    }
+    
+
     // print('draw ripple');
     ripple.draw();
 
@@ -225,6 +243,37 @@ function drawScoreScreen(){
     pop();
 }
 
+async function serialRead() {
+    while(true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        reader.releaseLock();
+        break;
+      }
+      console.log(value);
+      sensorData = JSON.parse(value);
+    }
+}
+
+async function connect() {
+    Tone.start();
+
+    port = await navigator.serial.requestPort();
+
+    await port.open({ baudRate: 9600 });
+
+    writer = port.writable.getWriter();
+
+    reader = port.readable
+        .pipeThrough(new TextDecoderStream())
+        .pipeThrough(new TransformStream(new LineBreakTransformer()))
+        .getReader();
+    
+    connected = true;
+    hasButtonInit = false;
+
+}
+
 function drawStartScreen(){
     background(236,70,100);
 
@@ -242,11 +291,19 @@ function drawStartScreen(){
     text("By: Peter Franz ", (windowWidth / 2), (textStartY)+60)
 
     if(hasButtonInit == false){
-        hasButtonInit = true;
-        button = createButton('Start');
-        button.position((windowWidth / 2) - 75, (textStartY) + 240 );
-        button.size(150);
-        button.mousePressed( ()=>  { hasButtonInit = false; button.remove(); showStartScreen = false; startGame();});
+        if ("serial" in navigator && connected == false) {
+            hasButtonInit = true;
+            // The Web Serial API is supported.
+            let button = createButton("Connect");
+            button.position((windowWidth / 2) - 75, (textStartY) + 240 );
+            button.mousePressed(()=>{button.remove();connect();});
+        } else {
+            hasButtonInit = true;
+            button = createButton('Start');
+            button.position((windowWidth / 2) - 75, (textStartY) + 240 );
+            button.size(150);
+            button.mousePressed( ()=>  { hasButtonInit = false; button.remove(); showStartScreen = false; startGame();});
+        }
     }
 
     walkers.forEach( function (item,index){
@@ -307,3 +364,25 @@ function keyReleased(){
     //     item.keyReleased();
     // });
 }
+
+
+class LineBreakTransformer {
+    constructor() {
+      // A container for holding stream data until a new line.
+      this.chunks = "";
+    }
+  
+    transform(chunk, controller) {
+      // Append new chunks to existing chunks.
+      this.chunks += chunk;
+      // For each line breaks in chunks, send the parsed lines out.
+      const lines = this.chunks.split("\n");
+      this.chunks = lines.pop();
+      lines.forEach((line) => controller.enqueue(line));
+    }
+  
+    flush(controller) {
+      // When the stream is closed, flush any remaining chunks out.
+      controller.enqueue(this.chunks);
+    }
+  }
