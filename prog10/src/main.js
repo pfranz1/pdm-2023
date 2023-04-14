@@ -19,6 +19,7 @@ let timeRemaining = startTime;
 var hoverXPos = 500;
 let hoverYPos = 500;
 let hoverDiameter = 100;
+let hoverRadius = hoverDiameter / 2;
 
 let hoverMS = 10;
 
@@ -170,15 +171,30 @@ function drawGame(){
     if(sensorData.xChange != null && sensorData.xChange != 0){
         console.log("Hover x pos: ", hoverXPos, sensorData.xChange);
         hoverXPos += sensorData.xChange * hoverMS;
+
+        // If out of bounds
+        if(hoverXPos + hoverRadius > width){
+            hoverXPos = width - hoverRadius;
+        } else if(hoverXPos - hoverRadius < 0){
+            hoverXPos = hoverRadius;
+        }
         sensorData.xChange = 0;
+
     }
 
 
     if(sensorData.yChange != null && sensorData.yChange != 0){
         console.log("Hover y pos: ", hoverYPos, sensorData.YChange);
         hoverYPos += sensorData.yChange * hoverMS;
+        // If out of bounds
+        if(hoverYPos + hoverRadius > height){
+            hoverYPos = height - hoverRadius;
+        } else if(hoverYPos - hoverRadius < 0){
+            hoverYPos = hoverRadius;
+        }
         sensorData.yChange = 0;
     }
+
 
 
     // hoverXPos = Math.min(hoverXPos,width);
