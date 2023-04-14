@@ -16,9 +16,11 @@ let startTime = 30;
 let timeRemaining = startTime;
 
 
-let hoverXPos = 150;
+var hoverXPos = 500;
 let hoverYPos = 500;
 let hoverDiameter = 100;
+
+let hoverMS = 10;
 
 let connected = false;
 const encoder = new TextEncoder();
@@ -164,6 +166,23 @@ function drawGame(){
         onGameTap(hoverXPos,hoverYPos);
         sensorData.didTap = false;
     }
+
+    if(sensorData.xChange != null && sensorData.xChange != 0){
+        console.log("Hover x pos: ", hoverXPos, sensorData.xChange);
+        hoverXPos += sensorData.xChange * hoverMS;
+        sensorData.xChange = 0;
+    }
+
+
+    if(sensorData.yChange != null && sensorData.yChange != 0){
+        console.log("Hover y pos: ", hoverYPos, sensorData.YChange);
+        hoverYPos += sensorData.yChange * hoverMS;
+        sensorData.yChange = 0;
+    }
+
+
+    // hoverXPos = Math.min(hoverXPos,width);
+
     
 
     // print('draw ripple');
@@ -202,6 +221,7 @@ function drawGame(){
     });
 
     push();
+    console.log(hoverXPos,hoverYPos);
     fill(50,25,0,0.5);
     circle(hoverXPos,hoverYPos,hoverDiameter);
     pop();
