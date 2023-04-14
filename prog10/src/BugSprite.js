@@ -211,7 +211,9 @@ class BugSprite{
     tapOccurred(tapX, tapY){
         var distToBug = dist(tapX,tapY, this.xPos, this.yPos);
         // IF withing bug radius
-        if (distToBug < this.radius){
+        // Make bugs fatter - to make game easier, could be cool to rewrite code to handle a circle to circle distance comparison, but just making fatter with hard
+        // code is good enough for me trying to get all my assignments complete XD
+        if (distToBug < this.radius + 50){
             if (this.moveSpeed == 0){
                 // this.revive();
             } else {
