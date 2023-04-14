@@ -140,7 +140,6 @@ function draw(){
     }
 
 }
-
 var soundToggleSize = 50;
 
 function drawMusicIcon(){
@@ -305,6 +304,12 @@ async function serialRead() {
     }
 }
 
+function serialWrite(jsonObject) {
+    if (writer) {
+      writer.write(encoder.encode(JSON.stringify(jsonObject)+"\n"));
+    }
+}
+
 async function connect() {
     Tone.start();
 
@@ -394,6 +399,8 @@ function onGameTap(xPos,yPos){
             if(didEscape){
                 soundEffectManager.doEscapeSound();
             }
+        } else{
+            serialWrite({didSquish:true});
         }
     }
 }
