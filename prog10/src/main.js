@@ -234,6 +234,10 @@ var hasButtonInit = false;
 function drawScoreScreen(){
     background(236,70,100);
 
+    if (reader) {
+        serialRead();
+    }
+
     push();
 
     let textStartY = canvasHeight * 0.30; 
@@ -251,13 +255,22 @@ function drawScoreScreen(){
     text("Top: " + topScore, (windowWidth / 2), (textStartY)+100)
 
 
-    if(hasButtonInit == false){
-        hasButtonInit = true;
-        button = createButton('Again!');
-        button.position((windowWidth / 2) - 75, (textStartY) + 240 );
-        button.size(150);
-        button.mousePressed( ()=>  { hasButtonInit = false; button.remove(); startGame();});
+    text("--- Tap to play again! --- ", (windowWidth / 2), (textStartY)+175);
+
+    if(sensorData.didTap != null && sensorData.didTap){
+        console.log("TAP");
+        startGame();
+        sensorData.didTap = false;
     }
+
+
+    // if(hasButtonInit == false){
+    //     hasButtonInit = true;
+    //     button = createButton('Again!');
+    //     button.position((windowWidth / 2) - 75, (textStartY) + 240 );
+    //     button.size(150);
+    //     button.mousePressed( ()=>  { hasButtonInit = false; button.remove(); startGame();});
+    // }
 
 
 
