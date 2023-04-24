@@ -351,6 +351,7 @@ function drawStartScreen(){
             // The Web Serial API is supported.
             let button = createButton("Connect");
             button.position((windowWidth / 2) - 75, (textStartY) + 240 );
+            button.size(150);
             button.mousePressed(()=>{button.remove();connect();});
         } else {
             hasButtonInit = true;
