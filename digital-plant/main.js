@@ -18,17 +18,48 @@ function preload(){
 }
 
 
+let xRotSlider;
+let yRotSlider;
+let zRotSlider;
+
 function setup(){
     createCanvas(canvasWidth,canvasHeight,WEBGL);
     imageMode(CENTER);
     colorMode('hsb');
-    angleMode(DEGREES)
+    angleMode(DEGREES);
+
+    createRotationSliders();
 }
 
 function draw(){
     background(200,100,100);
     leaf.draw();
 
+
+}
+
+function createRotationSliders(){
+    
+    xRotSlider = createSlider(0, 360, 0, 1);
+    xRotSlider.position(0,canvasHeight * 1.5);
+  
+    xRotSlider.mouseReleased( () => {
+        leaf.xRot = xRotSlider.value();
+    })
+
+    yRotSlider = createSlider(0, 360, 0, 1);
+    yRotSlider.position(150,canvasHeight * 1.5);
+  
+    yRotSlider.mouseReleased( () => {
+        leaf.yRot = yRotSlider.value();
+    })
+
+    zRotSlider = createSlider(0, 360, 0, 1);
+    zRotSlider.position(300,canvasHeight * 1.5);
+  
+    zRotSlider.mouseReleased( () => {
+        leaf.zRot = zRotSlider.value();
+    })
 
 }
 
@@ -51,6 +82,9 @@ class Leaf {
         this.xPos = xPos;
         this.yPos = yPos;
 
+        this.xRot = 0;
+        this.yRot = 0;
+        this.zRot = 0;
 
     }
 
@@ -59,9 +93,11 @@ class Leaf {
 
         translate(this.xPos, this.yPos);
 
-        // rotateX(230);
-        // rotateY(60);
-        // rotateZ(50);
+        rotateX(this.xRot);
+        rotateY(this.yRot);
+        rotateZ(this.zRot);
+
+        console.log(this.xRot, this.yRot,this.zRot);
 
         image(this.spriteSheet, 0,0,this.height,this.width,0,0,this.tileWidth,this.tileHeight);
 
