@@ -18,7 +18,7 @@ function preload(){
     myFont = loadFont('assets/NexaText-Trial-Regular.ttf');
 
     leafSprite = loadImage("./assets/leaf.png") ;
-    leaf = new Leaf(leafSprite,32,32,250,250,0,0);  
+    leaf = new Leaf(leafSprite,32,32,100,100,0,0);  
 }
 
 
@@ -52,23 +52,23 @@ function createRotationSliders(){
     xRotSlider = createSlider(0, 360, 0, 1);
     xRotSlider.position(0,canvasHeight * 1.5);
   
-    xRotSlider.mouseReleased( () => {
-        leaf.xRot = xRotSlider.value();
-    })
+    // xRotSlider.mouseReleased( () => {
+    //     leaf.xRot = xRotSlider.value();
+    // })
 
     yRotSlider = createSlider(0, 360, 0, 1);
     yRotSlider.position(150,canvasHeight * 1.5);
   
-    yRotSlider.mouseReleased( () => {
-        leaf.yRot = yRotSlider.value();
-    })
+    // yRotSlider.mouseReleased( () => {
+    //     leaf.yRot = yRotSlider.value();
+    // })
 
     zRotSlider = createSlider(0, 360, 0, 1);
     zRotSlider.position(300,canvasHeight * 1.5);
   
-    zRotSlider.mouseReleased( () => {
-        leaf.zRot = zRotSlider.value();
-    })
+    // zRotSlider.mouseReleased( () => {
+    //     leaf.zRot = zRotSlider.value();
+    // })
 
 }
 
@@ -102,11 +102,13 @@ class Leaf {
     draw(){
         push();
 
-        translate(this.xPos, this.yPos);
+        translate(this.xPos,this.yPos);
 
-        rotateX(this.xRot);
-        rotateY(this.yRot);
-        rotateZ(this.zRot);
+        rotateX(xRotSlider.value());
+        rotateY(yRotSlider.value());
+        rotateZ(zRotSlider.value());
+
+        translate(0, (this.height / 2) * 0.90);
 
         // console.log(this.xRot, this.yRot,this.zRot);
 
