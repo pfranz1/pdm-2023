@@ -14,14 +14,15 @@ let leaf;
 
 function preload(){
     leafSprite = loadImage("./assets/leaf.png") ;
-    leaf = new Leaf(leafSprite,32,32,250,250,250,250);  
+    leaf = new Leaf(leafSprite,32,32,250,250,0,0);  
 }
 
 
 function setup(){
-    createCanvas(canvasWidth,canvasHeight);
+    createCanvas(canvasWidth,canvasHeight,WEBGL);
     imageMode(CENTER);
     colorMode('hsb');
+    angleMode(DEGREES)
 }
 
 function draw(){
@@ -57,6 +58,10 @@ class Leaf {
         push();
 
         translate(this.xPos, this.yPos);
+
+        // rotateX(230);
+        // rotateY(60);
+        // rotateZ(50);
 
         image(this.spriteSheet, 0,0,this.height,this.width,0,0,this.tileWidth,this.tileHeight);
 
