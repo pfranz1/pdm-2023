@@ -11,8 +11,12 @@ let leafSprite;
 
 let leaf;
 
+let myFont;
+
 
 function preload(){
+    myFont = loadFont('assets/NexaText-Trial-Regular.ttf');
+
     leafSprite = loadImage("./assets/leaf.png") ;
     leaf = new Leaf(leafSprite,32,32,250,250,0,0);  
 }
@@ -24,6 +28,7 @@ let zRotSlider;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight,WEBGL);
+    textFont(myFont);
     imageMode(CENTER);
     colorMode('hsb');
     angleMode(DEGREES);
@@ -35,6 +40,10 @@ function draw(){
     background(200,100,100);
     leaf.draw();
 
+    textSize(32);
+    text('XROT:' + xRotSlider.value(),250,-100);
+    text('YROT:' + yRotSlider.value(),250,0);
+    text('ZROT:' + zRotSlider.value(),250,100);
 
 }
 
@@ -64,7 +73,9 @@ function createRotationSliders(){
 }
 
 function keyPressed(){
-
+    if(keyCode  == ENTER){
+        console.log( xRotSlider.value(), yRotSlider.value(),zRotSlider.value() );
+    }
 }
 
 
@@ -97,7 +108,7 @@ class Leaf {
         rotateY(this.yRot);
         rotateZ(this.zRot);
 
-        console.log(this.xRot, this.yRot,this.zRot);
+        // console.log(this.xRot, this.yRot,this.zRot);
 
         image(this.spriteSheet, 0,0,this.height,this.width,0,0,this.tileWidth,this.tileHeight);
 
