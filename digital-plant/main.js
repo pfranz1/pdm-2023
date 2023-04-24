@@ -9,15 +9,7 @@ let padding = 50;
 
 
 function preload(){
-    mainGuySpriteSheet = loadImage("./assets/SpelunkyGuy.png");
-    blueGuySpriteSheet = loadImage("./assets/BlueGuy.png");
-    robotSpriteSheet = loadImage("./assets/robot.png");
 
-    
-    // WalkingSprite(spiteSheet, tilingWidth, tilingHeight, numFramesInAnimation, drawingWidth, drawingHeight, xPos, yPos)
-    walkers = [ new WalkingSprite(mainGuySpriteSheet,80,80,9,80,80,canvasWidth/2,padding),
-                new WalkingSprite(blueGuySpriteSheet,80,80,9,80,80,canvasWidth/2,padding + (canvasHeight - (padding * 2)) / 2),
-                new WalkingSprite(robotSpriteSheet,80,80,9,80,80,canvasWidth/2,canvasHeight - padding),]
 }
 
 
@@ -30,23 +22,17 @@ function setup(){
 function draw(){
     background(200,100,100);
 
-    walkers.forEach( function (item,index){
-        item.draw();
-    });
+
 
 }
 
 function keyPressed(){
-    walkers.forEach( function (item,index){
-        item.keyPressed();
-    });
+
 }
 
 
 function keyReleased(){
-    walkers.forEach( function (item,index){
-        item.keyReleased();
-    });
+
 }
 
 class WalkingSprite{
