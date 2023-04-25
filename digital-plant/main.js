@@ -2,8 +2,8 @@ let mainGuySpriteSheet;
 let walkers;
 let bg;
 
-let canvasWidth = 1000;
-let canvasHeight = 1000;
+let canvasWidth = 5000;
+let canvasHeight = 5000;
 
 let padding = 50;
 
@@ -13,7 +13,7 @@ let leaf;
 
 let myFont;
 
-let myLeafRots = [ new RotationStruct(0, 0 ,0 ), new RotationStruct(45,0,0), new RotationStruct(30,0,0), new RotationStruct(0,-45,0)];
+let myLeafRots = [];
 
 let leaves = [];
 
@@ -39,31 +39,66 @@ function setup(){
 
     createRotationSliders();
 
+    createRots();
+
     createLeavesFromRots();
 }
 
 let leafSize = 100;
 
+let numOfSteps = 9;
+
+
+function createRots(){
+    let xLow = 0;
+    let xHigh = 90;
+
+    let yLow = -90;
+    let yHigh = 90;
+
+    let zLow = -90;
+    let zHigh = 90;
+
+    let xStepSize = (abs(xLow) + abs(xHigh)) / numOfSteps;
+    let yStepSize = (abs(yLow) + abs(yHigh)) / numOfSteps;
+    let zStepSize = (abs(zLow) + abs(zHigh)) / numOfSteps;
+
+
+    for(let i = 0; i < numOfSteps; i++){
+        for(let j = 0; j < numOfSteps; j++){
+            for(let k = 0; k < numOfSteps; k++){
+                myLeafRots.push(new RotationStruct(xLow + (i * xStepSize), yLow + (j * yStepSize), zLow + (k * zStepSize)));
+                console.log("added rot: ", xLow + i * xStepSize,  yLow + j * yStepSize, zLow + k * zStepSize);
+            }
+        }
+    }
+}
+
 function createLeavesFromRots(){
     let startY = canvasHeight / 2 * -1 + leafSize;
     let startX = canvasWidth  / 2 * -1 + leafSize
-    let padding = 170;
+    let padding = 50;
 
     myLeafRots.forEach((rotStruct,index,_)=>{
+
+        if(index % (numOfSteps *  2)== 0 && index != 0){
+            startX += leafSize + padding;
+            startY = canvasHeight / 2 * -1 + leafSize;
+        }
+
+
         //spriteSheet, tileWidth, tileHeight, height,width,xPos,yPos, rotationStruct){
         leaves.push(new Leaf(leafSprite,32,32,leafSize,leafSize,startX,startY,rotStruct));
-        startY += 100;
+        startY += 100 + padding;
 
-        if(index % 8 == 0 && index != 0){
-            startX += leafSize + padding;
-        }
+
     });
 }
 
 function draw(){
 
 
-    background(200,100,100);
+    background(66,66,66);
     leaf.draw();
 
     leaves.forEach((value,index,_)=>{
@@ -142,13 +177,21 @@ class Leaf {
         // translate(500,20);
         translate(this.xPos,this.yPos);
 
+        textSize(15);
+        fill(0,0,0);
+        // let startX = this.width / 2 * -1;
+        text("!" + this.xRot,-30,this.height / 2 * -1);
+        text(this.yRot,0,this.height / 2 * -1);
+        text(this.zRot + "!",30,this.height / 2 * -1);
+
+
+
         rotateX(this.xRot);
         rotateY(this.yRot);
         rotateZ(this.zRot);
 
 
         image(this.spriteSheet, 0,0,this.width,this.height,0,0,this.tileWidth,this.tileHeight);
-        
 
         // rotateX(this.xRot);
         // rotateY(this.yRot);
