@@ -2,8 +2,8 @@ let mainGuySpriteSheet;
 let walkers;
 let bg;
 
-let canvasWidth = 7500;
-let canvasHeight = 5000;
+let canvasWidth = 1200;
+let canvasHeight = 1200;
 
 let padding = 50;
 
@@ -149,7 +149,7 @@ function createLeavesFromRots(){
 
     myLeafRots.forEach((rotStruct,index,_)=>{
 
-        if(index % (numOfSteps *  2)== 0 && index != 0){
+        if(index % 8== 0 && index != 0){
             startX += leafSize + padding;
             startY = canvasHeight / 2 * -1 + leafSize;
         }
