@@ -2,7 +2,7 @@ let mainGuySpriteSheet;
 let walkers;
 let bg;
 
-let canvasWidth = 5000;
+let canvasWidth = 7500;
 let canvasHeight = 5000;
 
 let padding = 50;
@@ -13,7 +13,75 @@ let leaf;
 
 let myFont;
 
-let myLeafRots = [];
+let myLeafRots = [
+    new RotationStruct(0, -30, -30),
+new RotationStruct(0, -30, 10),
+new RotationStruct(0, -30, 50),
+new RotationStruct(0, -10, -30),
+new RotationStruct(0, -10, -10),
+new RotationStruct(0, -10, 10),
+new RotationStruct(0, -10, 30),
+new RotationStruct(0, 10, -70),
+new RotationStruct(0, 10, -50),
+new RotationStruct(0, 10, -30),
+new RotationStruct(0, 10, -10),
+new RotationStruct(0, 10, 10),
+new RotationStruct(0, 10, 30),
+new RotationStruct(0, 10, 50),
+new RotationStruct(0, 10, 70),
+new RotationStruct(0, 30, -40),
+new RotationStruct(0, 30, -10),
+new RotationStruct(0, 30, 10),
+new RotationStruct(0, 50, -30),
+new RotationStruct(0, 50, -10),
+new RotationStruct(0, 50, 10),
+new RotationStruct(0, 50, 30),
+new RotationStruct(0, 50, 50),
+new RotationStruct(0, 70, -50),
+new RotationStruct(0, 70, -30),
+new RotationStruct(10, 10, 10),
+new RotationStruct(10, 10, 30),
+new RotationStruct(10, 30, 30),
+new RotationStruct(10, 50, -30),
+new RotationStruct(10, 70, -30),
+new RotationStruct(10, 70, 10),
+new RotationStruct(10, 70, 30),
+new RotationStruct(20, -30, 50),
+new RotationStruct(20, -10, 10),
+new RotationStruct(20, -10, 30),
+new RotationStruct(20, -10, 50),
+new RotationStruct(20, 10, 30),
+new RotationStruct(20, 30, -70),
+new RotationStruct(20, 30, -50),
+new RotationStruct(20, 30, -30),
+new RotationStruct(20, 50, -30),
+new RotationStruct(20, 50, -10),
+new RotationStruct(20, 50, 50),
+new RotationStruct(30, -10, 10),
+new RotationStruct(30, 10, -50),
+new RotationStruct(30, 10, -10),
+new RotationStruct(30, 10, 10),
+new RotationStruct(30, 10, 30),
+new RotationStruct(30, 10, 50),
+new RotationStruct(30, 30, -10),
+new RotationStruct(40, -30, 30),
+new RotationStruct(40, -10, 30),
+new RotationStruct(40, -10, 50),
+new RotationStruct(40, 10, -50),
+new RotationStruct(40, 10, -30),
+new RotationStruct(40, 10, -10),
+new RotationStruct(40, 10, 10),
+new RotationStruct(40, 10, 30),
+new RotationStruct(50, -10, 30),
+new RotationStruct(60, -30, 70),
+new RotationStruct(60, 10, -90),
+new RotationStruct(80, -30, 70),
+new RotationStruct(80, 30, -90),
+new RotationStruct(80, 50, -70)
+];
+
+
+
 
 let leaves = [];
 
@@ -39,7 +107,7 @@ function setup(){
 
     createRotationSliders();
 
-    createRots();
+    // createRots();
 
     createLeavesFromRots();
 }
@@ -180,9 +248,9 @@ class Leaf {
         textSize(15);
         fill(0,0,0);
         // let startX = this.width / 2 * -1;
-        text("!" + this.xRot,-30,this.height / 2 * -1);
+        text(this.xRot,-30,this.height / 2 * -1);
         text(this.yRot,0,this.height / 2 * -1);
-        text(this.zRot + "!",30,this.height / 2 * -1);
+        text(this.zRot ,30,this.height / 2 * -1);
 
 
 
