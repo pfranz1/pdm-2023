@@ -85,11 +85,13 @@ new RotationStruct(80, 50, -70)
 
 let leaves = [];
 
+let plant;
+
 
 function preload(){
     myFont = loadFont('assets/NexaText-Trial-Regular.ttf');
 
-    leafSprite = loadImage("./assets/leaf.png") ;
+    leafSprite = loadImage("./assets/large-leaf.png") ;
     leaf = new Leaf(leafSprite,32,32,100,100,0,0, new RotationStruct(0,0,0));  
 }
 
@@ -99,7 +101,7 @@ let yRotSlider;
 let zRotSlider;
 
 function setup(){
-    createCanvas(canvasWidth,canvasHeight,WEBGL);
+    createCanvas(canvasWidth,canvasHeight);
     textFont(myFont);
     imageMode(CENTER);
     colorMode('hsb');
@@ -110,6 +112,8 @@ function setup(){
     // createRots();
 
     createLeavesFromRots();
+
+    plant = new Plant([leaves[4],leaves[7], leaves[2]],500,500);
 }
 
 let leafSize = 100;
@@ -156,7 +160,7 @@ function createLeavesFromRots(){
 
 
         //spriteSheet, tileWidth, tileHeight, height,width,xPos,yPos, rotationStruct){
-        leaves.push(new Leaf(leafSprite,32,32,leafSize,leafSize,startX,startY,rotStruct));
+        leaves.push(new Leaf(leafSprite,64,64,leafSize,leafSize,startX,startY,rotStruct));
         startY += 100 + padding;
 
 
@@ -166,12 +170,14 @@ function createLeavesFromRots(){
 function draw(){
 
 
-    background(66,66,66);
-    leaf.draw();
+    background(240,27,95);
+    // leaf.draw();
 
-    leaves.forEach((value,index,_)=>{
-        value.draw();
-    })
+    // leaves.forEach((value,index,_)=>{
+    //     value.draw();
+    // })
+
+    plant.draw();
 
     textSize(32);
     text('XROT:' + xRotSlider.value(),250,-100);
@@ -179,8 +185,6 @@ function draw(){
     text('ZROT:' + zRotSlider.value(),250,100);
 
 
-    fill(100,100,100)
-    circle(0,0,10)
 
 }
 

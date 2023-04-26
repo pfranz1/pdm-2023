@@ -24,16 +24,20 @@ class Leaf {
 
         textSize(15);
         fill(0,0,0);
-        // let startX = this.width / 2 * -1;
-        text(this.xRot,-30,this.height / 2 * -1);
-        text(this.yRot,0,this.height / 2 * -1);
-        text(this.zRot ,30,this.height / 2 * -1);
+        // // let startX = this.width / 2 * -1;
+        // text(this.xRot,-30,this.height / 2 * -1);
+        // text(this.yRot,0,this.height / 2 * -1);
+        // text(this.zRot ,30,this.height / 2 * -1);
 
 
 
-        rotateX(this.xRot);
-        rotateY(this.yRot);
-        rotateZ(this.zRot);
+        // rotateX(this.xRot);
+        // rotateY(this.yRot);
+        // rotateZ(this.zRot);
+
+        rotate(this.zRot);
+        shearX(this.xRot);
+        shearY(this.yRot);
 
 
         image(this.spriteSheet, 0,0,this.width,this.height,0,0,this.tileWidth,this.tileHeight);
