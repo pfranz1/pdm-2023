@@ -34,7 +34,7 @@ function preload(){
 
     let zRot = -30;
     // leaf = new Leaf(leafSprite,64,64,100,100,250,250, new RotationStruct(xRot-10,yRot-15,zRot));  
-    leaf = new Leaf(leafSprite,64,64,100,100,250,250, makeStructFromZRot(zRot));  
+    // leaf = new Leaf(leafSprite,64,64,100,100,250,250, makeStructFromZRot(zRot));  
 
 }
 
@@ -42,6 +42,8 @@ function preload(){
 let xRotSlider;
 let yRotSlider;
 let zRotSlider;
+
+let numLeaves = 3;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight);
@@ -56,7 +58,7 @@ function setup(){
 
     createLeavesFromRots();
 
-    plant = new Plant(leaves,500,500);
+    plant = new Plant(numLeaves,500,500);
 }
 
 let leafSize = 100;
@@ -122,7 +124,7 @@ function draw(){
 
 
     background(240,27,95);
-    leaf.draw();
+    // leaf.draw();
 
     // leaves.forEach((value,index,_)=>{
     //     value.draw();
