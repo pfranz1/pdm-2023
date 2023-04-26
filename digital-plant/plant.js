@@ -11,17 +11,22 @@ class Plant{
         let positions = [];
 
         for(let index = 0; index < numLeaves; index++){
-            positions.push(new Position(random(-90,90),random(-100,-250)));
+            positions.push(new Position(this.xPos+ random(-180,180),this.yPos + random(-100,-250)));
         }
 
         // TODO: seperate positions
 
+
         positions.forEach((pos) => {
-            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize,this.xPos + pos.xPos, this.yPos + pos.yPos, makeStructFromZRot(random(-75,75)));
+            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos.xPos,pos.yPos, makeStructFromZRot(this.calcAngleToPos(pos) * -1 ));
             this.leaves.push(newLeaf);
         });
     }
 
+    calcAngleToPos(pos){
+        // Subtract 90 because directly above should be 0
+        return (Math.atan2(this.yPos - pos.yPos, this.xPos - pos.xPos) * 180 / Math.PI) - 90;
+    }
 
 
     makeStructFromZRot(iZRot){
