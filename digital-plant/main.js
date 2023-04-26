@@ -14,70 +14,8 @@ let leaf;
 let myFont;
 
 let myLeafRots = [
-    new RotationStruct(0, -30, -30),
-new RotationStruct(0, -30, 10),
-new RotationStruct(0, -30, 50),
-new RotationStruct(0, -10, -30),
-new RotationStruct(0, -10, -10),
-new RotationStruct(0, -10, 10),
-new RotationStruct(0, -10, 30),
-new RotationStruct(0, 10, -70),
-new RotationStruct(0, 10, -50),
-new RotationStruct(0, 10, -30),
-new RotationStruct(0, 10, -10),
-new RotationStruct(0, 10, 10),
-new RotationStruct(0, 10, 30),
-new RotationStruct(0, 10, 50),
-new RotationStruct(0, 10, 70),
-new RotationStruct(0, 30, -40),
-new RotationStruct(0, 30, -10),
-new RotationStruct(0, 30, 10),
-new RotationStruct(0, 50, -30),
-new RotationStruct(0, 50, -10),
-new RotationStruct(0, 50, 10),
-new RotationStruct(0, 50, 30),
-new RotationStruct(0, 50, 50),
-new RotationStruct(0, 70, -50),
-new RotationStruct(0, 70, -30),
-new RotationStruct(10, 10, 10),
-new RotationStruct(10, 10, 30),
-new RotationStruct(10, 30, 30),
-new RotationStruct(10, 50, -30),
-new RotationStruct(10, 70, -30),
-new RotationStruct(10, 70, 10),
-new RotationStruct(10, 70, 30),
-new RotationStruct(20, -30, 50),
-new RotationStruct(20, -10, 10),
-new RotationStruct(20, -10, 30),
-new RotationStruct(20, -10, 50),
-new RotationStruct(20, 10, 30),
-new RotationStruct(20, 30, -70),
-new RotationStruct(20, 30, -50),
-new RotationStruct(20, 30, -30),
-new RotationStruct(20, 50, -30),
-new RotationStruct(20, 50, -10),
-new RotationStruct(20, 50, 50),
-new RotationStruct(30, -10, 10),
-new RotationStruct(30, 10, -50),
-new RotationStruct(30, 10, -10),
-new RotationStruct(30, 10, 10),
-new RotationStruct(30, 10, 30),
-new RotationStruct(30, 10, 50),
-new RotationStruct(30, 30, -10),
-new RotationStruct(40, -30, 30),
-new RotationStruct(40, -10, 30),
-new RotationStruct(40, -10, 50),
-new RotationStruct(40, 10, -50),
-new RotationStruct(40, 10, -30),
-new RotationStruct(40, 10, -10),
-new RotationStruct(40, 10, 10),
-new RotationStruct(40, 10, 30),
-new RotationStruct(50, -10, 30),
-new RotationStruct(60, -30, 70),
-new RotationStruct(60, 10, -90),
-new RotationStruct(80, -30, 70),
-new RotationStruct(80, 30, -90),
-new RotationStruct(80, 50, -70)
+    makeStructFromZRot(0),
+    makeStructFromZRot(45),
 ];
 
 
@@ -92,7 +30,12 @@ function preload(){
     myFont = loadFont('assets/NexaText-Trial-Regular.ttf');
 
     leafSprite = loadImage("./assets/large-leaf.png") ;
-    leaf = new Leaf(leafSprite,32,32,100,100,0,0, new RotationStruct(0,0,0));  
+
+
+    let zRot = -30;
+    // leaf = new Leaf(leafSprite,64,64,100,100,250,250, new RotationStruct(xRot-10,yRot-15,zRot));  
+    leaf = new Leaf(leafSprite,64,64,100,100,250,250, makeStructFromZRot(zRot));  
+
 }
 
 
@@ -113,12 +56,20 @@ function setup(){
 
     createLeavesFromRots();
 
-    plant = new Plant([leaves[4],leaves[7], leaves[2]],500,500);
+    plant = new Plant(leaves,500,500);
 }
 
 let leafSize = 100;
 
 let numOfSteps = 9;
+
+function makeStructFromZRot(iZRot){
+    let zRot = iZRot;
+    let yRot = zRot * 0.65 * -1;
+    let xRot = zRot * (2/6);
+    // leaf = new Leaf(leafSprite,64,64,100,100,250,250, new RotationStruct(xRot-10,yRot-15,zRot));  
+    return new  RotationStruct(xRot,yRot,iZRot);
+}
 
 
 function createRots(){
@@ -147,8 +98,8 @@ function createRots(){
 }
 
 function createLeavesFromRots(){
-    let startY = canvasHeight / 2 * -1 + leafSize;
-    let startX = canvasWidth  / 2 * -1 + leafSize
+    let startY = 0 + leafSize;
+    let startX = leafSize;
     let padding = 50;
 
     myLeafRots.forEach((rotStruct,index,_)=>{
@@ -171,7 +122,7 @@ function draw(){
 
 
     background(240,27,95);
-    // leaf.draw();
+    leaf.draw();
 
     // leaves.forEach((value,index,_)=>{
     //     value.draw();
