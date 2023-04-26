@@ -43,7 +43,7 @@ let xRotSlider;
 let yRotSlider;
 let zRotSlider;
 
-let numLeaves = 3;
+let numLeaves = 10;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight);
@@ -61,7 +61,7 @@ function setup(){
     plant = new Plant(numLeaves,500,500);
 }
 
-let leafSize = 100;
+// let leafSize = 100;
 
 let numOfSteps = 9;
 

@@ -1,4 +1,6 @@
+const leafSize = 100;
 class Plant{
+
     constructor(numLeaves,xPos,yPos){
         this.leaves = numLeaves;
         this.xPos = xPos;
@@ -6,18 +8,18 @@ class Plant{
 
         this.leaves = [];
 
-        for(let index = 0; index < numLeaves; index++){
-            let newLeaf =  new Leaf(leafSprite,64,64,100,100,0,0, makeStructFromZRot(random(-75,75)));
-            newLeaf.xPos = xPos + random(-150,150);
-            newLeaf.yPos = yPos - random(50,250);
+        let positions = [];
 
-            this.leaves.push(newLeaf);
+        for(let index = 0; index < numLeaves; index++){
+            positions.push(new Position(random(-90,90),random(-100,-250)));
         }
 
-        // this.leaves.forEach(element => {
-        //     element.xPos = xPos + random(-150,150);
-        //     element.yPos = yPos - random(50,250);
-        // });
+        // TODO: seperate positions
+
+        positions.forEach((pos) => {
+            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize,this.xPos + pos.xPos, this.yPos + pos.yPos, makeStructFromZRot(random(-75,75)));
+            this.leaves.push(newLeaf);
+        });
     }
 
 
@@ -47,5 +49,19 @@ class Plant{
         });
         
         pop();
+    }
+}
+
+class Position{
+    constructor(xPos,yPos){
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+
+    distToOtherPos(other){
+        let y = other.xPos - this.xPos;
+        let x = other.yPos - this.yPos;
+      
+        return Math.sqrt(x * x + y * y);
     }
 }
