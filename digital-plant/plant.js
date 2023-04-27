@@ -15,17 +15,56 @@ class Plant{
         }
 
         // TODO: seperate positions
-
+        this.seperatePositions(positions);
 
         positions.forEach((pos) => {
-            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos.xPos,pos.yPos, makeStructFromZRot(this.calcAngleToPos(pos) * -1 ));
+            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos.xPos,pos.yPos, makeStructFromZRot((this.calcAngleToPos(pos) - 90) * -1));
             this.leaves.push(newLeaf);
         });
     }
 
     calcAngleToPos(pos){
         // Subtract 90 because directly above should be 0
-        return (Math.atan2(this.yPos - pos.yPos, this.xPos - pos.xPos) * 180 / Math.PI) - 90;
+
+        let result = Math.atan2(this.yPos - pos.yPos, this.xPos - pos.xPos) * 180 / Math.PI;
+        console.log(result);
+        return result;
+    }
+
+    seperatePositions(positionList){
+        let conflictsRemain = true;
+        let isFirstLoop = true;
+
+        let threashHold = leafSize;
+        let stepSize = 20;
+
+        console.log("seperating positions");
+
+        while(isFirstLoop || conflictsRemain){
+            isFirstLoop = false;
+            conflictsRemain = false;            
+            for(let index = 0; index < positionList.length; index++){
+                for(let itter = index + 1; itter < positionList.length; itter++){
+                    console.log("distance between", index, itter, positionList[index].distToOtherPos(positionList[itter]));
+
+                    if(positionList[index].distToOtherPos(positionList[itter]) < threashHold){
+                        // The points must be seperated
+                        console.log("Seperating leaves");
+
+                        conflictsRemain = true;
+                        let lowerPosition = positionList[index].yPos <= positionList[itter].yPos ? positionList[index] : positionList[itter];
+                        let higherPos = positionList[index].yPos > positionList[itter].yPos ? positionList[index] : positionList[itter];
+
+                        let tempX = lowerPosition.xPos;
+                        let tempY = lowerPosition.yPos;
+
+                        lowerPosition.movePosByAngle(this.calcAngleToPos(lowerPosition),stepSize * -1);
+                        higherPos.movePosByAngle(this.calcAngleToPos(higherPos),stepSize);
+                    }
+                }
+            }
+            threashHold = threashHold * 2/3;
+        }
     }
 
 
@@ -68,5 +107,10 @@ class Position{
         let x = other.yPos - this.yPos;
       
         return Math.sqrt(x * x + y * y);
+    }
+
+    movePosByAngle(angle,dist){
+        this.xPos += dist * Math.cos(angle / 57.2958);
+        this.yPos += dist * Math.sin(angle / 57.2958);
     }
 }

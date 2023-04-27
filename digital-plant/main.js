@@ -43,7 +43,7 @@ let xRotSlider;
 let yRotSlider;
 let zRotSlider;
 
-let numLeaves = 3;
+let numLeaves = 10;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight);
