@@ -17,6 +17,8 @@ class Plant{
         // TODO: seperate positions
         this.seperatePositions(positions);
 
+        this.cullCloseLeaves(positions);
+
         positions.forEach((pos) => {
             let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos.xPos,pos.yPos, makeStructFromZRot((this.calcAngleToPos(pos) - 90) * -1));
             this.leaves.push(newLeaf);
@@ -64,6 +66,17 @@ class Plant{
                 }
             }
             threashHold = threashHold * 2/3;
+        }
+    }
+
+    cullCloseLeaves(positionList){
+        let rootPos = new Position(this.xPos,this.yPos);
+
+        for(let index = 0; index < positionList.length; index++){
+            if(positionList[index].distToOtherPos(rootPos) < leafSize){
+                console.log("Culled leaf ", index);
+                positionList.splice(index,1);
+            }
         }
     }
 
