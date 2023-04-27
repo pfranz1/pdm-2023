@@ -19,6 +19,8 @@ class Plant{
 
         this.cullCloseLeaves(positions);
 
+        this.sortPositionsTallestToShortest(positions);
+
         positions.forEach((pos) => {
             let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos.xPos,pos.yPos, makeStructFromZRot((this.calcAngleToPos(pos) - 90) * -1));
             this.leaves.push(newLeaf);
@@ -78,6 +80,12 @@ class Plant{
                 positionList.splice(index,1);
             }
         }
+    }
+
+    sortPositionsTallestToShortest(positionList){
+        positionList.sort((a,b)=>{
+            return a.yPos - b.yPos;
+        });
     }
 
 
