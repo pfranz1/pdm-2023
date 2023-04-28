@@ -28,8 +28,6 @@ class Plant{
     }
 
     calcAngleToPos(pos){
-        // Subtract 90 because directly above should be 0
-
         let result = Math.atan2(this.yPos - pos.yPos, this.xPos - pos.xPos) * 180 / Math.PI;
         console.log(result);
         return result;
