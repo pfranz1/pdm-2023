@@ -1,12 +1,11 @@
 class Leaf {
-    constructor(spriteSheet, tileWidth, tileHeight, myHeight,myWidth,xPos,yPos, rotationStruct){
+    constructor(spriteSheet, tileWidth, tileHeight, myHeight,myWidth, position, rotationStruct){
         this.spriteSheet = spriteSheet;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
         this.height = myHeight;
         this.width = myWidth;
-        this.xPos = xPos;
-        this.yPos = yPos;
+        this.pos = position;
 
         this.xRot = rotationStruct.xRot;
         this.yRot = rotationStruct.yRot;
@@ -20,7 +19,7 @@ class Leaf {
         // rotateX(this.xRot);
 
         // translate(500,20);
-        translate(this.xPos,this.yPos);
+        translate(this.pos.xPos,this.pos.yPos);
 
         textSize(15);
         fill(0,0,0);

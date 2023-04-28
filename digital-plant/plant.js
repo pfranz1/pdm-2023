@@ -29,7 +29,7 @@ class Plant{
         this.sortPositionsTallestToShortest(positions);
 
         positions.forEach((pos) => {
-            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos.xPos,pos.yPos, this.makeStructFromZRot((this.calcAngleToPos(pos) - 90) * -1));
+            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos, this.makeStructFromZRot((this.calcAngleToPos(pos) - 90) * -1));
             this.leaves.push(newLeaf);
         });
     }
@@ -116,7 +116,7 @@ class Plant{
 
         this.leaves.forEach(element => {
 
-            curve(this.xPos + controlPointOffset, this.yPos + controlPointOffset, this.xPos,this.yPos, element.xPos , element.yPos, element.xPos + controlPointOffset, element.yPos + controlPointOffset);
+            curve(this.xPos + controlPointOffset, this.yPos + controlPointOffset, this.xPos,this.yPos, element.pos.xPos , element.pos.yPos, element.pos.xPos + controlPointOffset, element.pos.yPos + controlPointOffset);
             element.draw();
             
 
