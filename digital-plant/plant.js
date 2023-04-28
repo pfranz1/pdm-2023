@@ -1,11 +1,5 @@
 const leafSize = 100;
 
-function calcAngleBetweenPos(posA,posB){
-    let result = Math.atan2(posA.y- posB.y, posA.x- posB.x) * 180 / Math.PI;
-    console.log(result);
-    return result;
-}
-
 class Plant{
 
     constructor(numLeaves,xPos,yPos){
@@ -72,7 +66,7 @@ class Plant{
                         let lowerLeaf = leafList[index].pos.y > leafList[itter].pos.y ? leafList[index] : leafList[itter];
                         let higherLeaf = leafList[index].pos.y <= leafList[itter].pos.y ? leafList[index] : leafList[itter];
 
-                        let angleBetween = calcAngleBetweenPos(lowerLeaf.pos,higherLeaf.pos);
+                        let angleBetween = lowerLeaf.pos.calcAngleBetween(higherLeaf.pos);
 
 
 
@@ -128,7 +122,8 @@ class Plant{
                 if(leaf.pos.distToOtherPos(this.leaves[itter].pos) < leafSize + 25){
                     canGrowUp = false;
                     
-                    let angleBetween = calcAngleBetweenPos(leaf.pos,this.leaves[itter].pos);
+                    let angleBetween = leaf.pos.calcAngleBetween(this.leaves[itter].pos);
+
 
                     // The lower leaf is left of the higher leaf
                     if(angleBetween <= 90){

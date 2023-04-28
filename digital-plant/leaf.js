@@ -91,8 +91,8 @@ class Leaf {
     }
 
 
-    updateRotation(angleToRoot){
-        this.rot = this.rotateBasedOnAngleToRoot(angleToRoot);
+    updateRotation(){
+        this.rot = this.rotateBasedOnAngleToRoot(-(this.root.calcAngleBetween(this.pos) - 90));
     }
 
 
@@ -109,5 +109,7 @@ class Leaf {
 
         this.pos.y = this.root.y - this.stemLength * Math.sin(this.stemAngle * 0.0174);
         this.pos.x = this.root.x - this.stemLength * Math.cos(this.stemAngle * 0.0174);
+
+        this.updateRotation();
     }
 }
