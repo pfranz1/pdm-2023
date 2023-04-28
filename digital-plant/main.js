@@ -1,5 +1,5 @@
-let canvasWidth = 1200;
-let canvasHeight = 1200;
+let canvasWidth = 750;
+let canvasHeight = 500;
 
 let padding = 50;
 
@@ -31,7 +31,7 @@ function setup(){
     angleMode(DEGREES);
 
 
-    plant = new Plant(numLeaves,500,500);
+    plant = new Plant(numLeaves,canvasWidth / 2,canvasHeight * 0.90);
 
 }
 
