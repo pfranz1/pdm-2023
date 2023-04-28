@@ -1,4 +1,6 @@
 class Leaf {
+    static maxHeight = 500;
+
     constructor(spriteSheet, tileWidth, tileHeight, myHeight,myWidth,stemLength, stemAngle, position, rotationStruct){
         this.spriteSheet = spriteSheet;
         this.tileWidth = tileWidth;
@@ -63,9 +65,18 @@ class Leaf {
     }
 
     elongateStem(growthAmmount){
-        this.stemLength += growthAmmount;
+        // linearly less growth the longer the stem gets longer
 
-        this.updatePositionRelativeToRoot(this.root);
+        if(this.height < Leaf.maxHeight){
+
+            let ammount  = growthAmmount * (1 - (this.stemLength / Leaf.maxHeight));
+
+            this.stemLength += Math.floor(ammount);
+
+            this.updatePositionRelativeToRoot(this.root);
+        }
+
+
     }
 
 
