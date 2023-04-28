@@ -7,11 +7,12 @@ class Leaf {
         this.width = myWidth;
         this.pos = position;
 
-        this.xRot = rotationStruct.xRot;
-        this.yRot = rotationStruct.yRot;
-        this.zRot = rotationStruct.zRot;
+        this.rot = rotationStruct;
 
     }
+
+
+
 
     draw(){
         push();
@@ -34,9 +35,9 @@ class Leaf {
         // rotateY(this.yRot);
         // rotateZ(this.zRot);
 
-        rotate(this.zRot);
-        shearX(this.xRot);
-        shearY(this.yRot);
+        rotate(this.rot.z);
+        shearX(this.rot.x);
+        shearY(this.rot.y);
 
 
         image(this.spriteSheet, 0,0,this.width,this.height,0,0,this.tileWidth,this.tileHeight);
@@ -56,5 +57,17 @@ class Leaf {
 
 
         pop();
+    }
+
+
+    rotateBasedOnAngleToRoot(angle){
+        let yRot = angle * 0.65 * -1;
+        let xRot = angle * (2/6);
+        return new RotationStruct(xRot,yRot,angle);
+    }
+
+
+    updateRotation(angleToRoot){
+        this.rot = this.rotateBasedOnAngleToRoot(angleToRoot);
     }
 }

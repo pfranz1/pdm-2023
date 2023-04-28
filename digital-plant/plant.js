@@ -9,28 +9,26 @@ function calcAngleBetweenPos(posA,posB){
 class Plant{
 
     constructor(numLeaves,xPos,yPos){
-        this.leaves = numLeaves;
+        this.numLeaves = numLeaves;
 
         this.pos = new Position(xPos,yPos);
 
         this.leaves = [];
 
-        let positions = [];
 
         for(let index = 0; index < numLeaves; index++){
-            positions.push(new Position(this.pos.x + random(-180,180),this.pos.y + random(-100,-250)));
+            let randomPos = new Position(this.pos.x + random(-180,180),this.pos.y + random(-100,-250));
+
+            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, randomPos, new RotationStruct(0,0,0));
+            this.leaves.push(newLeaf);
         }
 
-        // TODO: seperate positions
-        this.seperatePositions(positions);
+        this.seperateLeaves(this.leaves);
 
-        // this.cullCloseLeaves(positions);
+        this.sortLeavesTallestToShortest(this.leaves);
 
-        this.sortPositionsTallestToShortest(positions);
-
-        positions.forEach((pos) => {
-            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos, this.makeStructFromZRot((this.calcAngleToPos(pos) - 90) * -1));
-            this.leaves.push(newLeaf);
+        this.leaves.forEach((leaf)=>{
+            leaf.updateRotation(-1 * (this.calcAngleToPos(leaf.pos) - 90));
         });
     }
 
@@ -40,7 +38,7 @@ class Plant{
         return result;
     }
 
-    seperatePositions(positionList){
+    seperateLeaves(leafList){
         let conflictsRemain = true;
         let isFirstLoop = true;
 
@@ -53,26 +51,26 @@ class Plant{
         while(isFirstLoop || conflictsRemain){
             isFirstLoop = false;
             conflictsRemain = false;            
-            for(let index = 0; index < positionList.length; index++){
-                for(let itter = index + 1; itter < positionList.length; itter++){
-                    console.log("distance between", index, itter, positionList[index].distToOtherPos(positionList[itter]));
+            for(let index = 0; index < leafList.length; index++){
+                for(let itter = index + 1; itter < leafList.length; itter++){
+                    console.log("distance between", index, itter, leafList[index].pos.distToOtherPos(leafList[itter].pos));
 
-                    if(positionList[index].distToOtherPos(positionList[itter]) < threashHold){
+                    if(leafList[index].pos.distToOtherPos(leafList[itter].pos) < threashHold){
                         // The points must be seperated
                         console.log("Seperating leaves");
 
                         conflictsRemain = true;
-                        let lowerPosition = positionList[index].y > positionList[itter].y ? positionList[index] : positionList[itter];
-                        let higherPos = positionList[index].y <= positionList[itter].y ? positionList[index] : positionList[itter];
+                        let lowerLeaf = leafList[index].pos.y > leafList[itter].pos.y ? leafList[index] : leafList[itter];
+                        let higherLeaf = leafList[index].pos.y <= leafList[itter].pos.y ? leafList[index] : leafList[itter];
 
-                        let angleBetween = calcAngleBetweenPos(lowerPosition,higherPos);
+                        let angleBetween = calcAngleBetweenPos(lowerLeaf.pos,higherLeaf.pos);
                         
                         // If lower pos is furthan to the root than the step size
-                        if(this.pos.y - lowerPosition.y > leafSize){
-                            lowerPosition.movePosByAngle(180 - angleBetween,stepSize);
+                        if(this.pos.y - lowerLeaf.y > leafSize){
+                            lowerLeaf.pos.movePosByAngle(180 - angleBetween,stepSize);
                         }
 
-                        higherPos.movePosByAngle(angleBetween,stepSize * -1);
+                        higherLeaf.pos.movePosByAngle(angleBetween,stepSize * -1);
                     }
                 }
             }
@@ -80,30 +78,10 @@ class Plant{
         }
     }
 
-    cullCloseLeaves(positionList){
-        let rootPos = new Position(this.pos.x,this.pos.y);
-
-        for(let index = 0; index < positionList.length; index++){
-            if(positionList[index].distToOtherPos(rootPos) < leafSize){
-                console.log("Culled leaf ", index);
-                positionList.splice(index,1);
-            }
-        }
-    }
-
-    sortPositionsTallestToShortest(positionList){
-        positionList.sort((a,b)=>{
-            return a.y - b.y;
+    sortLeavesTallestToShortest(leafList){
+        leafList.sort((a,b)=>{
+            return a.pos.y - b.pos.y;
         });
-    }
-
-
-    makeStructFromZRot(iZRot){
-        let zRot = iZRot;
-        let yRot = zRot * 0.65 * -1;
-        let xRot = zRot * (2/6);
-        // leaf = new Leaf(leafSprite,64,64,100,100,250,250, new RotationStruct(xRot-10,yRot-15,zRot));  
-        return new  RotationStruct(xRot,yRot,iZRot);
     }
     
     draw(){
