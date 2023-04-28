@@ -1,7 +1,7 @@
 const leafSize = 100;
 
 function calcAngleBetweenPos(posA,posB){
-    let result = Math.atan2(posA.yPos - posB.yPos, posA.xPos - posB.xPos) * 180 / Math.PI;
+    let result = Math.atan2(posA.y- posB.y, posA.x- posB.x) * 180 / Math.PI;
     console.log(result);
     return result;
 }
@@ -10,15 +10,15 @@ class Plant{
 
     constructor(numLeaves,xPos,yPos){
         this.leaves = numLeaves;
-        this.xPos = xPos;
-        this.yPos = yPos;
+        this.x= xPos;
+        this.y= yPos;
 
         this.leaves = [];
 
         let positions = [];
 
         for(let index = 0; index < numLeaves; index++){
-            positions.push(new Position(this.xPos+ random(-180,180),this.yPos + random(-100,-250)));
+            positions.push(new Position(this.x + random(-180,180),this.y + random(-100,-250)));
         }
 
         // TODO: seperate positions
@@ -35,7 +35,7 @@ class Plant{
     }
 
     calcAngleToPos(pos){
-        let result = Math.atan2(this.yPos - pos.yPos, this.xPos - pos.xPos) * 180 / Math.PI;
+        let result = Math.atan2(this.y- pos.y, this.x- pos.x) * 180 / Math.PI;
         console.log(result);
         return result;
     }
@@ -62,17 +62,17 @@ class Plant{
                         console.log("Seperating leaves");
 
                         conflictsRemain = true;
-                        let lowerPosition = positionList[index].yPos > positionList[itter].yPos ? positionList[index] : positionList[itter];
-                        let higherPos = positionList[index].yPos <= positionList[itter].yPos ? positionList[index] : positionList[itter];
+                        let lowerPosition = positionList[index].y > positionList[itter].y ? positionList[index] : positionList[itter];
+                        let higherPos = positionList[index].y <= positionList[itter].y ? positionList[index] : positionList[itter];
 
                         let angleBetween = calcAngleBetweenPos(lowerPosition,higherPos);
                         
                         // If lower pos is furthan to the root than the step size
-                        if(this.yPos - lowerPosition.yPos > leafSize){
+                        if(this.y - lowerPosition.y > leafSize){
                             lowerPosition.movePosByAngle(180 - angleBetween,stepSize);
                         }
 
-                        higherPos.movePosByAngle(angleBetween,stepSize* -1);
+                        higherPos.movePosByAngle(angleBetween,stepSize * -1);
                     }
                 }
             }
@@ -81,7 +81,7 @@ class Plant{
     }
 
     cullCloseLeaves(positionList){
-        let rootPos = new Position(this.xPos,this.yPos);
+        let rootPos = new Position(this.x,this.y);
 
         for(let index = 0; index < positionList.length; index++){
             if(positionList[index].distToOtherPos(rootPos) < leafSize){
@@ -93,7 +93,7 @@ class Plant{
 
     sortPositionsTallestToShortest(positionList){
         positionList.sort((a,b)=>{
-            return a.yPos - b.yPos;
+            return a.y - b.y;
         });
     }
 
@@ -116,7 +116,7 @@ class Plant{
 
         this.leaves.forEach(element => {
 
-            curve(this.xPos + controlPointOffset, this.yPos + controlPointOffset, this.xPos,this.yPos, element.pos.xPos , element.pos.yPos, element.pos.xPos + controlPointOffset, element.pos.yPos + controlPointOffset);
+            curve(this.x + controlPointOffset, this.y + controlPointOffset, this.x,this.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
             element.draw();
             
 
@@ -128,19 +128,19 @@ class Plant{
 
 class Position{
     constructor(xPos,yPos){
-        this.xPos = xPos;
-        this.yPos = yPos;
+        this.x = xPos;
+        this.y = yPos;
     }
 
     distToOtherPos(other){
-        let y = other.xPos - this.xPos;
-        let x = other.yPos - this.yPos;
+        let y = other.x - this.x;
+        let x = other.y - this.y;
       
         return Math.sqrt(x * x + y * y);
     }
 
     movePosByAngle(angle,dist){
-        this.xPos += dist * Math.cos(angle / 57.2958);
-        this.yPos += dist * Math.sin(angle / 57.2958);
+        this.x += dist * Math.cos(angle / 57.2958);
+        this.y += dist * Math.sin(angle / 57.2958);
     }
 }

@@ -19,7 +19,7 @@ class Leaf {
         // rotateX(this.xRot);
 
         // translate(500,20);
-        translate(this.pos.xPos,this.pos.yPos);
+        translate(this.pos.x,this.pos.y);
 
         textSize(15);
         fill(0,0,0);
