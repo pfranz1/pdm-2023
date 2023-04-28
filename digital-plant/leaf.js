@@ -64,6 +64,10 @@ class Leaf {
         pop();
     }
 
+    setRoot(rootPos){
+        this.root = rootPos;
+    }
+
     elongateStem(growthAmmount){
         // linearly less growth the longer the stem gets longer
 
@@ -73,7 +77,7 @@ class Leaf {
 
             this.stemLength += Math.floor(ammount);
 
-            this.updatePositionRelativeToRoot(this.root);
+            this.updatePositionAndTilt();
         }
 
 
@@ -94,23 +98,6 @@ class Leaf {
 
     maxAngle = 140;
     minAngle = 40;
-
-    updatePositionRelativeToRoot(rootPos){
-
-        this.root = rootPos;
-
-        if(this.stemAngle > this.maxAngle){
-            this.stemAngle = this.maxAngle;
-        } else if(this.stemAngle < this.minAngle) {
-            this.stemAngle = this.minAngle;            
-        }
-
-
-        this.pos.y = rootPos.y - this.stemLength * Math.sin(this.stemAngle * 0.0174);
-        this.pos.x = rootPos.x - this.stemLength * Math.cos(this.stemAngle * 0.0174);
-
-    }
-
 
     updatePositionAndTilt(){
         if(this.stemAngle > this.maxAngle){

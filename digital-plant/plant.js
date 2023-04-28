@@ -20,12 +20,13 @@ class Plant{
             let randomPos = new Position(this.pos.x + random(-180,180),this.pos.y + random(-100,-250));
 
             let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, (index + 4) * random(20,30), random(30,160), randomPos, new RotationStruct(0,0,0));
+            newLeaf.setRoot(this.pos);
             this.leaves.push(newLeaf);
         }
 
         
         this.leaves.forEach((leaf)=>{
-            leaf.updatePositionRelativeToRoot(this.pos);
+            leaf.updatePositionAndTilt();
         });
  
 
@@ -96,8 +97,8 @@ class Plant{
 
                         // // higherLeaf.pos.movePosByAngle(angleBetween,stepSize * -1);
                         // higherLeaf.stemAngle = stepSize * lowerGoClockWise * -1;
-                        lowerLeaf.updatePositionRelativeToRoot(this.pos);
-                        higherLeaf.updatePositionRelativeToRoot(this.pos);
+                        lowerLeaf.updatePositionAndTilt();
+                        higherLeaf.updatePositionAndTilt();
                         
                     }
                 }
