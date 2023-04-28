@@ -10,15 +10,15 @@ class Plant{
 
     constructor(numLeaves,xPos,yPos){
         this.leaves = numLeaves;
-        this.x= xPos;
-        this.y= yPos;
+
+        this.pos = new Position(xPos,yPos);
 
         this.leaves = [];
 
         let positions = [];
 
         for(let index = 0; index < numLeaves; index++){
-            positions.push(new Position(this.x + random(-180,180),this.y + random(-100,-250)));
+            positions.push(new Position(this.pos.x + random(-180,180),this.pos.y + random(-100,-250)));
         }
 
         // TODO: seperate positions
@@ -35,7 +35,7 @@ class Plant{
     }
 
     calcAngleToPos(pos){
-        let result = Math.atan2(this.y- pos.y, this.x- pos.x) * 180 / Math.PI;
+        let result = Math.atan2(this.pos.y- pos.y, this.pos.x- pos.x) * 180 / Math.PI;
         console.log(result);
         return result;
     }
@@ -68,7 +68,7 @@ class Plant{
                         let angleBetween = calcAngleBetweenPos(lowerPosition,higherPos);
                         
                         // If lower pos is furthan to the root than the step size
-                        if(this.y - lowerPosition.y > leafSize){
+                        if(this.pos.y - lowerPosition.y > leafSize){
                             lowerPosition.movePosByAngle(180 - angleBetween,stepSize);
                         }
 
@@ -81,7 +81,7 @@ class Plant{
     }
 
     cullCloseLeaves(positionList){
-        let rootPos = new Position(this.x,this.y);
+        let rootPos = new Position(this.pos.x,this.pos.y);
 
         for(let index = 0; index < positionList.length; index++){
             if(positionList[index].distToOtherPos(rootPos) < leafSize){
@@ -112,11 +112,11 @@ class Plant{
         fill(113,80,60);
         strokeWeight(10);
         stroke(113,80,40);
-        // circle(this.xPos,this.yPos,40);
+        // circle(this.pos.xPos,this.pos.yPos,40);
 
         this.leaves.forEach(element => {
 
-            curve(this.x + controlPointOffset, this.y + controlPointOffset, this.x,this.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
+            curve(this.pos.x + controlPointOffset, this.pos.y + controlPointOffset, this.pos.x,this.pos.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
             element.draw();
             
 
