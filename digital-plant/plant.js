@@ -29,7 +29,7 @@ class Plant{
         this.sortPositionsTallestToShortest(positions);
 
         positions.forEach((pos) => {
-            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos.xPos,pos.yPos, makeStructFromZRot((this.calcAngleToPos(pos) - 90) * -1));
+            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, pos.xPos,pos.yPos, this.makeStructFromZRot((this.calcAngleToPos(pos) - 90) * -1));
             this.leaves.push(newLeaf);
         });
     }
