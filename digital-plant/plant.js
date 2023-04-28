@@ -1,4 +1,11 @@
 const leafSize = 100;
+
+function calcAngleBetweenPos(posA,posB){
+    let result = Math.atan2(posA.yPos - posB.yPos, posA.xPos - posB.xPos) * 180 / Math.PI;
+    console.log(result);
+    return result;
+}
+
 class Plant{
 
     constructor(numLeaves,xPos,yPos){
@@ -37,8 +44,9 @@ class Plant{
         let conflictsRemain = true;
         let isFirstLoop = true;
 
-        let threashHold = leafSize;
-        let stepSize = 20;
+        let threashHold = leafSize + 10;
+        let stepSize = 40;
+
 
         console.log("seperating positions");
 
@@ -54,18 +62,21 @@ class Plant{
                         console.log("Seperating leaves");
 
                         conflictsRemain = true;
-                        let lowerPosition = positionList[index].yPos <= positionList[itter].yPos ? positionList[index] : positionList[itter];
-                        let higherPos = positionList[index].yPos > positionList[itter].yPos ? positionList[index] : positionList[itter];
+                        let lowerPosition = positionList[index].yPos > positionList[itter].yPos ? positionList[index] : positionList[itter];
+                        let higherPos = positionList[index].yPos <= positionList[itter].yPos ? positionList[index] : positionList[itter];
 
-                        let tempX = lowerPosition.xPos;
-                        let tempY = lowerPosition.yPos;
+                        let angleBetween = calcAngleBetweenPos(lowerPosition,higherPos);
+                        
+                        // If lower pos is furthan to the root than the step size
+                        if(this.yPos - lowerPosition.yPos > leafSize){
+                            lowerPosition.movePosByAngle(180 - angleBetween,stepSize);
+                        }
 
-                        lowerPosition.movePosByAngle(this.calcAngleToPos(lowerPosition),stepSize * -1);
-                        higherPos.movePosByAngle(this.calcAngleToPos(higherPos),stepSize);
+                        higherPos.movePosByAngle(angleBetween,stepSize* -1);
                     }
                 }
             }
-            threashHold = threashHold * 2/3;
+            threashHold = threashHold * (2/3);
         }
     }
 
@@ -75,7 +86,7 @@ class Plant{
         for(let index = 0; index < positionList.length; index++){
             if(positionList[index].distToOtherPos(rootPos) < leafSize){
                 console.log("Culled leaf ", index);
-                positionList.splice(index,1);
+                // positionList.splice(index,1);
             }
         }
     }
