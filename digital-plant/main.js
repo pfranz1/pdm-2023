@@ -12,6 +12,8 @@ let leaves = [];
 
 let plant;
 
+let doGrow  = false;
+
 
 function preload(){
     myFont = loadFont('assets/NexaText-Trial-Regular.ttf');
@@ -43,11 +45,20 @@ function draw(){
 
     plant.draw();
 
+    if(doGrow && frameCount % 30 == 0){
+        plant.doGrowTick();
+    }
+
+    if(doGrow){
+        textSize(25);
+        text("Growing...", 15 ,30);
+    }
+
 }
 
 function keyPressed(){
     if (key == 'a'){
-        plant.doGrowTick();
+        doGrow = !doGrow;
     }
 }
 
