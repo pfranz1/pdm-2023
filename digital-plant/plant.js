@@ -112,6 +112,13 @@ class Plant{
             return a.pos.y - b.pos.y;
         });
     }
+
+    doGrowTick(){
+        console.log("growing...");
+        this.leaves.forEach((leaf)=>{
+            leaf.elongateStem(10);
+        });
+    }
     
     draw(){
         let controlPointOffset = 30;

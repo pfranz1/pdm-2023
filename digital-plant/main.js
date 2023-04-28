@@ -21,7 +21,7 @@ function preload(){
 }
 
 
-let numLeaves = 10;
+let numLeaves = 3;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight);
@@ -43,6 +43,12 @@ function draw(){
 
     plant.draw();
 
+}
+
+function keyPressed(){
+    if (key == 'a'){
+        plant.doGrowTick();
+    }
 }
 
 

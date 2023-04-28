@@ -62,6 +62,12 @@ class Leaf {
         pop();
     }
 
+    elongateStem(growthAmmount){
+        this.stemLength += growthAmmount;
+
+        this.updatePositionRelativeToRoot(this.root);
+    }
+
 
     rotateBasedOnAngleToRoot(angle){
         let yRot = angle * 0.65 * -1;
@@ -79,6 +85,8 @@ class Leaf {
     minAngle = 40;
 
     updatePositionRelativeToRoot(rootPos){
+
+        this.root = rootPos;
 
         if(this.stemAngle > this.maxAngle){
             this.stemAngle = this.maxAngle;
