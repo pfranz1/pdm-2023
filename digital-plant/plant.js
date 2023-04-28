@@ -24,7 +24,7 @@ class Plant{
         // TODO: seperate positions
         this.seperatePositions(positions);
 
-        this.cullCloseLeaves(positions);
+        // this.cullCloseLeaves(positions);
 
         this.sortPositionsTallestToShortest(positions);
 
@@ -86,7 +86,7 @@ class Plant{
         for(let index = 0; index < positionList.length; index++){
             if(positionList[index].distToOtherPos(rootPos) < leafSize){
                 console.log("Culled leaf ", index);
-                // positionList.splice(index,1);
+                positionList.splice(index,1);
             }
         }
     }
