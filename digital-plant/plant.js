@@ -19,9 +19,15 @@ class Plant{
         for(let index = 0; index < numLeaves; index++){
             let randomPos = new Position(this.pos.x + random(-180,180),this.pos.y + random(-100,-250));
 
-            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, randomPos, new RotationStruct(0,0,0));
+            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, (index + 4) * random(20,30), random(30,160), randomPos, new RotationStruct(0,0,0));
             this.leaves.push(newLeaf);
         }
+
+        
+        this.leaves.forEach((leaf)=>{
+            leaf.updatePositionRelativeToRoot(this.pos);
+        });
+ 
 
         this.seperateLeaves(this.leaves);
 
@@ -38,17 +44,19 @@ class Plant{
         return result;
     }
 
+
     seperateLeaves(leafList){
         let conflictsRemain = true;
         let isFirstLoop = true;
 
         let threashHold = leafSize + 10;
-        let stepSize = 40;
+        let stepSize = 5;
 
 
         console.log("seperating positions");
 
-        while(isFirstLoop || conflictsRemain){
+        while(isFirstLoop || conflictsRemain && threashHold > 1){
+            console.log("Threahold: ", threashHold);
             isFirstLoop = false;
             conflictsRemain = false;            
             for(let index = 0; index < leafList.length; index++){
@@ -64,17 +72,38 @@ class Plant{
                         let higherLeaf = leafList[index].pos.y <= leafList[itter].pos.y ? leafList[index] : leafList[itter];
 
                         let angleBetween = calcAngleBetweenPos(lowerLeaf.pos,higherLeaf.pos);
-                        
-                        // If lower pos is furthan to the root than the step size
-                        if(this.pos.y - lowerLeaf.y > leafSize){
-                            lowerLeaf.pos.movePosByAngle(180 - angleBetween,stepSize);
-                        }
 
-                        higherLeaf.pos.movePosByAngle(angleBetween,stepSize * -1);
+
+
+                        // The lower leaf is left of the higher leaf
+                        if(angleBetween <= 90){
+                            console.log("too the left");
+                            lowerLeaf.stemAngle = lowerLeaf.stemAngle + stepSize;
+                            higherLeaf.stemAngle = higherLeaf.stemAngle - stepSize;
+                        } else {
+                            lowerLeaf.stemAngle = lowerLeaf.stemAngle - stepSize;
+                            higherLeaf.stemAngle = higherLeaf.stemAngle + stepSize;
+                        }
+                        
+                        // // If lower pos is furthan to the root than the step size
+                        // if(this.pos.y - lowerLeaf.y > leafSize){
+                        //     // lowerLeaf.pos.movePosByAngle(180 - angleBetween,stepSize);
+
+                        //     lowerLeaf.stemAngle = stepSize * lowerGoClockWise;
+
+
+                        // }
+
+                        // // higherLeaf.pos.movePosByAngle(angleBetween,stepSize * -1);
+                        // higherLeaf.stemAngle = stepSize * lowerGoClockWise * -1;
+                        lowerLeaf.updatePositionRelativeToRoot(this.pos);
+                        higherLeaf.updatePositionRelativeToRoot(this.pos);
+                        
                     }
                 }
             }
-            threashHold = threashHold * (2/3);
+            threashHold = threashHold * 0.95;
+            stepSize = stepSize * 1.25;
         }
     }
 
@@ -120,5 +149,11 @@ class Position{
     movePosByAngle(angle,dist){
         this.x += dist * Math.cos(angle / 57.2958);
         this.y += dist * Math.sin(angle / 57.2958);
+    }
+
+    calcAngleBetween(other){
+        let result = Math.atan2(this.y- other.y, this.x- other.x) * 180 / Math.PI;
+        console.log(result);
+        return result;
     }
 }

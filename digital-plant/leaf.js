@@ -1,5 +1,5 @@
 class Leaf {
-    constructor(spriteSheet, tileWidth, tileHeight, myHeight,myWidth, position, rotationStruct){
+    constructor(spriteSheet, tileWidth, tileHeight, myHeight,myWidth,stemLength, stemAngle, position, rotationStruct){
         this.spriteSheet = spriteSheet;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
@@ -8,6 +8,9 @@ class Leaf {
         this.pos = position;
 
         this.rot = rotationStruct;
+
+        this.stemLength = stemLength;
+        this.stemAngle = stemAngle;
 
     }
 
@@ -69,5 +72,23 @@ class Leaf {
 
     updateRotation(angleToRoot){
         this.rot = this.rotateBasedOnAngleToRoot(angleToRoot);
+    }
+
+
+    maxAngle = 140;
+    minAngle = 40;
+
+    updatePositionRelativeToRoot(rootPos){
+
+        if(this.stemAngle > this.maxAngle){
+            this.stemAngle = this.maxAngle;
+        } else if(this.stemAngle < this.minAngle) {
+            this.stemAngle = this.minAngle;            
+        }
+
+
+        this.pos.y = rootPos.y - this.stemLength * Math.sin(this.stemAngle * 0.0174);
+        this.pos.x = rootPos.x - this.stemLength * Math.cos(this.stemAngle * 0.0174);
+
     }
 }
