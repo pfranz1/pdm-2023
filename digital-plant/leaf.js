@@ -99,4 +99,17 @@ class Leaf {
         this.pos.x = rootPos.x - this.stemLength * Math.cos(this.stemAngle * 0.0174);
 
     }
+
+
+    updatePositionAndTilt(){
+        if(this.stemAngle > this.maxAngle){
+            this.stemAngle = this.maxAngle;
+        } else if(this.stemAngle < this.minAngle) {
+            this.stemAngle = this.minAngle;            
+        }
+
+
+        this.pos.y = this.root.y - this.stemLength * Math.sin(this.stemAngle * 0.0174);
+        this.pos.x = this.root.x - this.stemLength * Math.cos(this.stemAngle * 0.0174);
+    }
 }

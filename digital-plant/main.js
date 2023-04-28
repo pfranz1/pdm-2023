@@ -1,5 +1,5 @@
 let canvasWidth = 750;
-let canvasHeight = 500;
+let canvasHeight = 1000;
 
 let padding = 50;
 
@@ -21,7 +21,7 @@ function preload(){
 }
 
 
-let numLeaves = 3;
+let numLeaves = 10;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight);

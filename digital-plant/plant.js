@@ -113,10 +113,36 @@ class Plant{
         });
     }
 
+    static growStepSize = 5;
+    static maxGrowingTilt = 1;
+
     doGrowTick(){
         console.log("growing...");
-        this.leaves.forEach((leaf)=>{
-            leaf.elongateStem(10);
+
+        this.leaves.forEach((leaf, index)=>{
+            let canGrowUp = true;
+
+            // For every other leaf that is higher than this leaf (list is sorted from high to low)
+            for(let itter = 0; itter < index; itter++){
+                if(leaf.pos.distToOtherPos(this.leaves[itter].pos) < leafSize + 25){
+                    canGrowUp = false;
+                    
+                    let angleBetween = calcAngleBetweenPos(leaf.pos,this.leaves[itter].pos);
+
+                    // The lower leaf is left of the higher leaf
+                    if(angleBetween <= 90){
+                        console.log("too the left");
+                        leaf.stemAngle = leaf.stemAngle + Plant.maxGrowingTilt;
+                    } else {
+                        leaf.stemAngle = leaf.stemAngle - Plant.maxGrowingTilt;
+                    }
+                }
+            }
+            if(canGrowUp){
+                leaf.elongateStem(Plant.growStepSize);
+            } else {
+                leaf.updatePositionAndTilt();
+            }
         });
     }
     
