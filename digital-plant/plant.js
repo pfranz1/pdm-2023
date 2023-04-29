@@ -148,14 +148,12 @@ class Plant{
     draw(){
         let controlPointOffset = 30;
         push();
-        fill(113,80,60);
-        strokeWeight(10);
-        stroke(113,80,40);
+
         // circle(this.pos.xPos,this.pos.yPos,40);
 
         this.leaves.forEach(element => {
 
-            curve(this.pos.x + controlPointOffset, this.pos.y + controlPointOffset, this.pos.x,this.pos.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
+            // curve(this.pos.x + controlPointOffset, this.pos.y + controlPointOffset, this.pos.x,this.pos.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
             element.draw();
             
 

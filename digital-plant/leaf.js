@@ -20,6 +20,29 @@ class Leaf {
 
 
     draw(){
+
+        let controlPointOffset = 10;
+        // curve(this.pos.x + controlPointOffset, this.pos.y + controlPointOffset, this.pos.x,this.pos.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
+        // curve (this.root.x, this.root.y,this.pos.x, (this.pos.y - this.root.y) / 2,this.root.x,(this.pos.y + this.root.y) / 2,this.pos.x,this.pos.y);
+
+        let epsilon = 250;
+        // curve(this.root.x, this.root.y, this.root.x + ((this.pos.x - this.root.x) / 2),this.root.y, this.pos.x + ((this.root.x - this.pos.x) / 2), this.pos.y, this.pos.x,this.pos.y);
+        
+        push();
+
+        noFill();
+        // fill(123,41,39);
+        strokeWeight(10);
+        stroke(123,41,39);
+
+        // ^4 distance between y values + distance between y vals
+        // Creates a more pronounced droop for longer leaves, while also having the start of a droop for shorter leaves
+        let yDistMult = ((this.root.y - this.pos.y) << 2) + ((this.root.y - this.pos.y));
+
+        curve(this.root.x + ((this.pos.x - this.root.x) / 2),this.root.y - epsilon, this.root.x, this.root.y , this.pos.x,this.pos.y,  this.pos.x + ((this.root.x - this.pos.x) / 2), this.pos.y + yDistMult,);
+
+        
+        pop();
         push();
 
         // rotateX(this.xRot);
@@ -59,7 +82,6 @@ class Leaf {
         // translate(0, (this.height / 2) * 0.90);
 
         // // console.log(this.xRot, this.yRot,this.zRot);
-
 
         pop();
     }
