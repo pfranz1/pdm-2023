@@ -12,7 +12,7 @@ let myFont;
 let leaves = [];
 
 let plant;
-let pot;
+// let pot;
 
 let doGrow  = false;
 
@@ -38,9 +38,11 @@ function setup(){
 
     let plantPosition = new Position(canvasWidth / 2,canvasHeight * 0.90);
 
-    plant = new Plant(numLeaves,plantPosition);
+    let pot = new Pot(potSprite,200,new Position(plantPosition.x,plantPosition.y));
 
-    pot = new Pot(potSprite,200,new Position(plantPosition.x,plantPosition.y));
+
+    plant = new Plant(numLeaves,plantPosition, pot);
+
 
 }
 
@@ -52,7 +54,6 @@ function draw(){
 
     plant.draw();
 
-    pot.draw();
 
     if(doGrow && frameCount % 30 == 0){
         plant.doGrowTick();

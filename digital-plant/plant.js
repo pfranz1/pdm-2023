@@ -2,10 +2,11 @@ const leafSize = 100;
 
 class Plant{
 
-    constructor(numLeaves,pos){
+    constructor(numLeaves,pos, pot){
         this.numLeaves = numLeaves;
 
         this.pos = pos;
+        this.pot = pot;
 
         this.leaves = [];
 
@@ -146,20 +147,17 @@ class Plant{
     }
     
     draw(){
-        let controlPointOffset = 30;
-        push();
-
-        // circle(this.pos.xPos,this.pos.yPos,40);
 
         this.leaves.forEach(element => {
+            element.drawStems();
+        });
 
-            // curve(this.pos.x + controlPointOffset, this.pos.y + controlPointOffset, this.pos.x,this.pos.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
-            element.draw();
-            
+        this.pot.draw();
 
+        this.leaves.forEach(element => {
+            element.drawLeaves();
         });
         
-        pop();
     }
 }
 

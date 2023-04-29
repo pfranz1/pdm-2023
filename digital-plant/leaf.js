@@ -17,10 +17,10 @@ class Leaf {
     }
 
 
+    drawStems(){
+        push();
 
-
-    draw(){
-
+        
         let controlPointOffset = 10;
         // curve(this.pos.x + controlPointOffset, this.pos.y + controlPointOffset, this.pos.x,this.pos.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
         // curve (this.root.x, this.root.y,this.pos.x, (this.pos.y - this.root.y) / 2,this.root.x,(this.pos.y + this.root.y) / 2,this.pos.x,this.pos.y);
@@ -28,7 +28,6 @@ class Leaf {
         let epsilon = 250;
         // curve(this.root.x, this.root.y, this.root.x + ((this.pos.x - this.root.x) / 2),this.root.y, this.pos.x + ((this.root.x - this.pos.x) / 2), this.pos.y, this.pos.x,this.pos.y);
         
-        push();
 
         noFill();
         // fill(123,41,39);
@@ -43,6 +42,10 @@ class Leaf {
 
         
         pop();
+    }
+
+    drawLeaves(){
+
         push();
 
         // rotateX(this.xRot);
@@ -84,6 +87,15 @@ class Leaf {
         // // console.log(this.xRot, this.yRot,this.zRot);
 
         pop();
+
+    }
+
+    draw(){
+
+        this.drawStems();
+
+        this.drawLeaves();
+        
     }
 
     setRoot(rootPos){
