@@ -38,7 +38,7 @@ function setup(){
 
     let plantPosition = new Position(canvasWidth / 2,canvasHeight * 0.90);
 
-    plant = new Plant(numLeaves,plantPosition.x,plantPosition.y);
+    plant = new Plant(numLeaves,plantPosition);
 
     pot = new Pot(potSprite,200,new Position(plantPosition.x,plantPosition.y));
 

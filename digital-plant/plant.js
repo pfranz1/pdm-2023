@@ -2,10 +2,10 @@ const leafSize = 100;
 
 class Plant{
 
-    constructor(numLeaves,xPos,yPos){
+    constructor(numLeaves,pos){
         this.numLeaves = numLeaves;
 
-        this.pos = new Position(xPos,yPos);
+        this.pos = pos;
 
         this.leaves = [];
 
