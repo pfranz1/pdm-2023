@@ -27,7 +27,7 @@ function preload(){
 }
 
 
-let numLeaves = 14;
+let numLeaves = 2;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight);

@@ -12,9 +12,8 @@ class Plant{
 
 
         for(let index = 0; index < numLeaves; index++){
-            let randomPos = new Position(this.pos.x + random(-180,180),this.pos.y + random(-100,-250));
 
-            let newLeaf =  new Leaf(leafSprite,64,64,leafSize,leafSize, (index + 4) * random(20,30), random(30,160), randomPos, new RotationStruct(0,0,0));
+            let newLeaf =  new Leaf(leafSprite,leafSize, (index + 4) * random(20,40), random(30,160));
             newLeaf.setRoot(this.pos);
             this.leaves.push(newLeaf);
         }
@@ -144,6 +143,20 @@ class Plant{
                 leaf.updatePositionAndTilt();
             }
         });
+    }
+
+    trySpawnNewLeaf(){
+        // let onlyCheck = 5;
+        
+        let newLeaf =  new Leaf(leafSprite,leafSize,random(40,150),random(10,30));
+
+        // for(let i = this.leaves.length - onlyCheck; i < this.leaves.length; i++){
+
+        // }
+
+        newLeaf.setRoot(this.pos);
+        this.leaves.push(newLeaf);
+
     }
     
     draw(){

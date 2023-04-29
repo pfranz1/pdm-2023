@@ -1,18 +1,17 @@
 class Leaf {
     static maxHeight = 500;
+    static tileSize;
 
-    constructor(spriteSheet, tileWidth, tileHeight, myHeight,myWidth,stemLength, stemAngle, position, rotationStruct){
+    constructor(spriteSheet, size, stemAngle,stemLength){
         this.spriteSheet = spriteSheet;
-        this.tileWidth = tileWidth;
-        this.tileHeight = tileHeight;
-        this.height = myHeight;
-        this.width = myWidth;
-        this.pos = position;
 
-        this.rot = rotationStruct;
+        this.size = size;
+        this.pos = new Position(0,0);
+        this.rot = new RotationStruct(0,0,0);
 
         this.stemLength = stemLength;
         this.stemAngle = stemAngle;
+
 
     }
 
@@ -71,7 +70,7 @@ class Leaf {
         shearY(this.rot.y);
 
 
-        image(this.spriteSheet, 0,0,this.width,this.height,0,0,this.tileWidth,this.tileHeight);
+        image(this.spriteSheet, 0,0,this.size,this.size,0,0,Leaf.tileSize,Leaf.tileSize);
 
         // rotateX(this.xRot);
         // rotateY(this.yRot);
@@ -105,7 +104,7 @@ class Leaf {
     elongateStem(growthAmmount){
         // linearly less growth the longer the stem gets longer
 
-        if(this.height < Leaf.maxHeight){
+        if(this.stemAngle < Leaf.maxHeight){
 
             let ammount  = growthAmmount * (1 - (this.stemLength / Leaf.maxHeight));
 
