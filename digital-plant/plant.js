@@ -113,6 +113,9 @@ class Plant{
 
     doGrowTick(){
         console.log("growing...");
+        //TODO: Dont call sort every itteration
+        this.sortLeavesTallestToShortest(this.leaves);
+
 
         this.leaves.forEach((leaf, index)=>{
             let canGrowUp = true;
