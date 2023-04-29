@@ -1,6 +1,9 @@
 const leafSize = 100;
 
 class Plant{
+    // Ticks until a new leaf is spawned
+    static newLeafSpawnFrequency = 10;
+
 
     constructor(numLeaves,pos, pot){
         this.numLeaves = numLeaves;
@@ -9,6 +12,8 @@ class Plant{
         this.pot = pot;
 
         this.leaves = [];
+
+        this.newLeafSpawnCounter = 0;
 
 
         for(let index = 0; index < numLeaves; index++){
@@ -116,6 +121,12 @@ class Plant{
         //TODO: Dont call sort every itteration
         this.sortLeavesTallestToShortest(this.leaves);
 
+        this.newLeafSpawnCounter++;
+        if(this.newLeafSpawnCounter > Plant.newLeafSpawnFrequency){
+            this.newLeafSpawnCounter = 0;
+            this.trySpawnNewLeaf();
+        }
+
 
         this.leaves.forEach((leaf, index)=>{
             let canGrowUp = true;
@@ -148,12 +159,30 @@ class Plant{
     trySpawnNewLeaf(){
         // let onlyCheck = 5;
         
-        let newLeaf =  new Leaf(leafSprite,leafSize,random(40,150),random(10,30));
+        let newLeaf =  new Leaf(leafSprite,leafSize,random(40,150),random(25,30));
+        newLeaf.setRoot(this.pos);
+        newLeaf.updatePositionAndTilt();
 
-        // for(let i = this.leaves.length - onlyCheck; i < this.leaves.length; i++){
+        let i = this.leaves.length - 1;
+        let hasFoundFarLeaf = false;
+        
+        while(!hasFoundFarLeaf && i >= 0){
+            let dist = this.leaves[i].pos.distToOtherPos(newLeaf.pos);
+            
+            // If the purposed leaf location is too close to an existing leaf - exit
+            if (dist < leafSize){
+                console.log("Failed to make new leaf");
+                return;
+            } else if(dist > leafSize * 2){
+                // If the distances now are now so great is obvious that no other leaves will colide
+                hasFoundFarLeaf = true;
+            }
 
-        // }
+            i = i - 1;
+        }
+        console.log("adding new leaf");
 
+        // Accept the new leaf
         newLeaf.setRoot(this.pos);
         this.leaves.push(newLeaf);
 

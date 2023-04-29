@@ -55,7 +55,7 @@ function draw(){
     plant.draw();
 
 
-    if(doGrow && frameCount % 30 == 0){
+    if(doGrow && frameCount % 10 == 0){
         plant.doGrowTick();
     }
 
