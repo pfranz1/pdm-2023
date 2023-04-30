@@ -24,7 +24,7 @@ function preload(){
 
     leafSprite = loadImage("./assets/large-leaf.png") ;
 
-    potSprite = loadImage("./assets/Pot2.png") ;
+    potSprite = loadImage("./assets/pot2.png") ;
 
 }
 
