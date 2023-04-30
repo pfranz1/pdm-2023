@@ -132,6 +132,10 @@ class Plant{
         this.leaves.forEach((leaf, index)=>{
             leaf.incAge(10);
 
+            if(leaf.age >= Leaf.maxAge){
+                this.cullLeaf(index);
+            }
+
             let canGrowUp = true;
 
             // For every other leaf that is higher than this leaf (list is sorted from high to low)
@@ -189,6 +193,10 @@ class Plant{
         newLeaf.setRoot(this.pos);
         this.leaves.push(newLeaf);
 
+    }
+
+    cullLeaf(indexOfLeaf){
+        this.leaves.splice(indexOfLeaf,1);
     }
     
     draw(){
