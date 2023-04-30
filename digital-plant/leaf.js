@@ -7,6 +7,10 @@ class Leaf {
     static matureSize = 100;
     static startingSize = 50;
 
+    //Defined in the startup method of main - need p5 to call color constructor
+    static startColor;
+    static endColor;
+
     static tileSize = 64;
 
     constructor(spriteSheet, size, stemAngle,stemLength){
@@ -14,6 +18,7 @@ class Leaf {
 
         this.size = size;
         this.age = 0;
+        this.percentMature = 0;
         this.pos = new Position(0,0);
         this.rot = new RotationStruct(0,0,0);
 
@@ -39,7 +44,9 @@ class Leaf {
         noFill();
         // fill(123,41,39);
         strokeWeight(10);
-        stroke(123,41,39);
+        let strokeColor = lerpColor(Leaf.endColor, Leaf.startColor, this.percentMature + 0.25);
+
+        stroke(strokeColor);
 
         // ^4 distance between y values + distance between y vals
         // Creates a more pronounced droop for longer leaves, while also having the start of a droop for shorter leaves
@@ -90,7 +97,9 @@ class Leaf {
     incAge(ticks){
         this.age += ticks;
 
-        this.size = (Leaf.matureSize - Leaf.startingSize) * Math.min(this.age / Leaf.matureAge, 1) + Leaf.startingSize;
+        this.percentMature = Math.min(this.age / Leaf.matureAge, 1);
+
+        this.size = (Leaf.matureSize - Leaf.startingSize) * this.percentMature + Leaf.startingSize;
     }
 
     elongateStem(growthAmmount){

@@ -1,4 +1,4 @@
-const leafSize = 100;
+const leafSize = 75;
 
 class Plant{
     // Ticks until a new leaf is spawned
@@ -26,6 +26,7 @@ class Plant{
         
         this.leaves.forEach((leaf)=>{
             leaf.updatePositionAndTilt();
+            leaf.incAge((leaf.stemLength / Leaf.maxHeight) * Leaf.matureSize);
         });
  
 

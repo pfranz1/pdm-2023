@@ -36,6 +36,10 @@ function setup(){
     colorMode('hsb');
     angleMode(DEGREES);
 
+     
+    Leaf.startColor = color(123,41,39);
+    Leaf.endColor = color(88,42,71);
+
     let plantPosition = new Position(canvasWidth / 2,canvasHeight * 0.90);
 
     let pot = new Pot(potSprite,200,new Position(plantPosition.x,plantPosition.y));
