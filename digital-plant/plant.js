@@ -129,6 +129,8 @@ class Plant{
 
 
         this.leaves.forEach((leaf, index)=>{
+            leaf.incAge(10);
+
             let canGrowUp = true;
 
             // For every other leaf that is higher than this leaf (list is sorted from high to low)

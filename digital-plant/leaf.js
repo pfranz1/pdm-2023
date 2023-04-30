@@ -1,11 +1,19 @@
 class Leaf {
     static maxHeight = 500;
-    static tileSize;
+    
+    static maxAge = 1000;
+    static matureAge = 500;
+
+    static matureSize = 100;
+    static startingSize = 50;
+
+    static tileSize = 64;
 
     constructor(spriteSheet, size, stemAngle,stemLength){
         this.spriteSheet = spriteSheet;
 
         this.size = size;
+        this.age = 0;
         this.pos = new Position(0,0);
         this.rot = new RotationStruct(0,0,0);
 
@@ -99,6 +107,12 @@ class Leaf {
 
     setRoot(rootPos){
         this.root = rootPos;
+    }
+
+    incAge(ticks){
+        this.age += ticks;
+
+        this.size = (Leaf.matureSize - Leaf.startingSize) * Math.min(this.age / Leaf.matureAge, 1) + Leaf.startingSize;
     }
 
     elongateStem(growthAmmount){
