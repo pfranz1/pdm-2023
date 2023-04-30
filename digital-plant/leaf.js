@@ -55,23 +55,13 @@ class Leaf {
 
         push();
 
-        // rotateX(this.xRot);
-
-        // translate(500,20);
         translate(this.pos.x,this.pos.y);
-
-        textSize(15);
+        // textSize(15);
         fill(0,0,0);
         // // let startX = this.width / 2 * -1;
         // text(this.xRot,-30,this.height / 2 * -1);
         // text(this.yRot,0,this.height / 2 * -1);
         // text(this.zRot ,30,this.height / 2 * -1);
-
-
-
-        // rotateX(this.xRot);
-        // rotateY(this.yRot);
-        // rotateZ(this.zRot);
 
         rotate(this.rot.z);
         shearX(this.rot.x);
@@ -80,18 +70,6 @@ class Leaf {
 
         image(this.spriteSheet, 0,0,this.size,this.size,0,0,Leaf.tileSize,Leaf.tileSize);
 
-        // rotateX(this.xRot);
-        // rotateY(this.yRot);
-        // rotateZ(this.zRot);
-
-
-        // translate(this.xPos,this.yPos);
-
-        // // square(this.xPos - this.width / 2,this.yPos, this.height);
-
-        // translate(0, (this.height / 2) * 0.90);
-
-        // // console.log(this.xRot, this.yRot,this.zRot);
 
         pop();
 
