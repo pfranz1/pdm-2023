@@ -8,6 +8,8 @@ let potSprite;
 
 let myFont;
 
+let button;
+
 
 let leaves = [];
 
@@ -36,6 +38,11 @@ function setup(){
     colorMode('hsb');
     angleMode(DEGREES);
 
+    button = createButton('Grow!!!');
+    button.position(8, canvasHeight + 150);
+    button.mousePressed(()=>{
+        doGrow = !doGrow;
+    });
      
     Leaf.startColor = color(123,41,39);
     Leaf.endColor = color(88,42,71);
