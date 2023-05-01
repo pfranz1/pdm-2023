@@ -14,6 +14,8 @@ let button;
 let leaves = [];
 
 let plant;
+
+let drop;
 // let pot;
 
 let doGrow  = false;
@@ -25,6 +27,8 @@ function preload(){
     leafSprite = loadImage("./assets/large-leaf.png") ;
 
     potSprite = loadImage("./assets/pot2.png") ;
+
+    rainSprite = loadImage("./assets/rain-drop.png") ;
 
 }
 
@@ -54,6 +58,8 @@ function setup(){
 
     plant = new Plant(numLeaves,plantPosition, pot);
 
+    drop = new Raindrop(new Position(150,150), rainSprite);
+
 
 }
 
@@ -62,6 +68,8 @@ function draw(){
 
 
     background(240,27,95);
+
+    drop.draw();
 
     plant.draw();
 
