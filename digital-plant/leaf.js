@@ -11,7 +11,10 @@ class Leaf {
     static startColor;
     static endColor;
 
-    static tileSize = 64;
+    static tileSize = 256;
+    static numOfFrames = 8;
+
+    static tickUntilFrameChange = Leaf.maxAge / (Leaf.numOfFrames - 1);
 
     constructor(spriteSheet, size, stemAngle,stemLength){
         this.spriteSheet = spriteSheet;
@@ -25,7 +28,8 @@ class Leaf {
         this.stemLength = stemLength;
         this.stemAngle = stemAngle;
 
-
+        this.currentFrame = 0;
+        this.frameChangeCounter = Leaf.tickUntilFrameChange;
     }
 
 
@@ -75,7 +79,8 @@ class Leaf {
         shearY(this.rot.y);
 
 
-        image(this.spriteSheet, 0,0,this.size,this.size,0,0,Leaf.tileSize,Leaf.tileSize);
+        let offsetForFrame = this.currentFrame * Leaf.tileSize;
+        image(this.spriteSheet,  0,0,this.size,this.size,offsetForFrame + 0,0,Leaf.tileSize,Leaf.tileSize);
 
 
         pop();
@@ -100,6 +105,13 @@ class Leaf {
         this.percentMature = Math.min(this.age / Leaf.matureAge, 1);
 
         this.size = (Leaf.matureSize - Leaf.startingSize) * this.percentMature + Leaf.startingSize;
+
+        this.frameChangeCounter += ticks;
+
+        while(this.frameChangeCounter > Leaf.tickUntilFrameChange){
+            this.frameChangeCounter -= Leaf.tickUntilFrameChange;
+            this.currentFrame++;
+        }
     }
 
     elongateStem(growthAmmount){

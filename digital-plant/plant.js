@@ -41,7 +41,7 @@ class Plant{
 
     calcAngleToPos(pos){
         let result = Math.atan2(this.pos.y- pos.y, this.pos.x- pos.x) * 180 / Math.PI;
-        console.log(result);
+        // console.log(result);
         return result;
     }
 
@@ -78,7 +78,7 @@ class Plant{
 
                         // The lower leaf is left of the higher leaf
                         if(angleBetween <= 90){
-                            console.log("too the left");
+                            // console.log("too the left");
                             lowerLeaf.stemAngle = lowerLeaf.stemAngle + stepSize;
                             higherLeaf.stemAngle = higherLeaf.stemAngle - stepSize;
                         } else {
@@ -148,7 +148,7 @@ class Plant{
 
                     // The lower leaf is left of the higher leaf
                     if(angleBetween <= 90){
-                        console.log("too the left");
+                        // console.log("too the left");
                         leaf.stemAngle = leaf.stemAngle + Plant.maxGrowingTilt;
                     } else {
                         leaf.stemAngle = leaf.stemAngle - Plant.maxGrowingTilt;
@@ -234,7 +234,7 @@ class Position{
 
     calcAngleBetween(other){
         let result = Math.atan2(this.y- other.y, this.x- other.x) * 180 / Math.PI;
-        console.log(result);
+        // console.log(result);
         return result;
     }
 }
