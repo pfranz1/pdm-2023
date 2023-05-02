@@ -22,6 +22,8 @@ class Raindrop{
         this.lastFrameChange = 0;
         // 90 = straight up and down
         this.zRot = 0;
+
+        this.startingPos = new Position(position.x,position.y);
     }
 
     updatePos(yInc){
@@ -69,7 +71,8 @@ class Raindrop{
 
     resetDrop(){
         console.log("resetting drop");
-        this.pos.y = -50;
+        this.pos.y = this.startingPos.y;
+        this.pos.x = this.startingPos.x;
         this.isSplattered = false;
         this.currentFrame = 0;
         this.zRot = 0;
