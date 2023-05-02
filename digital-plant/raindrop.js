@@ -26,7 +26,7 @@ class Raindrop{
         this.startingPos = new Position(position.x,position.y);
 
         this.hiddenFrames = 0;
-        this.isHidden = false;
+        this.isHidden = true;
     }
 
     updatePos(yInc){

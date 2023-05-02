@@ -27,6 +27,14 @@ class Storm{
                 drop.updatePos(Storm.fallingStepSize);
                 drop.checkCollisions(this.colliders);
             });
+        } else {
+            this.drops.forEach((drop)=>{ 
+                // If a drop is still active I want it to continue to fall
+                if(!drop.isHidden){
+                    drop.updatePos(Storm.fallingStepSize);
+                    drop.checkCollisions(this.colliders);
+                }
+            });
         }
 
         this.drops.forEach((drop)=> drop.draw());

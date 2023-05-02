@@ -95,9 +95,9 @@ function draw(){
         plant.doGrowTick();
     }
 
-    if(doRain){
-        drop.updatePos(8);
-        drop.checkCollisions(plant.leaves);
+    if(storm.isRaining){
+        textSize(25);
+        text("Raining...", 15 , 65 );
     }
 
     if(doGrow){
