@@ -58,8 +58,10 @@ function setup(){
      
     Leaf.startColor = color(123,41,39);
     Leaf.endColor = color(88,42,71);
+    
 
     Raindrop.outOfBounds = canvasHeight;
+    Raindrop.spriteSheet = rainSprite;
 
     let plantPosition = new Position(canvasWidth / 2,canvasHeight * 0.90);
 
@@ -68,7 +70,7 @@ function setup(){
 
     plant = new Plant(numLeaves,plantPosition, pot);
 
-    drop = new Raindrop(new Position(canvasWidth / 2 + 200,150), rainSprite);
+    drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
 
 
 }

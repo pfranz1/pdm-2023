@@ -10,6 +10,9 @@ class Raindrop{
     static hitAngleMin = -140;
     static hitAngleMax = -40;
 
+    // Assignmed in main bc need to use P5 to load image
+    static spriteSheet;
+
     constructor(position, spriteSheet){
         this.pos = position;
         this.spriteSheet = spriteSheet;
@@ -91,7 +94,7 @@ class Raindrop{
 
         let offsetForFrame = this.currentFrame * Raindrop.tileSize;
         
-        image(this.spriteSheet,  0,0,Raindrop.size,Raindrop.size,offsetForFrame + 0,0,Raindrop.tileSize,Raindrop.tileSize);
+        image(Raindrop.spriteSheet,  0,0,Raindrop.size,Raindrop.size,offsetForFrame + 0,0,Raindrop.tileSize,Raindrop.tileSize);
 
         // circle(0,0, Raindrop.size);
         
