@@ -68,7 +68,7 @@ function setup(){
 
     plant = new Plant(numLeaves,plantPosition, pot);
 
-    drop = new Raindrop(new Position(canvasWidth / 2 ,150), rainSprite);
+    drop = new Raindrop(new Position(canvasWidth / 2 + 200,150), rainSprite);
 
 
 }

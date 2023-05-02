@@ -17,6 +17,8 @@ class Raindrop{
         this.isSplattered = false;
         this.currentFrame = 0;
         this.lastFrameChange = 0;
+        // 90 = straight up and down
+        this.zRot = 0;
     }
 
     updatePos(yInc){
@@ -42,6 +44,7 @@ class Raindrop{
                 // Not a hit on the bottom of a leaf
                 if(angleToHit < 0){
                     if(angleToHit < Raindrop.hitAngleMax && angleToHit > Raindrop.hitAngleMin){
+                        this.zRot = 90 + angleToHit;
                         this.splatDrop();
                         return true;
                     }
@@ -66,6 +69,7 @@ class Raindrop{
         this.pos.y = -50;
         this.isSplattered = false;
         this.currentFrame = 0;
+        this.zRot = 0;
     }
 
     draw(){
@@ -82,6 +86,7 @@ class Raindrop{
         push();
 
         translate(this.pos.x,this.pos.y);
+        rotate(this.zRot);
 
 
         let offsetForFrame = this.currentFrame * Raindrop.tileSize;
