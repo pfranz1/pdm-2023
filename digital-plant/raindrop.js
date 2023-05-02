@@ -24,9 +24,20 @@ class Raindrop{
         this.zRot = 0;
 
         this.startingPos = new Position(position.x,position.y);
+
+        this.hiddenFrames = 0;
+        this.isHidden = false;
     }
 
     updatePos(yInc){
+        if(this.isHidden){
+            this.hiddenFrames--;
+            if(this.hiddenFrames <= 0){
+                this.isHidden = false;
+            }
+            return false;
+        }
+
         if(!this.isSplattered){
             this.pos.y += yInc;
             if(this.pos.y >= this.collisionY){
@@ -76,13 +87,18 @@ class Raindrop{
         this.isSplattered = false;
         this.currentFrame = 0;
         this.zRot = 0;
+        this.isHidden = true;
+        this.hiddenFrames = random(50,250);
     }
 
     draw(){
+        if(this.isHidden) return false;
+
         if(this.isSplattered && (frameCount - this.lastFrameChange) >= Raindrop.drawFramesPerAnimationFrame ){
             this.currentFrame++;
             if(this.currentFrame >= Raindrop.totalFrameCount){
                 this.resetDrop();
+                return true;
             }
             else {
                 this.lastFrameChange = frameCount;
