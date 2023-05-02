@@ -76,7 +76,6 @@ function setup(){
 
 function draw(){
 
-    drop.checkCollisions(plant.leaves);
 
 
     background(240,27,95);
@@ -93,7 +92,9 @@ function draw(){
     }
 
     if(doRain){
-        drop.updatePos(10);
+        drop.updatePos(8);
+        drop.checkCollisions(plant.leaves);
+
     }
 
     if(doGrow){

@@ -7,6 +7,9 @@ class Raindrop{
     static drawFramesPerAnimationFrame = 2;
     static totalFrameCount = 9;
 
+    static hitAngleMin = -140;
+    static hitAngleMax = -40;
+
     constructor(position, spriteSheet){
         this.pos = position;
         this.spriteSheet = spriteSheet;
@@ -34,8 +37,20 @@ class Raindrop{
 
         for(let index = 0; index < canidateColliders.length; index++){
             if(this.pos.distToOtherPos(canidateColliders[index].pos) <= (canidateColliders[index].size - (Raindrop.size))){
-                // this.pos.x = this.pos.x + (( canidateColliders[index].pos.x - this.pos.x) / 2);
-                this.splatDrop();
+                let angleToHit = this.pos.calcAngleBetween(canidateColliders[index].pos);
+                console.log("Hit angle",angleToHit);
+                // Not a hit on the bottom of a leaf
+                if(angleToHit < 0){
+                    if(angleToHit < Raindrop.hitAngleMax && angleToHit > Raindrop.hitAngleMin){
+                        this.splatDrop();
+                        return true;
+                    }
+
+                } else {
+                    // this.splatDrop();
+                    // return true;
+                }
+
             }
         }
     }
