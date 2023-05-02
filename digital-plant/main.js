@@ -18,6 +18,8 @@ let plant;
 let drop;
 // let pot;
 
+let storm;
+
 let doGrow  = false;
 let doRain = false;
 
@@ -53,7 +55,7 @@ function setup(){
     rainButton = createButton('~~Rain~~');
     rainButton.position(100, canvasHeight + 150);
     rainButton.mousePressed(()=>{
-        doRain = !doRain;
+        storm.toggleRain();
     });
      
     Leaf.startColor = color(123,41,39);
@@ -70,8 +72,8 @@ function setup(){
 
     plant = new Plant(numLeaves,plantPosition, pot);
 
-    drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
-
+    // drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
+    storm = new Storm(10,new Position(400,50),400, plant.leaves);
 
 }
 
@@ -85,8 +87,8 @@ function draw(){
 
     plant.draw();
 
-    drop.draw();
-
+    // drop.draw();
+    storm.draw();
 
 
     if(doGrow && frameCount % 10 == 0){
@@ -96,7 +98,6 @@ function draw(){
     if(doRain){
         drop.updatePos(8);
         drop.checkCollisions(plant.leaves);
-
     }
 
     if(doGrow){
