@@ -67,6 +67,7 @@ class Leaf {
         push();
 
         translate(this.pos.x,this.pos.y);
+
         // textSize(15);
         fill(0,0,0);
         // // let startX = this.width / 2 * -1;
@@ -84,6 +85,11 @@ class Leaf {
 
 
         pop();
+
+        // push();
+        // translate(this.pos.x,this.pos.y);
+        // circle(0,0,this.size);
+        // pop();
 
     }
 

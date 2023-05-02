@@ -17,23 +17,37 @@ class Raindrop{
     }
 
     updatePos(yInc){
-        if(this.isSplattered){
-            // no op, stay in same position to allow animation to continue
-        } else {
+        if(!this.isSplattered){
             this.pos.y += yInc;
             if(this.pos.y >= this.collisionY){
-                this.isSplattered = true;
-                this.lastFrameChange = frameCount;
-                this.currentFrame++;
+                this.splatDrop();
             }
-        }
+        }      
 
         if(this.pos.y > Raindrop.outOfBounds){
             this.resetDrop();
         }
     }
 
+    checkCollisions(canidateColliders){
+        if(this.isSplattered) return false;
+
+        for(let index = 0; index < canidateColliders.length; index++){
+            if(this.pos.distToOtherPos(canidateColliders[index].pos) <= (canidateColliders[index].size - (Raindrop.size))){
+                // this.pos.x = this.pos.x + (( canidateColliders[index].pos.x - this.pos.x) / 2);
+                this.splatDrop();
+            }
+        }
+    }
+
+    splatDrop(){
+        this.isSplattered = true;
+        this.lastFrameChange = frameCount;
+        this.currentFrame++;
+    }
+
     resetDrop(){
+        console.log("resetting drop");
         this.pos.y = -50;
         this.isSplattered = false;
         this.currentFrame = 0;
@@ -59,6 +73,7 @@ class Raindrop{
         
         image(this.spriteSheet,  0,0,Raindrop.size,Raindrop.size,offsetForFrame + 0,0,Raindrop.tileSize,Raindrop.tileSize);
 
+        // circle(0,0, Raindrop.size);
         
         pop();
     }

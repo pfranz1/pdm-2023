@@ -68,7 +68,7 @@ function setup(){
 
     plant = new Plant(numLeaves,plantPosition, pot);
 
-    drop = new Raindrop(new Position(150,150), rainSprite);
+    drop = new Raindrop(new Position(canvasWidth / 2 ,150), rainSprite);
 
 
 }
@@ -76,12 +76,16 @@ function setup(){
 
 function draw(){
 
+    drop.checkCollisions(plant.leaves);
+
 
     background(240,27,95);
 
-    drop.draw();
 
     plant.draw();
+
+    drop.draw();
+
 
 
     if(doGrow && frameCount % 10 == 0){
