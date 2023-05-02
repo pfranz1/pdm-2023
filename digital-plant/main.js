@@ -19,6 +19,7 @@ let drop;
 // let pot;
 
 let doGrow  = false;
+let doRain = false;
 
 
 function preload(){
@@ -47,9 +48,18 @@ function setup(){
     button.mousePressed(()=>{
         doGrow = !doGrow;
     });
+
+
+    rainButton = createButton('~~Rain~~');
+    rainButton.position(100, canvasHeight + 150);
+    rainButton.mousePressed(()=>{
+        doRain = !doRain;
+    });
      
     Leaf.startColor = color(123,41,39);
     Leaf.endColor = color(88,42,71);
+
+    Raindrop.outOfBounds = canvasHeight;
 
     let plantPosition = new Position(canvasWidth / 2,canvasHeight * 0.90);
 
@@ -76,6 +86,10 @@ function draw(){
 
     if(doGrow && frameCount % 10 == 0){
         plant.doGrowTick();
+    }
+
+    if(doRain){
+        drop.updatePos(10);
     }
 
     if(doGrow){

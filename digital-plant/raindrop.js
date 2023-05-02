@@ -3,19 +3,22 @@ class Raindrop{
     static tileSize = 64;
     static size = 32;
 
+    static outOfBounds = 3000;
+
     constructor(position, spriteSheet){
         this.pos = position;
         this.spriteSheet = spriteSheet;
     }
 
-    draw(){ 
-        
-        this.pos.y += 10;
+    updatePos(yInc){
+        this.pos.y += yInc;
 
-        if(this.pos.y > 2500){
-            this.pos.y = 0;
+        if(this.pos.y > Raindrop.outOfBounds){
+            this.pos.y = -50;
         }
+    }
 
+    draw(){ 
         push();
 
         translate(this.pos.x,this.pos.y);
