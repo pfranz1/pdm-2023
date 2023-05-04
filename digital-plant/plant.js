@@ -18,8 +18,8 @@ class Plant{
 
         for(let index = 0; index < numLeaves; index++){
 
-            randomSeed(-4);
-            let newLeaf =  new Leaf(leafSprite,leafSize, (index + 4) * random(20,40), random(30,Leaf.maxHeight));
+            // randomSeed(-4);
+            let newLeaf =  new Leaf(leafSprite,leafSize, (index + 4) * random(20,40), random(30,150));
             newLeaf.setRoot(this.pos);
             this.leaves.push(newLeaf);
 

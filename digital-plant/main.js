@@ -36,7 +36,7 @@ function preload(){
 }
 
 
-let numLeaves = 8;
+let numLeaves = 2;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight);
@@ -60,7 +60,7 @@ function setup(){
      
     Leaf.startColor = color(123,41,39);
     Leaf.endColor = color(88,42,71);
-    Leaf.dehydrationColor = color(88,42,71);
+    Leaf.dehydrationColor = color(88,42,60);
     
 
     Raindrop.outOfBounds = canvasHeight;
@@ -74,7 +74,7 @@ function setup(){
     plant = new Plant(numLeaves,plantPosition, pot);
 
     // drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
-    storm = new Storm(Storm.ranks * 5,new Position(canvasWidth/2,0),canvasWidth/2, plant.leaves);
+    storm = new Storm(Storm.ranks * 5,new Position(canvasWidth/2,0),canvasWidth-100, plant.leaves);
 
 }
 

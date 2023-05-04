@@ -41,7 +41,7 @@ class Raindrop{
         if(!this.isSplattered){
             this.pos.y += yInc;
             if(this.pos.y >= this.collisionY){
-                this.splatDrop();
+                this.splatDrop(null);
             }
         }      
 
@@ -61,7 +61,7 @@ class Raindrop{
                 if(angleToHit < 0){
                     if(angleToHit < Raindrop.hitAngleMax && angleToHit > Raindrop.hitAngleMin){
                         this.zRot = 90 + angleToHit;
-                        this.splatDrop();
+                        this.splatDrop(canidateColliders[index]);
                         return true;
                     }
 
@@ -74,10 +74,15 @@ class Raindrop{
         }
     }
 
-    splatDrop(){
+    splatDrop(colliderHit){
         this.isSplattered = true;
         this.lastFrameChange = frameCount;
         this.currentFrame++;
+
+        if(colliderHit != null){
+            // this will always be a plant for now so Im not bothering with type checking
+            colliderHit.hydrate(0.25);
+        }
     }
 
     resetDrop(){

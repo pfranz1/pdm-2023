@@ -28,7 +28,7 @@ class Leaf {
 
         this.stemLength = stemLength;
         this.stemAngle = stemAngle;
-        this.hydration = 1.0;
+        this.hydration = 0.5;
 
 
         this.currentFrame = 0;
@@ -47,7 +47,7 @@ class Leaf {
         // fill(123,41,39);
         strokeWeight(10);
         let strokeColor = lerpColor(Leaf.endColor, Leaf.startColor, this.percentMature + 0.25);
-        strokeColor = lerpColor(Leaf.dehydrationColor,strokeColor, this.hydration + 0.25 );
+        strokeColor = lerpColor(Leaf.dehydrationColor,strokeColor, this.hydration);
 
         stroke(strokeColor);
 
@@ -103,7 +103,7 @@ class Leaf {
 
 
         let offsetForFrame = this.currentFrame * Leaf.tileSize;
-        tint(0, (1-this.hydration) * 10, 255, 1)
+        tint(0, (1-this.hydration) * 20, 255, 1)
         image(this.spriteSheet,  0,0,this.size,this.size,offsetForFrame + 0,0,Leaf.tileSize,Leaf.tileSize);
 
 
@@ -145,6 +145,10 @@ class Leaf {
 
     elongateStem(growthAmmount){
         // linearly less growth the longer the stem gets longer
+        if(random(10) < 1){
+            this.hydrate(-0.1);
+            console.log(this.hydration);
+        }
 
         if(this.stemAngle < Leaf.maxHeight){
 
@@ -156,6 +160,15 @@ class Leaf {
         }
 
 
+    }
+
+    hydrate(hydrationPercent){
+        this.hydration += hydrationPercent;
+        if(this.hydration > 1){
+            this.hydration = 1.0;
+        } else if(this.hydration < 0){
+            this.hydration = 0.0;
+        }
     }
 
 
