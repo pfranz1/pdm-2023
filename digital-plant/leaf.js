@@ -56,7 +56,16 @@ class Leaf {
         // Creates a more pronounced droop for longer leaves, while also having the start of a droop for shorter leaves
         let yDistMult = ((this.root.y - this.pos.y) << 2) + ((this.root.y - this.pos.y));
 
-        curve(this.root.x + ((this.pos.x - this.root.x) / 2),this.root.y - epsilon, this.root.x, this.root.y , this.pos.x,this.pos.y,  this.pos.x + ((this.root.x - this.pos.x) / 2), this.pos.y + yDistMult,);
+
+
+        let startAnchor = new Position(this.root.x,this.root.y );
+        let endAnchor = new Position( this.pos.x,this.pos.y);
+
+        let startControl = new Position(this.root.x + ((this.pos.x - this.root.x) / 2),this.root.y - epsilon,);
+        let endControl = new Position(this.pos.x + ((this.root.x - this.pos.x) / 2), this.pos.y + yDistMult);
+
+
+        curve(startControl.x,startControl.y, startAnchor.x, startAnchor.y ,endAnchor.x,endAnchor.y,  endControl.x, endControl.y,);
 
         
         pop();
