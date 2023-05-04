@@ -36,6 +36,20 @@ class Plant{
         });
     }
 
+    onTap(mousePos){
+        let tapTargetFound = false;
+        let index = -1; 
+        while(!tapTargetFound && index < this.leaves.length){
+            index++;
+            tapTargetFound = this.leaves[index].doSnipCheck(mousePos);
+        }
+
+        if(tapTargetFound){
+            console.log("removing index", index);
+            this.leaves.splice(index,1);
+        }
+    }
+
     calcAngleToPos(pos){
         let result = Math.atan2(this.pos.y- pos.y, this.pos.x- pos.x) * 180 / Math.PI;
         // console.log(result);

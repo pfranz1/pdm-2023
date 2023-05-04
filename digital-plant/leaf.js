@@ -211,4 +211,8 @@ class Leaf {
 
         this.updateRotation();
     }
+
+    doSnipCheck(mousePos){
+        return mousePos.distToOtherPos(this.pos) <= this.size;
+    }
 }

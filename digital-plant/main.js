@@ -114,5 +114,9 @@ function keyPressed(){
     }
 }
 
+function mousePressed(){
+    plant.onTap(new Position(mouseX,mouseY));
+}
+
 
 
