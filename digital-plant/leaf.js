@@ -129,6 +129,8 @@ class Leaf {
     }
 
     incAge(ticks){
+
+        ticks = Math.round(ticks * Math.min(this.hydration + Leaf.fullHydrationForGrowthRange,1.0));
         this.age += ticks;
 
         this.percentMature = Math.min(this.age / Leaf.matureAge, 1);
@@ -143,16 +145,13 @@ class Leaf {
         }
     }
 
+
     elongateStem(growthAmmount){
-        // linearly less growth the longer the stem gets longer
-        if(random(10) < 1){
-            this.hydrate(-0.1);
-            console.log(this.hydration);
-        }
+        this.tryTickHydration();
 
-        if(this.stemAngle < Leaf.maxHeight){
+        if(this.stemLength < Leaf.maxHeight && this.hydration > Leaf.tooThirstyToGrow){
 
-            let ammount  = growthAmmount * (1 - (this.stemLength / Leaf.maxHeight));
+            let ammount  = growthAmmount * (1 - (this.stemLength / Leaf.maxHeight)) * Math.min(this.hydration + Leaf.fullHydrationForGrowthRange,1.0);
 
             this.stemLength += Math.floor(ammount);
 
@@ -160,6 +159,17 @@ class Leaf {
         }
 
 
+    }
+
+    static chanceOfWaterUsage = 10;
+    static tooThirstyToGrow = 0.01;
+    static fullHydrationForGrowthRange = 0.2;
+
+    tryTickHydration(){
+        // linearly less growth the longer the stem gets longer
+        if(random(Leaf.chanceOfWaterUsage) < 1){
+            this.hydrate(-0.1);
+        }
     }
 
     hydrate(hydrationPercent){
@@ -180,6 +190,7 @@ class Leaf {
 
 
     updateRotation(){
+        this.tryTickHydration();
         this.rot = this.rotateBasedOnAngleToRoot(-(this.root.calcAngleBetween(this.pos) - 90));
     }
 
