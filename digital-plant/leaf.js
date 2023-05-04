@@ -28,7 +28,7 @@ class Leaf {
 
         this.stemLength = stemLength;
         this.stemAngle = stemAngle;
-        this.hydration = 1;
+        this.hydration = 1.0;
 
 
         this.currentFrame = 0;
@@ -62,8 +62,8 @@ class Leaf {
         let dy = this.pos.y - this.root.y;
 
         // Expermentation lead me to find this was the best mapping for making nice shape change
-        // f(x) = 3x -2 , where x [0,1]
-        let hydrationParameter = 3 * this.hydration -2;
+        // f(x) = 2x -1 , where x [0,1], f(x) in [-1,1]
+        let hydrationParameter = 2 * this.hydration -1;
 
         let controlPointRaise = hydrationParameter * (dy * Leaf.maxControlPointRaise);
         let controlPointShift = hydrationParameter * (dx * Leaf.maxControlPointShift);
@@ -79,10 +79,10 @@ class Leaf {
     }
 
     drawLeaves(){
-        this.hydration -= 0.01;
-        if(this.hydration < -2){
-            this.hydration = 0.5;
-        }
+        // this.hydration -= 0.01;
+        // if(this.hydration < -2){
+        //     this.hydration = 0.5;
+        // }
 
         // text(Math.round(this.hydration * 10) / 10,25,150);
 
