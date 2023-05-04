@@ -18,17 +18,13 @@ class Plant{
 
         for(let index = 0; index < numLeaves; index++){
 
-            let newLeaf =  new Leaf(leafSprite,leafSize, (index + 4) * random(20,40), random(30,160));
+            let newLeaf =  new Leaf(leafSprite,leafSize, (index + 4) * random(20,40), random(30,Leaf.maxHeight));
             newLeaf.setRoot(this.pos);
             this.leaves.push(newLeaf);
-        }
 
-        
-        this.leaves.forEach((leaf)=>{
-            leaf.updatePositionAndTilt();
-            leaf.incAge((leaf.stemLength / Leaf.maxHeight) * Leaf.matureSize);
-        });
- 
+            newLeaf.updatePositionAndTilt();
+            newLeaf.incAge((newLeaf.stemLength / Leaf.maxHeight) * Leaf.maxHeight);
+        }
 
         this.seperateLeaves(this.leaves);
 
