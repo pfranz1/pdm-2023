@@ -36,7 +36,7 @@ function preload(){
 }
 
 
-let numLeaves = 2;
+let numLeaves = 8;
 
 function setup(){
     createCanvas(canvasWidth,canvasHeight);

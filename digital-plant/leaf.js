@@ -27,24 +27,21 @@ class Leaf {
 
         this.stemLength = stemLength;
         this.stemAngle = stemAngle;
+        this.hydration = 0.1;
+
 
         this.currentFrame = 0;
         this.frameChangeCounter = Leaf.tickUntilFrameChange;
     }
 
+    static maxControlPointRaise = 0.5;
+    static maxControlPointShift = 0.5;
+    // static 
 
     drawStems(){
         push();
 
         
-        let controlPointOffset = 10;
-        // curve(this.pos.x + controlPointOffset, this.pos.y + controlPointOffset, this.pos.x,this.pos.y, element.pos.x, element.pos.y, element.pos.x+ controlPointOffset, element.pos.y+ controlPointOffset);
-        // curve (this.root.x, this.root.y,this.pos.x, (this.pos.y - this.root.y) / 2,this.root.x,(this.pos.y + this.root.y) / 2,this.pos.x,this.pos.y);
-
-        let epsilon = 250;
-        // curve(this.root.x, this.root.y, this.root.x + ((this.pos.x - this.root.x) / 2),this.root.y, this.pos.x + ((this.root.x - this.pos.x) / 2), this.pos.y, this.pos.x,this.pos.y);
-        
-
         noFill();
         // fill(123,41,39);
         strokeWeight(10);
@@ -56,13 +53,21 @@ class Leaf {
         // Creates a more pronounced droop for longer leaves, while also having the start of a droop for shorter leaves
         let yDistMult = ((this.root.y - this.pos.y) << 2) + ((this.root.y - this.pos.y));
 
-
-
         let startAnchor = new Position(this.root.x,this.root.y );
         let endAnchor = new Position( this.pos.x,this.pos.y);
 
-        let startControl = new Position(this.root.x + ((this.pos.x - this.root.x) / 2),this.root.y - epsilon,);
-        let endControl = new Position(this.pos.x + ((this.root.x - this.pos.x) / 2), this.pos.y + yDistMult);
+        let dx = this.pos.x - this.root.x;
+        let dy = this.pos.y - this.root.y;
+
+        // Expermentation lead me to find this was the best mapping for making nice shape change
+        // f(x) = 3x -2 , where x [0,1]
+        let hydrationParameter = 3 * this.hydration -2;
+
+        let controlPointRaise = hydrationParameter * (dy * Leaf.maxControlPointRaise);
+        let controlPointShift = hydrationParameter * (dx * Leaf.maxControlPointShift);
+
+        let startControl = new Position(this.root.x + controlPointShift*2, this.root.y - (controlPointRaise>>2),);
+        let endControl = new Position(this.pos.x - (controlPointShift / 2), this.pos.y - controlPointRaise + yDistMult);
 
 
         curve(startControl.x,startControl.y, startAnchor.x, startAnchor.y ,endAnchor.x,endAnchor.y,  endControl.x, endControl.y,);
@@ -72,6 +77,12 @@ class Leaf {
     }
 
     drawLeaves(){
+        // this.hydration -= 0.01;
+        // if(this.hydration < -2){
+        //     this.hydration = 0.5;
+        // }
+
+        // text(Math.round(this.hydration * 10) / 10,25,150);
 
         push();
 
