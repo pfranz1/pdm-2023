@@ -12,6 +12,7 @@ class Plant{
         this.pot = pot;
 
         this.leaves = [];
+        this.fallingLeaves = [];
 
         this.newLeafSpawnCounter = 0;
 
@@ -36,17 +37,19 @@ class Plant{
         });
     }
 
+    
+
     onTap(mousePos){
         let tapTargetFound = false;
-        let index = -1; 
+        let index = 0; 
         while(!tapTargetFound && index < this.leaves.length){
-            index++;
             tapTargetFound = this.leaves[index].doSnipCheck(mousePos);
+            index++;
         }
 
         if(tapTargetFound){
-            console.log("removing index", index);
-            this.leaves.splice(index,1);
+            console.log("removing index", index--);
+            this.cullLeaf(index--);
         }
     }
 
@@ -128,6 +131,23 @@ class Plant{
     static growStepSize = 5;
     static maxGrowingTilt = 1;
 
+    doGravityTick(){
+        if(this.fallingLeaves.length < 1){
+            return false;
+        }
+
+        console.log("<<< gravity >>>");
+
+        this.fallingLeaves.forEach((element,index)=>{
+            element.doGravityTick(3);
+            if(element.pos.y > FallingLeaf.killPlaneHeight){
+                console.log("leaf hit kill plane");
+                this.fallingLeaves.splice(index,1);
+            }
+        });
+
+    }
+
     doGrowTick(){
         console.log("growing...");
         //TODO: Dont call sort every itteration
@@ -205,9 +225,16 @@ class Plant{
         this.leaves.push(newLeaf);
 
     }
+    
 
     cullLeaf(indexOfLeaf){
+
+        let leaf = this.leaves[indexOfLeaf];
+        this.fallingLeaves.push(new FallingLeaf(leafSprite,leaf.size,leaf.pos,leaf.rot,leaf.currentFrame,leaf.hydration));
+
         this.leaves.splice(indexOfLeaf,1);
+        
+
     }
     
     draw(){
@@ -220,6 +247,10 @@ class Plant{
 
         this.leaves.forEach(element => {
             element.drawLeaves();
+        });
+
+        this.fallingLeaves.forEach(element =>{
+            element.draw();
         });
         
     }

@@ -213,6 +213,6 @@ class Leaf {
     }
 
     doSnipCheck(mousePos){
-        return mousePos.distToOtherPos(this.pos) <= this.size;
+        return mousePos.distToOtherPos(this.pos) <= this.size / 2;
     }
 }

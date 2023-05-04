@@ -61,6 +61,8 @@ function setup(){
     Leaf.startColor = color(123,41,39);
     Leaf.endColor = color(88,42,71);
     Leaf.dehydrationColor = color(88,42,60);
+
+    FallingLeaf.killPlaneHeight = canvasHeight + 250;
     
 
     Raindrop.outOfBounds = canvasHeight;
@@ -94,6 +96,10 @@ function draw(){
 
     if(doGrow && frameCount % 10 == 0){
         plant.doGrowTick();
+    }
+
+    if(frameCount % 3 == 0){
+        plant.doGravityTick();
     }
 
     if(storm.isRaining){
