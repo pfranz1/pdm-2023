@@ -4,7 +4,7 @@ class Pot{
         this.spriteSheet = spriteSheet;
 
         this.height = size;
-        this.width = size;
+        this.width = size * 1.5;
         this.pos = position;
     }
 
