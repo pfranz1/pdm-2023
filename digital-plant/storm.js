@@ -1,6 +1,8 @@
 class Storm{
     static fallingUpdateFreq = 1;
     static fallingStepSize = 5;
+    static ranks = 5;
+    static delayBetweenRanks = 50;
 
     constructor(maxNumDrops,pos, width,colliders){
         this.totalDrops = maxNumDrops;
@@ -12,15 +14,22 @@ class Storm{
 
         this.drops = [];
 
-        let dropOffset = width / maxNumDrops;
-        let startX = pos.x - (width / 2);
+        let dropOffset = this.stormWidth / Math.round(maxNumDrops / Storm.ranks);
+        let variation = dropOffset / 2;
+        let startX = this.pos.x - (this.stormWidth / 2);
         for(let index = 0; index < this.totalDrops;index++){
-             this.drops.push(new Raindrop(new Position(startX + (index * dropOffset),this.pos.y)));
+            let newDrop = new Raindrop(new Position(startX + (((index % Storm.ranks) * dropOffset) + random(dropOffset)),this.pos.y));
+            newDrop.hiddenFrames = Math.floor(index / Storm.ranks) * Storm.delayBetweenRanks + random(-25,25);
+            this.drops.push(newDrop);
         }
     }
 
 
     draw(){
+        push();
+        // circle(this.pos.x, this.pos.y,50);
+        // rect(100,100,250,250);
+        pop();
         //&& frameCount % Storm.fallingUpdateFreq == 0
         if(this.isRaining ){
             this.drops.forEach((drop)=>{ 
