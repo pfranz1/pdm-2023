@@ -10,6 +10,7 @@ class Leaf {
     //Defined in the startup method of main - need p5 to call color constructor
     static startColor;
     static endColor;
+    static dehydrationColor;
 
     static tileSize = 256;
     static numOfFrames = 8;
@@ -27,7 +28,7 @@ class Leaf {
 
         this.stemLength = stemLength;
         this.stemAngle = stemAngle;
-        this.hydration = 0.1;
+        this.hydration = 1;
 
 
         this.currentFrame = 0;
@@ -46,6 +47,7 @@ class Leaf {
         // fill(123,41,39);
         strokeWeight(10);
         let strokeColor = lerpColor(Leaf.endColor, Leaf.startColor, this.percentMature + 0.25);
+        strokeColor = lerpColor(Leaf.dehydrationColor,strokeColor, this.hydration + 0.25 );
 
         stroke(strokeColor);
 
@@ -77,10 +79,10 @@ class Leaf {
     }
 
     drawLeaves(){
-        // this.hydration -= 0.01;
-        // if(this.hydration < -2){
-        //     this.hydration = 0.5;
-        // }
+        this.hydration -= 0.01;
+        if(this.hydration < -2){
+            this.hydration = 0.5;
+        }
 
         // text(Math.round(this.hydration * 10) / 10,25,150);
 
@@ -101,6 +103,7 @@ class Leaf {
 
 
         let offsetForFrame = this.currentFrame * Leaf.tileSize;
+        tint(0, (1-this.hydration) * 10, 255, 1)
         image(this.spriteSheet,  0,0,this.size,this.size,offsetForFrame + 0,0,Leaf.tileSize,Leaf.tileSize);
 
 

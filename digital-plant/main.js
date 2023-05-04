@@ -60,6 +60,7 @@ function setup(){
      
     Leaf.startColor = color(123,41,39);
     Leaf.endColor = color(88,42,71);
+    Leaf.dehydrationColor = color(88,42,71);
     
 
     Raindrop.outOfBounds = canvasHeight;
