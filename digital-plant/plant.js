@@ -3,6 +3,8 @@ const leafSize = 75;
 class Plant{
     // Ticks until a new leaf is spawned
     static newLeafSpawnFrequency = 10;
+    static shareEfficiency = 0.25;
+    static sharedHydration = 0.0;
 
 
     constructor(numLeaves,pos, pot){
@@ -20,7 +22,7 @@ class Plant{
         for(let index = 0; index < numLeaves; index++){
 
             // randomSeed(-4);
-            let newLeaf =  new Leaf(leafSprite,leafSize, (index + 4) * random(20,40), random(30,150));
+            let newLeaf =  new Leaf(leafSprite,leafSize, (index + 4) * random(20,40), random(30,150), this.hydratePlant);
             newLeaf.setRoot(this.pos);
             this.leaves.push(newLeaf);
 
@@ -57,6 +59,12 @@ class Plant{
         let result = Math.atan2(this.pos.y- pos.y, this.pos.x- pos.x) * 180 / Math.PI;
         // console.log(result);
         return result;
+    }
+
+    // Have to use static variable because this. will reference the calling object and not the plant object that provided the lambda
+    hydratePlant(hydrationToShare){
+        Plant.sharedHydration = Plant.sharedHydration + hydrationToShare * Plant.shareEfficiency;
+        console.log("Plant hydration = ", Plant.sharedHydration);
     }
 
 

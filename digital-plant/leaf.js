@@ -17,7 +17,7 @@ class Leaf {
 
     static tickUntilFrameChange = Leaf.maxAge / (Leaf.numOfFrames - 1);
 
-    constructor(spriteSheet, size, stemAngle,stemLength){
+    constructor(spriteSheet, size, stemAngle,stemLength, onShareHydration){
         this.spriteSheet = spriteSheet;
 
         this.size = size;
@@ -29,6 +29,9 @@ class Leaf {
         this.stemLength = stemLength;
         this.stemAngle = stemAngle;
         this.hydration = 0.5;
+
+        this.onShareHydration = onShareHydration;
+        
 
 
         this.currentFrame = 0;
@@ -175,6 +178,7 @@ class Leaf {
     hydrate(hydrationPercent){
         this.hydration += hydrationPercent;
         if(this.hydration > 1){
+            this.onShareHydration(this.hydration - 1);
             this.hydration = 1.0;
         } else if(this.hydration < 0){
             this.hydration = 0.0;
