@@ -13,8 +13,14 @@ class Raindrop{
     // Assignmed in main bc need to use P5 to load image
     static spriteSheet;
 
+
+    static getStormPos;
+
+    // Position is relative to the storms middle i.e pos = (10,20) where rain pos should be 10 + stormX
     constructor(position, spriteSheet){
-        this.pos = position;
+        let parentPos = Raindrop.getStormPos();
+
+        this.pos = new Position(position.x + parentPos.x, position.y + parentPos.y);
         this.spriteSheet = spriteSheet;
         this.collisionY = 1000 - (Raindrop.size / 2);
         this.isSplattered = false;
@@ -27,6 +33,7 @@ class Raindrop{
 
         this.hiddenFrames = 0;
         this.isHidden = true;
+
     }
 
     updatePos(yInc){
@@ -87,8 +94,8 @@ class Raindrop{
 
     resetDrop(){
         console.log("resetting drop");
-        this.pos.y = this.startingPos.y;
-        this.pos.x = this.startingPos.x;
+        let parentPos = Raindrop.getStormPos();
+        this.pos = new Position(this.startingPos.x + parentPos.x, this.startingPos.y + parentPos.y);
         this.isSplattered = false;
         this.currentFrame = 0;
         this.zRot = 0;

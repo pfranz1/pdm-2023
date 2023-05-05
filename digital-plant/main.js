@@ -20,6 +20,10 @@ let drop;
 
 let storm;
 
+let lastStormLocation = -1;
+let stormLocation = 124;
+let stormLocationSlider;
+
 let doGrow  = false;
 let doRain = false;
 
@@ -51,6 +55,9 @@ function setup(){
         doGrow = !doGrow;
     });
 
+    stormLocationSlider = createSlider(0, 255, 128,1,);
+    stormLocationSlider.position(200, canvasHeight + 150);
+    stormLocationSlider.style('width', '160px');
 
     rainButton = createButton('~~Rain~~');
     rainButton.position(100, canvasHeight + 150);
@@ -76,7 +83,7 @@ function setup(){
     plant = new Plant(numLeaves,plantPosition, pot);
 
     // drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
-    storm = new Storm(Storm.ranks * 5,new Position(canvasWidth/2,0),canvasWidth-100, plant.leaves);
+    storm = new Storm(Storm.ranks * 8,new Position(canvasWidth/2,0),250, plant.leaves);
 
 }
 
@@ -91,6 +98,14 @@ function draw(){
     plant.draw();
 
     // drop.draw();
+    stormLocation = stormLocationSlider.value();
+    if(lastStormLocation != stormLocation){
+        let stormCenter = (stormLocation / 255) * canvasWidth;
+        storm.pos = new Position(stormCenter,0);
+        lastStormLocation = stormLocation;
+    }
+    // console.log(stormLocationPercent);
+
     storm.draw();
 
 
