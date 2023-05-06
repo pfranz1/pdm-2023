@@ -161,6 +161,15 @@ class Plant{
         //TODO: Dont call sort every itteration
         this.sortLeavesTallestToShortest(this.leaves);
 
+        // let index = this.leaves.length;
+        // while(Plant.sharedHydration > 0.5 && index > 0){
+        //     let currentLeaf = this.leaves[index];
+        //     let ammountRequested = 1 - currentLeaf.hydration;
+        //     if(ammountRequested > 0.7){
+        //         this.leaves[index].hydrate(shar)
+        //     }
+        // }
+
         this.newLeafSpawnCounter++;
         if(this.newLeafSpawnCounter > Plant.newLeafSpawnFrequency){
             this.newLeafSpawnCounter = 0;
@@ -205,7 +214,7 @@ class Plant{
     trySpawnNewLeaf(){
         // let onlyCheck = 5;
         
-        let newLeaf =  new Leaf(leafSprite,leafSize,random(40,150),random(25,30));
+        let newLeaf =  new Leaf(leafSprite,leafSize,random(40,150),random(25,30), this.hydratePlant);
         newLeaf.setRoot(this.pos);
         newLeaf.updatePositionAndTilt();
 
