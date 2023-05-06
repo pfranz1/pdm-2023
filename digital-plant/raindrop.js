@@ -63,7 +63,7 @@ class Raindrop{
         for(let index = 0; index < canidateColliders.length; index++){
             if(this.pos.distToOtherPos(canidateColliders[index].pos) <= (canidateColliders[index].size - (Raindrop.size))){
                 let angleToHit = this.pos.calcAngleBetween(canidateColliders[index].pos);
-                console.log("Hit angle",angleToHit);
+                // console.log("Hit angle",angleToHit);
                 // Not a hit on the bottom of a leaf
                 if(angleToHit < 0){
                     if(angleToHit < Raindrop.hitAngleMax && angleToHit > Raindrop.hitAngleMin){
@@ -93,7 +93,7 @@ class Raindrop{
     }
 
     resetDrop(){
-        console.log("resetting drop");
+        // console.log("resetting drop");
         let parentPos = Raindrop.getStormPos();
         this.pos = new Position(this.startingPos.x + parentPos.x, this.startingPos.y + parentPos.y);
         this.isSplattered = false;

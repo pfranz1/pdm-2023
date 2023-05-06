@@ -144,12 +144,12 @@ class Plant{
             return false;
         }
 
-        console.log("<<< gravity >>>");
+        // console.log("<<< gravity >>>");
 
         this.fallingLeaves.forEach((element,index)=>{
             element.doGravityTick(3);
             if(element.pos.y > FallingLeaf.killPlaneHeight){
-                console.log("leaf hit kill plane");
+                console.log("falling leaf hit kill plane");
                 this.fallingLeaves.splice(index,1);
             }
         });
