@@ -161,14 +161,19 @@ class Plant{
         //TODO: Dont call sort every itteration
         this.sortLeavesTallestToShortest(this.leaves);
 
-        // let index = this.leaves.length;
-        // while(Plant.sharedHydration > 0.5 && index > 0){
-        //     let currentLeaf = this.leaves[index];
-        //     let ammountRequested = 1 - currentLeaf.hydration;
-        //     if(ammountRequested > 0.7){
-        //         this.leaves[index].hydrate(shar)
-        //     }
-        // }
+        let index = this.leaves.length - 1;
+        while(Plant.sharedHydration > 0.5 && index >= 0){
+            let currentLeaf = this.leaves[index];
+            let ammountRequested = 1 - currentLeaf.hydration;
+            // Only want to give water to leaves that need it most
+            if(ammountRequested > 0.25){
+                // Will create some water if requested is more than what the plant has
+                // But that isnt big deal / game breaking
+                Plant.sharedHydration -= ammountRequested;
+                this.leaves[index].hydrate(ammountRequested);
+            }
+            index--;
+        }
 
         this.newLeafSpawnCounter++;
         if(this.newLeafSpawnCounter > Plant.newLeafSpawnFrequency){
@@ -205,7 +210,6 @@ class Plant{
                 leaf.updatePositionAndTilt();
             }
 
-            console.log(index,leaf.age);
             if(leaf.age >= Leaf.maxAge){
                 this.cullLeaf(index);
             }
