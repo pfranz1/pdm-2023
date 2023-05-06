@@ -83,7 +83,7 @@ function setup(){
     plant = new Plant(numLeaves,plantPosition, pot);
 
     // drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
-    storm = new Storm(Storm.ranks * 8,new Position(canvasWidth/2,0),250, plant.leaves);
+    storm = new Storm(Storm.ranks * 3,new Position(canvasWidth/2,0),150, plant.leaves, canvasHeight);
 
 }
 

@@ -100,7 +100,7 @@ class Raindrop{
         this.currentFrame = 0;
         this.zRot = 0;
         this.isHidden = true;
-        this.hiddenFrames = random(50,250);
+        this.hiddenFrames = random(0,50);
     }
 
     draw(){
