@@ -1,7 +1,7 @@
 class Leaf {
     static maxHeight = 500;
     
-    static maxAge = 2500;
+    static maxAge = 1000;
     static matureAge = 500;
 
     static matureSize = 100;

@@ -180,10 +180,6 @@ class Plant{
         this.leaves.forEach((leaf, index)=>{
             leaf.incAge(10);
 
-            if(leaf.age >= Leaf.maxAge){
-                this.cullLeaf(index);
-            }
-
             let canGrowUp = true;
 
             // For every other leaf that is higher than this leaf (list is sorted from high to low)
@@ -207,6 +203,11 @@ class Plant{
                 leaf.elongateStem(Plant.growStepSize);
             } else {
                 leaf.updatePositionAndTilt();
+            }
+
+            console.log(index,leaf.age);
+            if(leaf.age >= Leaf.maxAge){
+                this.cullLeaf(index);
             }
         });
     }
@@ -247,7 +248,7 @@ class Plant{
     cullLeaf(indexOfLeaf){
 
         let leaf = this.leaves[indexOfLeaf];
-        this.fallingLeaves.push(new FallingLeaf(leafSprite,leaf.size,leaf.pos,leaf.rot,leaf.currentFrame,leaf.hydration));
+        this.fallingLeaves.push(new FallingLeaf(leafSprite,leaf.size,leaf.pos,leaf.rot,Math.min(leaf.currentFrame,Leaf.numOfFrames - 1),leaf.hydration));
 
         this.leaves.splice(indexOfLeaf,1);
         
