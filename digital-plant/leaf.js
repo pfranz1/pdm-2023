@@ -219,4 +219,12 @@ class Leaf {
     doSnipCheck(mousePos){
         return mousePos.distToOtherPos(this.pos) <= this.size / 2;
     }
+
+    doCollsionCheck(colliderPos,colliderSize){
+        return this.pos.distToOtherPos(colliderPos) <= (this.size - (colliderSize));
+    }
+
+    isAbove(xPos){
+        return Math.abs(this.pos.x - xPos) < this.size;
+    }
 }
