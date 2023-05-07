@@ -1,4 +1,5 @@
 class Raindrop{
+    static count = 0;
 
     static tileSize = 64;
     static size = 32;
@@ -17,11 +18,9 @@ class Raindrop{
     static getStormPos;
 
     // Position is relative to the storms middle i.e pos = (10,20) where rain pos should be 10 + stormX
-    constructor(position, spriteSheet){
-        let parentPos = Raindrop.getStormPos();
+    constructor(position, parentStorm){
 
-        this.pos = new Position(position.x + parentPos.x, position.y + parentPos.y);
-        this.spriteSheet = spriteSheet;
+        this.pos = position;
         this.collisionY = 1000 - (Raindrop.size / 2);
         this.isSplattered = false;
         this.currentFrame = 0;
@@ -34,6 +33,10 @@ class Raindrop{
         this.hiddenFrames = 0;
         this.isHidden = true;
 
+        this.id = Raindrop.count;
+        Raindrop.count++;
+
+        this.parentStorm = parentStorm;
     }
 
     updatePos(yInc){
@@ -94,14 +97,16 @@ class Raindrop{
     }
 
     resetDrop(){
-        // console.log("resetting drop");
-        let parentPos = Raindrop.getStormPos();
-        this.pos = new Position(this.startingPos.x + parentPos.x, this.startingPos.y + parentPos.y);
-        this.isSplattered = false;
-        this.currentFrame = 0;
-        this.zRot = 0;
-        this.isHidden = true;
-        this.hiddenFrames = random(0,50);
+        // // console.log("resetting drop");
+        // let parentPos = Raindrop.getStormPos();
+        // this.pos = new Position(this.startingPos.x + parentPos.x, this.startingPos.y + parentPos.y);
+        // this.isSplattered = false;
+        // this.currentFrame = 0;
+        // this.zRot = 0;
+        // this.isHidden = true;
+        // this.hiddenFrames = random(0,50);
+
+        this.parentStorm.removeDropWithId(this.id);
     }
 
     draw(){
