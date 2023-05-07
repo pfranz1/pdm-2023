@@ -70,7 +70,7 @@ class Plant{
     // Have to use static variable because this. will reference the calling object and not the plant object that provided the lambda
     hydratePlant(hydrationToShare){
         Plant.sharedHydration = Plant.sharedHydration + hydrationToShare * Plant.shareEfficiency;
-        console.log("Plant hydration = ", Plant.sharedHydration);
+        // console.log("Plant hydration = ", Plant.sharedHydration);
     }
 
 

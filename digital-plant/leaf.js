@@ -106,7 +106,7 @@ class Leaf {
 
 
         let offsetForFrame = this.currentFrame * Leaf.tileSize;
-        tint(0, (1-this.hydration) * 20, 255, 1)
+        // tint(0, (1-this.hydration) * 20, 255, 1)
         image(this.spriteSheet,  0,0,this.size,this.size,offsetForFrame + 0,0,Leaf.tileSize,Leaf.tileSize);
 
 
