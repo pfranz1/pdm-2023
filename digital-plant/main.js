@@ -88,6 +88,7 @@ function setup(){
 }
 
 
+
 function draw(){
 
 
@@ -105,6 +106,12 @@ function draw(){
         lastStormLocation = stormLocation;
     }
     // console.log(stormLocationPercent);
+
+    push();
+    c = color(88,42,100 * plant.averageHydration);
+    fill(c);
+    circle(canvasWidth - 25, canvasHeight - 25 , 25);
+    pop();
 
     storm.draw();
 

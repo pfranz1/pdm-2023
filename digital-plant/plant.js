@@ -22,7 +22,7 @@ class Plant{
 
         this.newLeafSpawnCounter = 0;
 
-        this.plantHydrationPercent = 0;
+        this.averageHydration = 0;
 
 
         for(let index = 0; index < numLeaves; index++){
