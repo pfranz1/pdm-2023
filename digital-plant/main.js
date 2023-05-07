@@ -42,6 +42,8 @@ function preload(){
 
 let numLeaves = 2;
 
+let toneStarted = false;
+
 function setup(){
     createCanvas(canvasWidth,canvasHeight);
     textFont(myFont);
@@ -63,6 +65,17 @@ function setup(){
     rainButton.position(100, canvasHeight + 150);
     rainButton.mousePressed(()=>{
         storm.toggleRain();
+        SoundEffectManager.toggleWhiteNoise();
+    });
+
+
+    toneButton = createButton('Start Tone!');
+    toneButton.position(8, canvasHeight + 250);
+    toneButton.mousePressed(()=>{
+        toneStarted = true;
+        Tone.start();
+        console.log("Tone Started");
+        toneButton.remove();
     });
      
     Leaf.startColor = color(123,41,39);
@@ -139,6 +152,9 @@ function draw(){
 function keyPressed(){
     if (key == 'a'){
         doGrow = !doGrow;
+    }
+    if(key == "s"){
+        SoundEffectManager.toggleWhiteNoise();
     }
 }
 
