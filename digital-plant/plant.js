@@ -5,6 +5,7 @@ class Plant{
     static newLeafSpawnFrequency = 10;
     static shareEfficiency = 0.25;
     static sharedHydration = 0.0;
+    static maxHydration = 20;
 
 
     constructor(numLeaves,pos, pot){
@@ -13,12 +14,15 @@ class Plant{
         this.pos = pos;
         this.pot = pot;
 
+
         this.pot.setOnHydrate(this.hydratePlant);
 
         this.leaves = [];
         this.fallingLeaves = [];
 
         this.newLeafSpawnCounter = 0;
+
+        this.plantHydrationPercent = 0;
 
 
         for(let index = 0; index < numLeaves; index++){
@@ -183,7 +187,7 @@ class Plant{
             this.trySpawnNewLeaf();
         }
 
-
+        let hydrationAcumulator = 0;
         this.leaves.forEach((leaf, index)=>{
             leaf.incAge(10);
 
@@ -215,7 +219,12 @@ class Plant{
             if(leaf.age >= Leaf.maxAge){
                 this.cullLeaf(index);
             }
+
+            hydrationAcumulator += leaf.hydration;
         });
+
+        // Expect hydration accumulator to be equal to number of leaves if all leaves hydration 100%
+        this.averageHydration = (hydrationAcumulator) / (this.leaves.length);
     }
 
     trySpawnNewLeaf(){
