@@ -187,7 +187,7 @@ class Plant{
             this.trySpawnNewLeaf();
         }
 
-        let hydrationAcumulator = 0;
+
         this.leaves.forEach((leaf, index)=>{
             leaf.incAge(10);
 
@@ -219,11 +219,16 @@ class Plant{
             if(leaf.age >= Leaf.maxAge){
                 this.cullLeaf(index);
             }
+        });
+    }
 
+
+    calcAverageHydration(){
+        let hydrationAcumulator = 0;
+        this.leaves.forEach((leaf, index)=>{
             hydrationAcumulator += leaf.hydration;
         });
 
-        // Expect hydration accumulator to be equal to number of leaves if all leaves hydration 100%
         this.averageHydration = (hydrationAcumulator) / (this.leaves.length);
     }
 

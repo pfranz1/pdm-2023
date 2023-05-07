@@ -137,6 +137,10 @@ function draw(){
         plant.doGravityTick();
     }
 
+    if(frameCount % 30 == 0){
+        plant.calcAverageHydration();
+    }
+
     if(storm.isRaining){
         textSize(25);
         text("Raining...", 15 , 65 );
