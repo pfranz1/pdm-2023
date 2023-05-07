@@ -67,7 +67,7 @@ class Storm{
         this.drops.forEach((drop)=>{ 
             drop.updatePos(Storm.fallingStepSize);
             drop.checkCollisions(this.colliders);
-            drop.checkPotCollsion(this.potCollider.startY,this.potCollider.startX,this.potCollider.endX);   
+            drop.checkPotCollsion(this.potCollider);   
         });
         
         //&& frameCount % Storm.fallingUpdateFreq == 0

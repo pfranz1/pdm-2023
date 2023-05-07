@@ -13,6 +13,8 @@ class Plant{
         this.pos = pos;
         this.pot = pot;
 
+        this.pot.setOnHydrate(this.hydratePlant);
+
         this.leaves = [];
         this.fallingLeaves = [];
 

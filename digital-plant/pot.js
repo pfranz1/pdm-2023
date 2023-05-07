@@ -1,6 +1,6 @@
 
 class Pot{
-    constructor(spriteSheet, size,  position){
+    constructor(spriteSheet, size,  position, ){
         this.spriteSheet = spriteSheet;
 
         this.height = size;
@@ -39,7 +39,11 @@ class Pot{
         return true;
     }
 
-    hydrate(){
-        console.log("Hit pot");
+    setOnHydrate(func){
+        this.onHydrate = func;
+    }
+
+    hydrate(waterAmmount){
+        this.onHydrate(waterAmmount);
     }
 }
