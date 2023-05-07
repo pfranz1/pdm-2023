@@ -85,6 +85,13 @@ class Raindrop{
         }
     }
 
+    checkPotCollsion(potHeight,potStartX,potEndX){
+        if(!this.isSplattered && this.pos.y > potHeight && this.pos.x > potStartX && this.pos.x <= potEndX){
+            console.log("Pot hit");
+            this.splatDrop(null);
+        }
+    }
+
     splatDrop(colliderHit){
         this.isSplattered = true;
         this.lastFrameChange = frameCount;

@@ -3,13 +3,14 @@ class Storm{
     static fallingStepSize = 5;
     static ranks = 8;
 
-    static dropFreq = 10;
+    static dropFreq = 5;
 
-    constructor(maxNumDrops,pos, width,colliders, canvasHeight){
+    constructor(maxNumDrops,pos, width,colliders,potCollider, canvasHeight){
         this.totalDrops = maxNumDrops;
         this.stormWidth = width;
         this.pos = pos;
         this.colliders = colliders;
+        this.potCollider = potCollider;
 
         this.isRaining = false;
 
@@ -66,6 +67,7 @@ class Storm{
         this.drops.forEach((drop)=>{ 
             drop.updatePos(Storm.fallingStepSize);
             drop.checkCollisions(this.colliders);
+            drop.checkPotCollsion(this.potCollider.startY,this.potCollider.startX,this.potCollider.endX);   
         });
         
         //&& frameCount % Storm.fallingUpdateFreq == 0
@@ -80,6 +82,7 @@ class Storm{
         //         if(!drop.isHidden){
         //             drop.updatePos(Storm.fallingStepSize);
         //             drop.checkCollisions(this.colliders);
+                    // drop.checkPotCollsion(this.potCollider.startY,this.potCollider.startX,this.potCollider.endX);   
         //         }
         //     });
         // }
