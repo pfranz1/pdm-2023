@@ -3,7 +3,7 @@ class Storm{
     static fallingStepSize = 5;
     static ranks = 8;
 
-    static dropFreq = 5;
+    static dropFreq = 25;
 
     constructor(maxNumDrops,pos, width,colliders,potCollider, canvasHeight){
         this.totalDrops = maxNumDrops;
