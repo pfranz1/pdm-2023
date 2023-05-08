@@ -57,6 +57,13 @@ function setup(){
         doGrow = !doGrow;
     });
 
+    if ("serial" in navigator && connected == false) {
+        // The Web Serial API is supported.
+        let connectButton = createButton("Connect Aurdino");
+        connectButton.position( 100, canvasHeight + 250 );
+        connectButton.mousePressed(()=>{connectButton.remove();connect();});
+    }
+
     stormLocationSlider = createSlider(0, 255, 128,1,);
     stormLocationSlider.position(200, canvasHeight + 150);
     stormLocationSlider.style('width', '160px');
@@ -141,6 +148,9 @@ function draw(){
 
     if(frameCount % 30 == 0){
         plant.calcAverageHydration();
+        let mappedVal = Math.floor(plant.averageHydration * 255);
+        console.log(mappedVal);
+        serialWrite({led1:mappedVal});   
     }
 
     if(storm.isRaining){
@@ -167,6 +177,56 @@ function keyPressed(){
 function mousePressed(){
     plant.onTap(new Position(mouseX,mouseY));
 }
+
+let connected = false;
+const encoder = new TextEncoder();
+const decorder = new TextDecoder();
+let writer, reader;
+let sensorData = {};
+
+async function connect() {
+    port = await navigator.serial.requestPort();
+
+    await port.open({ baudRate: 9600 });
+
+    writer = port.writable.getWriter();
+
+    reader = port.readable
+        .pipeThrough(new TextDecoderStream())
+        .pipeThrough(new TransformStream(new LineBreakTransformer()))
+        .getReader();
+    
+    connected = true;
+}
+
+function serialWrite(jsonObject) {
+    if (writer) {
+      console.log("Writing value: ", JSON.stringify(jsonObject));
+      writer.write(encoder.encode(JSON.stringify(jsonObject)+"\n"));
+    }
+}
+
+
+class LineBreakTransformer {
+    constructor() {
+      // A container for holding stream data until a new line.
+      this.chunks = "";
+    }
+  
+    transform(chunk, controller) {
+      // Append new chunks to existing chunks.
+      this.chunks += chunk;
+      // For each line breaks in chunks, send the parsed lines out.
+      const lines = this.chunks.split("\n");
+      this.chunks = lines.pop();
+      lines.forEach((line) => controller.enqueue(line));
+    }
+  
+    flush(controller) {
+      // When the stream is closed, flush any remaining chunks out.
+      controller.enqueue(this.chunks);
+    }
+  }
 
 
 
