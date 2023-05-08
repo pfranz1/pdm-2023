@@ -98,13 +98,15 @@ function setup(){
     // drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
     storm = new Storm(Storm.ranks * 3,new Position(canvasWidth/2,0),150, plant.leaves,pot, canvasHeight);
 
+    hydrationLow = color(98,14,76);
+    hydrationHigh = color(209,87,38);
 }
 
 
+let hydrationLow ;
+let hydrationHigh;
 
 function draw(){
-
-
 
     background(240,27,95);
 
@@ -121,7 +123,7 @@ function draw(){
     // console.log(stormLocationPercent);
 
     push();
-    c = color(88,42,100 * plant.averageHydration);
+    c = lerpColor(hydrationLow,hydrationHigh, plant.averageHydration);
     fill(c);
     circle(canvasWidth - 25, canvasHeight - 25 , 25);
     pop();
