@@ -117,6 +117,10 @@ function draw(){
 
     background(240,27,95);
 
+    if (reader) {
+        serialRead();
+    }
+
 
     plant.draw();
 
@@ -203,6 +207,20 @@ function serialWrite(jsonObject) {
     if (writer) {
       console.log("Writing value: ", JSON.stringify(jsonObject));
       writer.write(encoder.encode(JSON.stringify(jsonObject)+"\n"));
+    }
+}
+
+async function serialRead() {
+    while(true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        reader.releaseLock();
+        break;
+      }
+      console.log(value);
+      sensorData = JSON.parse(value);
+
+      console.log("reading:", sensorData);
     }
 }
 
