@@ -127,7 +127,10 @@ function draw(){
     plant.draw();
 
     // drop.draw();
-    stormLocation = stormLocationSlider.value();
+    if(!connected){
+        stormLocation = stormLocationSlider.value();
+    }
+
     if(lastStormLocation != stormLocation){
         let stormCenter = (stormLocation / 255) * canvasWidth;
         storm.pos = new Position(stormCenter,0);
@@ -157,7 +160,7 @@ function draw(){
 
     }
 
-    if(connected && frameCount % 120 == 0){
+    if(connected && frameCount % 240 == 0){
         let mappedVal = Math.floor(plant.averageHydration * 255);
         jsonOut.led1 = mappedVal;
         serialWrite(jsonOut);   
@@ -232,7 +235,9 @@ async function serialRead() {
         storm.toggleRain();
       } else if(sensorData.storm == false && storm.isRaining){
         storm.toggleRain();
-        } 
+      } else if(sensorData.pot > 0){
+        stormLocation = sensorData.pot / 4;
+      } 
     }
 }
 
