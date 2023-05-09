@@ -98,7 +98,7 @@ class Raindrop{
 
         if(colliderHit != null){
             // this will always be a plant for now so Im not bothering with type checking
-            colliderHit.hydrate(0.25);
+            colliderHit.hydrate(0.75);
         }
 
         // SoundEffectManager.doSplash();
