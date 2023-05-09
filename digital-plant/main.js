@@ -113,6 +113,8 @@ function setup(){
 let hydrationLow ;
 let hydrationHigh;
 
+let flipFlop = false;
+
 function draw(){
 
     background(240,27,95);
@@ -152,9 +154,13 @@ function draw(){
 
     if(frameCount % 30 == 0){
         plant.calcAverageHydration();
+
+    }
+
+    if(connected && frameCount % 120 == 0){
         let mappedVal = Math.floor(plant.averageHydration * 255);
-        console.log(mappedVal);
-        serialWrite({led1:mappedVal});   
+        jsonOut.led1 = mappedVal;
+        serialWrite(jsonOut);   
     }
 
     if(storm.isRaining){
@@ -186,12 +192,14 @@ let connected = false;
 const encoder = new TextEncoder();
 const decorder = new TextDecoder();
 let writer, reader;
-let sensorData = {};
+let sensorData = {}; 
+
+let jsonOut = {led1:0};
 
 async function connect() {
     port = await navigator.serial.requestPort();
 
-    await port.open({ baudRate: 9600 });
+    await port.open({ baudRate: 19200 });
 
     writer = port.writable.getWriter();
 
@@ -217,10 +225,14 @@ async function serialRead() {
         reader.releaseLock();
         break;
       }
-      console.log(value);
       sensorData = JSON.parse(value);
-
       console.log("reading:", sensorData);
+
+      if (sensorData.storm == true && !storm.isRaining){
+        storm.toggleRain();
+      } else if(sensorData.storm == false && storm.isRaining){
+        storm.toggleRain();
+        } 
     }
 }
 
