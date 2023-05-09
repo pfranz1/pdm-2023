@@ -5,6 +5,7 @@ let padding = 50;
 
 let leafSprite;
 let potSprite;
+let cloudSprite;
 
 let myFont;
 
@@ -37,6 +38,7 @@ function preload(){
 
     rainSprite = loadImage("./assets/rain-drop.png") ;
 
+    cloudSprite = loadImage("./assets/cloud.png") ;
 }
 
 
@@ -103,7 +105,7 @@ function setup(){
     plant = new Plant(numLeaves,plantPosition, pot);
 
     // drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
-    storm = new Storm(Storm.ranks * 3,new Position(canvasWidth/2,0),150, plant.leaves,pot, canvasHeight);
+    storm = new Storm(cloudSprite,Storm.ranks * 3,new Position(canvasWidth/2,100),150, plant.leaves,pot, canvasHeight);
 
     hydrationLow = color(98,14,76);
     hydrationHigh = color(209,87,38);
@@ -133,7 +135,7 @@ function draw(){
 
     if(lastStormLocation != stormLocation){
         let stormCenter = (stormLocation / 255) * canvasWidth;
-        storm.pos = new Position(stormCenter,0);
+        storm.pos = new Position(stormCenter,storm.pos.y);
         lastStormLocation = stormLocation;
     }
     // console.log(stormLocationPercent);

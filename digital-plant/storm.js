@@ -5,7 +5,11 @@ class Storm{
 
     static dropFreq = 10;
 
-    constructor(maxNumDrops,pos, width,colliders,potCollider, canvasHeight){
+    static stormSize = 200;
+    static tileSize = 128;
+
+    constructor(sprite,maxNumDrops,pos, width,colliders,potCollider, canvasHeight){
+        this.sprite = sprite;
         this.totalDrops = maxNumDrops;
         this.stormWidth = width;
         this.pos = pos;
@@ -56,13 +60,10 @@ class Storm{
 
     draw(){
         if(this.isRaining && frameCount % Storm.dropFreq == 0){
-            this.drops.push(new Raindrop(new Position(this.pos.x + random(-this.stormWidth / 2,this.stormWidth / 2),this.pos.y),this));
+            this.drops.push(new Raindrop(new Position(this.pos.x + random(-this.stormWidth / 2,this.stormWidth / 2),this.pos.y + 35),this));
         }
 
-        push();
-        circle(this.pos.x, this.pos.y,50);
-        // rect(100,100,250,250);
-        pop();
+
 
         this.drops.forEach((drop)=>{ 
             drop.updatePos(Storm.fallingStepSize);
@@ -88,6 +89,15 @@ class Storm{
         // }
 
         this.drops.forEach((drop)=> drop.draw());
+
+
+        push();
+        translate(this.pos.x,this.pos.y);
+
+        // circle(0,0,50);
+        image(this.sprite,0,0,Storm.stormSize, Storm.stormSize,0,0,Storm.tileSize, Storm.tileSize);
+        // rect(100,100,250,250);
+        pop();
     }
 
     toggleRain(){
