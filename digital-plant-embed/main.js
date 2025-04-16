@@ -1,14 +1,3 @@
-let canvasWidth = window.innerWidth;
-let canvasHeight = window.innerHeight;
-
-window.onresize = function() {
-    // assigns new values for width and height variables
-    canvasWidth = window.innerWidth;
-    canvasHeight = window.innerHeight;  
-    canvas.size(canvasWidth,canvasHeight);
-
-    Raindrop.outOfBounds = canvasHeight;
-  }
 
 
 let padding = 50;
@@ -27,7 +16,7 @@ let leaves = [];
 let plant;
 
 let drop;
-// let pot;
+let pot;
 
 let storm;
 
@@ -36,7 +25,7 @@ let stormLocation = 124;
 let stormLocationSlider;
 
 let doGrow  = true;
-let doRain = false;
+let doRain = true;
 
 
 function preload(){
@@ -44,11 +33,12 @@ function preload(){
 
     leafSprite = loadImage("./assets/large-leaf.png") ;
 
-    potSprite = loadImage("./assets/pot2.png") ;
+    potSprite = loadImage("./assets/real-pot-front.png");
+    backPotSprite = loadImage("./assets/real-pot-back.png")
 
     rainSprite = loadImage("./assets/rain-drop.png") ;
 
-    cloudSprite = loadImage("./assets/cloud.png") ;
+    // cloudSprite = loadImage("./assets/cloud.png") ;
 }
 
 
@@ -56,8 +46,15 @@ let numLeaves = 5;
 
 let toneStarted = false;
 
+let canvas;
+
+// Init in setup
+let lastCanvasWidth;
+let lastCanvasHeight;
+
+
 function setup(){
-    createCanvas(canvasWidth,canvasHeight);
+    canvas = createCanvas(canvasWidth,canvasHeight);
     textFont(myFont);
     imageMode(CENTER);
     colorMode('hsb');
@@ -68,24 +65,36 @@ function setup(){
     Leaf.endColor = color(88,42,71);
     Leaf.dehydrationColor = color(88,42,60);
 
-    FallingLeaf.killPlaneHeight = canvasHeight + 250;
     
-
-    Raindrop.outOfBounds = canvasHeight;
     Raindrop.spriteSheet = rainSprite;
 
-    let plantPosition = new Position(canvasWidth / 2,canvasHeight * 0.90);
-    
-    let pot = new Pot(potSprite,200,new Position(plantPosition.x,canvasHeight));
+    Raindrop.outOfBounds = canvasHeight;
 
+    lastCanvasHeight = canvasHeight;
+    lastCanvasWidth = canvasWidth;
+
+    let scale = 0.25;
+    let potHeight = Pot.tileHeight * scale;
+    let potWidth = Pot.tileWidth * scale;
+    
+    let potPos = new Position(canvasWidth / 2, canvasHeight - potHeight  / 2);
+
+
+    pot = new Pot(potSprite, backPotSprite,potHeight, potWidth, potPos);
+
+    let plantPosition = new Position(canvasWidth / 2, canvasHeight - potHeight  / 2);
 
     plant = new Plant(numLeaves,plantPosition, pot);
 
     // drop = new Raindrop(new Position(canvasWidth / 2 + 200,150));
-    storm = new Storm(cloudSprite,Storm.ranks * 3,new Position(canvasWidth/2,100),500, plant.leaves,pot, canvasHeight);
+    storm = new Storm(cloudSprite,Storm.ranks * 5,new Position(canvasWidth/2,-Raindrop.size * 2),500, plant.leaves,pot, canvasHeight);
+    storm.isRaining = true;
+
+    FallingLeaf.killPlaneHeight = canvasHeight + 100;
 
     hydrationLow = color(98,14,76);
     hydrationHigh = color(209,87,38);
+
 }
 
 
@@ -108,7 +117,7 @@ function draw(){
         storm.isRaining = true;
     }
 
-    if(plant.averageHydration > 0.95 ||  plant.averageHydration > 0.50 && frameCount % 240 == 0 && Math.random() > 0.8 && storm.isRaining ){
+    if( frameCount > 200 && plant.averageHydration > 0.95 && storm.isRaining ){
         storm.isRaining = false;
     }
 
@@ -136,6 +145,40 @@ function draw(){
 
     }
 
+}
+
+let canvasWidth = window.innerWidth - 5;
+let canvasHeight = window.innerHeight - 5;
+
+window.onresize = function() {
+    canvasWidth = window.innerWidth - 5;
+    canvasHeight = window.innerHeight - 5;  
+
+    updateForSize(canvasWidth, canvasHeight);
+  }
+
+
+
+function updateForSize(w, h){
+    resizeCanvas(w, h);
+    FallingLeaf.killPlaneHeight = h + 250;
+
+    let xChange = w - lastCanvasWidth;
+    let yChange = h - lastCanvasHeight;
+
+    lastCanvasWidth = w;
+    lastCanvasHeight = h;
+
+
+    Raindrop.outOfBounds += yChange;
+    FallingLeaf.killPlaneHeight += yChange;
+
+
+    pot.move(xChange / 2, yChange);
+    plant.move(xChange / 2, yChange);
+    storm.move(xChange / 2);
+
+    draw();
 }
 
 function keyPressed(){

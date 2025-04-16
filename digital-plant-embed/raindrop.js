@@ -86,7 +86,7 @@ class Raindrop{
     }
 
     checkPotCollsion(pot){
-        if(!this.isSplattered && this.pos.y > pot.startY && this.pos.x > pot.startX && this.pos.x <= pot.endX){
+        if(!this.isSplattered && pot.doCollsionCheck(this.pos, Raindrop.size)){
             this.splatDrop(pot);
         }
     }

@@ -58,6 +58,10 @@ class Storm{
         );
     }
 
+    move(xChange){
+        this.pos.x += xChange;
+    }
+
     draw(){
         if(this.isRaining && frameCount % Storm.dropFreq == 0){
             this.drops.push(new Raindrop(new Position(this.pos.x + random(-this.stormWidth / 2,this.stormWidth / 2),this.pos.y + 35),this));
@@ -91,13 +95,13 @@ class Storm{
         this.drops.forEach((drop)=> drop.draw());
 
 
-        push();
-        translate(this.pos.x,this.pos.y);
+        // push();
+        // translate(this.pos.x,this.pos.y);
 
-        // circle(0,0,50);
-        image(this.sprite,0,0,Storm.stormSize, Storm.stormSize,0,0,Storm.tileSize, Storm.tileSize);
-        // rect(100,100,250,250);
-        pop();
+        // // circle(0,0,50);
+        // image(this.sprite,0,0,Storm.stormSize, Storm.stormSize,0,0,Storm.tileSize, Storm.tileSize);
+        // // rect(100,100,250,250);
+        // pop();
     }
 
     toggleRain(){

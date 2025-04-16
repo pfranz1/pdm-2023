@@ -119,13 +119,6 @@ class Leaf {
 
     }
 
-    draw(){
-
-        this.drawStems();
-
-        this.drawLeaves();
-        
-    }
 
     setRoot(rootPos){
         this.root = rootPos;
@@ -164,7 +157,7 @@ class Leaf {
 
     }
 
-    static chanceOfWaterUsage = 10;
+    static chanceOfWaterUsage = 20;
     static tooThirstyToGrow = 0.01;
     static fullHydrationForGrowthRange = 0.2;
 

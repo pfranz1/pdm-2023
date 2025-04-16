@@ -2,9 +2,9 @@ const leafSize = 75;
 
 class Plant{
     // Ticks until a new leaf is spawned
-    static newLeafSpawnFrequency = 10;
+    static newLeafSpawnFrequency = 20;
     static shareEfficiency = 0.25;
-    static sharedHydration = 0.0;
+    static sharedHydration = 5.0;
     static maxHydration = 20;
 
 
@@ -22,13 +22,13 @@ class Plant{
 
         this.newLeafSpawnCounter = 0;
 
-        this.averageHydration = 0;
+        this.averageHydration = 1.0;
 
 
         for(let index = 0; index < numLeaves; index++){
 
-            // randomSeed(-4);
-            let newLeaf =  new Leaf(leafSprite,leafSize, (index + 4) * random(20,40), index * 10 + random(30,150), this.hydratePlant);
+            // randomSeed(30);
+            let newLeaf =  new Leaf(leafSprite,leafSize, (index) * random(10,50), index * 10 + random(100,150), this.hydratePlant);
             newLeaf.setRoot(this.pos);
             this.leaves.push(newLeaf);
 
@@ -45,6 +45,19 @@ class Plant{
         });
     }
 
+    move(xChange, yChange){
+        
+        console.log("moving y by:", yChange);
+
+        this.pos.x += xChange;
+        this.pos.y += yChange;
+
+        // this.leaves.forEach((leaf) =>{
+        //     leaf.root.x += xChange;
+        //     leaf.root.y += yChange;
+        // });
+    }
+
     
 
     onTap(mousePos){
@@ -52,12 +65,14 @@ class Plant{
         let index = 0; 
         while(!tapTargetFound && index < this.leaves.length){
             tapTargetFound = this.leaves[index].doSnipCheck(mousePos);
-            index++;
+            if(!tapTargetFound){
+                index++;
+            }
         }
 
         if(tapTargetFound){
             // console.log("removing index", index--);
-            this.cullLeaf(index - 2);
+            this.cullLeaf(index);
         }
     }
 
@@ -234,8 +249,11 @@ class Plant{
 
     trySpawnNewLeaf(){
         // let onlyCheck = 5;
-        
-        let newLeaf =  new Leaf(leafSprite,leafSize,random(40,150),random(25,30), this.hydratePlant);
+        let stemAngle = random(40,150);
+        let stemLength = random(40,50);
+
+
+        let newLeaf =  new Leaf(leafSprite,leafSize,stemAngle,stemLength, this.hydratePlant);
         newLeaf.setRoot(this.pos);
         newLeaf.updatePositionAndTilt();
 
@@ -271,9 +289,8 @@ class Plant{
 
         let leaf = this.leaves[indexOfLeaf];
 
-        if(this.fallingLeaves.length < Plant.maxFallingLeaves){
-            this.fallingLeaves.push(new FallingLeaf(leafSprite,leaf.size,leaf.pos,leaf.rot,Math.min(leaf.currentFrame,Leaf.numOfFrames - 1),leaf.hydration));
-        }
+
+        this.fallingLeaves.push(new FallingLeaf(leafSprite,leaf.size,leaf.pos,leaf.rot,Math.min(leaf.currentFrame,Leaf.numOfFrames - 1),leaf.hydration));
 
 
         this.leaves.splice(indexOfLeaf,1);
@@ -282,6 +299,8 @@ class Plant{
     }
     
     draw(){
+
+        this.pot.drawBack();
 
         this.leaves.forEach(element => {
             element.drawStems();
@@ -292,6 +311,7 @@ class Plant{
         this.leaves.forEach(element => {
             element.drawLeaves();
         });
+
 
         this.fallingLeaves.forEach(element =>{
             element.draw();
