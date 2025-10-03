@@ -2,10 +2,6 @@
 
 Pages: https://pfranz1.github.io/pdm-2023/
 
-I took a class with Dr. Andrew Webb that teaches a number of different software frameworks. The goal is to create digital media.
+A collection of games and P5 demo projects. Two highlights: the digital plant and the bug squishing game. Enjoy!
 
-We have utilzied only P5 so far. It is a javascript library to make it easy to draw graphics.
-
-Please dont use this repository to cheat in the class. 
-
-My hope is that these simple programming assignments will give future collaborators or employers a sense of my programming style.  
+Please dont use this repository to cheat in the class.
